@@ -40458,14 +40458,14 @@ const bj = {
                                         name: w.target.value
                                     }),
                                     className: "w-full px-3 py-2 sm:px-4 sm:py-3 rounded-lg bg-white/5 backdrop-blur-md border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/50",
-                                    placeholder: "Enter Your Name",
+                                    placeholder: "Masukkan nama Anda",
                                     maxLength: 50
                                 })]
                             }), z.jsxs("div", {
                                 children: [z.jsx("label", {
                                     htmlFor: "message",
                                     className: "block text-orange-300 text-base sm:text-lg mb-2",
-                                    children: "Message"
+                                    children: "Pesan"
                                 }), z.jsx("textarea", {
                                     id: "message",
                                     value: t.message,
@@ -40474,7 +40474,7 @@ const bj = {
                                         message: w.target.value
                                     }),
                                     className: "w-full px-3 py-2 sm:px-4 sm:py-3 rounded-lg bg-white/5 backdrop-blur-md border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/50 h-40 sm:h-60",
-                                    placeholder: "Write Your Massage here...",
+                                    placeholder: "Tuliskan pesan kamu disini...",
                                     maxLength: 500
                                 })]
                             }), l && z.jsx("div", {
