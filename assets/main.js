@@ -40523,7 +40523,7 @@ function kj() {
         children: [z.jsx(Lk, {}), z.jsx(Vk, {}), z.jsx(kO, {}), z.jsx(BD, {}), z.jsx(Aj, {}), z.jsx(CO, {})]
     })
 }
-YP( () => import("./index-DnIywZNP.js"), []);
+YP( () => import("./animation.js"), []);
 sA.createRoot(document.getElementById("root")).render(z.jsx(he.StrictMode, {
     children: z.jsx(kj, {})
 }));
