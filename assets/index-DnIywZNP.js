@@ -4,90 +4,101 @@
  * @license: Licensed under MIT and Preline UI Fair Use License (https://preline.co/docs/license.html)
  * Copyright 2024 Preline Labs Ltd.
  */
-const ce = l => l === "true",
-    L = (l, e, t = "") => (window.getComputedStyle(l).getPropertyValue(e) || t).replace(" ", ""),
-    Pt = (l, e, t = "") => {
-        let i = "";
-        return l.classList.forEach(n => {
-            n.includes(e) && (i = n)
-        }), i.match(/:(.*)]/) ? i.match(/:(.*)]/)[1] : t
-    },
-    Bt = () => /iPad|iPhone|iPod/.test(navigator.platform) ? !0 : navigator.maxTouchPoints && navigator.maxTouchPoints > 2 && /MacIntel/.test(navigator.platform),
-    Dt = () => navigator.maxTouchPoints && navigator.maxTouchPoints > 2 && /MacIntel/.test(navigator.platform),
-    ai = (l, e) => {
-        const t = l.children;
-        for (let i = 0; i < t.length; i++)
-            if (t[i] === e) return !0;
-        return !1
-    },
-    pt = (l, e, t = "auto", i = 10, n = null) => {
-        const s = e.getBoundingClientRect(),
-            o = n ? n.getBoundingClientRect() : null,
-            r = window.innerHeight,
-            a = o ? s.top - o.top : s.top,
-            h = (n ? o.bottom : r) - s.bottom,
-            c = l.clientHeight + i;
-        return t === "bottom" ? h >= c : t === "top" ? a >= c : a >= c || h >= c
-    },
-    hi = l => l instanceof HTMLInputElement || l instanceof HTMLTextAreaElement || l instanceof HTMLSelectElement,
-    ft = l => l ? window.getComputedStyle(l).display === "none" ? !0 : ft(l.parentElement) : !1,
-    at = l => {
-        if (typeof l != "string") return !1;
-        const e = l.trim()[0],
-            t = l.trim().slice(-1);
-        if (e === "{" && t === "}" || e === "[" && t === "]") try {
-            return JSON.parse(l), !0
+const ce = l => l === "true"
+  , L = (l, e, t="") => (window.getComputedStyle(l).getPropertyValue(e) || t).replace(" ", "")
+  , Pt = (l, e, t="") => {
+    let i = "";
+    return l.classList.forEach(n => {
+        n.includes(e) && (i = n)
+    }
+    ),
+    i.match(/:(.*)]/) ? i.match(/:(.*)]/)[1] : t
+}
+  , Bt = () => /iPad|iPhone|iPod/.test(navigator.platform) ? !0 : navigator.maxTouchPoints && navigator.maxTouchPoints > 2 && /MacIntel/.test(navigator.platform)
+  , Dt = () => navigator.maxTouchPoints && navigator.maxTouchPoints > 2 && /MacIntel/.test(navigator.platform)
+  , ai = (l, e) => {
+    const t = l.children;
+    for (let i = 0; i < t.length; i++)
+        if (t[i] === e)
+            return !0;
+    return !1
+}
+  , pt = (l, e, t="auto", i=10, n=null) => {
+    const s = e.getBoundingClientRect()
+      , o = n ? n.getBoundingClientRect() : null
+      , r = window.innerHeight
+      , a = o ? s.top - o.top : s.top
+      , h = (n ? o.bottom : r) - s.bottom
+      , c = l.clientHeight + i;
+    return t === "bottom" ? h >= c : t === "top" ? a >= c : a >= c || h >= c
+}
+  , hi = l => l instanceof HTMLInputElement || l instanceof HTMLTextAreaElement || l instanceof HTMLSelectElement
+  , ft = l => l ? window.getComputedStyle(l).display === "none" ? !0 : ft(l.parentElement) : !1
+  , at = l => {
+    if (typeof l != "string")
+        return !1;
+    const e = l.trim()[0]
+      , t = l.trim().slice(-1);
+    if (e === "{" && t === "}" || e === "[" && t === "]")
+        try {
+            return JSON.parse(l),
+            !0
         } catch {
             return !1
         }
-        return !1
-    },
-    ke = (l, e = 200) => {
-        let t;
-        return (...i) => {
-            clearTimeout(t), t = setTimeout(() => {
-                l.apply(void 0, i)
-            }, e)
+    return !1
+}
+  , ke = (l, e=200) => {
+    let t;
+    return (...i) => {
+        clearTimeout(t),
+        t = setTimeout( () => {
+            l.apply(void 0, i)
         }
-    },
-    g = (l, e, t = null) => {
-        const i = new CustomEvent(l, {
-            detail: {
-                payload: t
-            },
-            bubbles: !0,
-            cancelable: !0,
-            composed: !1
-        });
-        e.dispatchEvent(i)
-    },
-    z = (l, e) => {
-        const t = () => {
-                e(), l.removeEventListener("transitionend", t, !0)
-            },
-            i = window.getComputedStyle(l),
-            n = i.getPropertyValue("transition-duration");
-        i.getPropertyValue("transition-property") !== "none" && parseFloat(n) > 0 ? l.addEventListener("transitionend", t, !0) : e()
-    },
-    y = l => {
-        const e = document.createElement("template");
-        return l = l.trim(), e.innerHTML = l, e.content.firstChild
-    },
-    D = (l, e, t = " ", i = "add") => {
-        l.split(t).forEach(s => i === "add" ? e.classList.add(s) : e.classList.remove(s))
-    },
-    ci = {
-        historyIndex: -1,
-        addHistory(l) {
-            this.historyIndex = l
+        , e)
+    }
+}
+  , g = (l, e, t=null) => {
+    const i = new CustomEvent(l,{
+        detail: {
+            payload: t
         },
-        existsInHistory(l) {
-            return l > this.historyIndex
-        },
-        clearHistory() {
-            this.historyIndex = -1
-        }
-    };
+        bubbles: !0,
+        cancelable: !0,
+        composed: !1
+    });
+    e.dispatchEvent(i)
+}
+  , z = (l, e) => {
+    const t = () => {
+        e(),
+        l.removeEventListener("transitionend", t, !0)
+    }
+      , i = window.getComputedStyle(l)
+      , n = i.getPropertyValue("transition-duration");
+    i.getPropertyValue("transition-property") !== "none" && parseFloat(n) > 0 ? l.addEventListener("transitionend", t, !0) : e()
+}
+  , y = l => {
+    const e = document.createElement("template");
+    return l = l.trim(),
+    e.innerHTML = l,
+    e.content.firstChild
+}
+  , D = (l, e, t=" ", i="add") => {
+    l.split(t).forEach(s => i === "add" ? e.classList.add(s) : e.classList.remove(s))
+}
+  , ci = {
+    historyIndex: -1,
+    addHistory(l) {
+        this.historyIndex = l
+    },
+    existsInHistory(l) {
+        return l > this.historyIndex
+    },
+    clearHistory() {
+        this.historyIndex = -1
+    }
+};
 /*
  * HSBasePlugin
  * @version: 2.7.0
@@ -97,7 +108,12 @@ const ce = l => l === "true",
  */
 class I {
     constructor(e, t, i) {
-        this.el = e, this.options = t, this.events = i, this.el = e, this.options = t, this.events = {}
+        this.el = e,
+        this.options = t,
+        this.events = i,
+        this.el = e,
+        this.options = t,
+        this.events = {}
     }
     createCollection(e, t) {
         var i;
@@ -106,8 +122,9 @@ class I {
             element: t
         })
     }
-    fireEvent(e, t = null) {
-        if (this.events.hasOwnProperty(e)) return this.events[e](t)
+    fireEvent(e, t=null) {
+        if (this.events.hasOwnProperty(e))
+            return this.events[e](t)
     }
     on(e, t) {
         this.events[e] = t
@@ -123,11 +140,16 @@ class I {
 class Be extends I {
     constructor(e, t) {
         super(e, t);
-        const i = e.getAttribute("data-hs-copy-markup"),
-            s = { ...i ? JSON.parse(i) : {},
-                ...t
-            };
-        this.targetSelector = (s == null ? void 0 : s.targetSelector) || null, this.wrapperSelector = (s == null ? void 0 : s.wrapperSelector) || null, this.limit = (s == null ? void 0 : s.limit) || null, this.items = [], this.targetSelector && this.init()
+        const i = e.getAttribute("data-hs-copy-markup")
+          , s = {
+            ...i ? JSON.parse(i) : {},
+            ...t
+        };
+        this.targetSelector = (s == null ? void 0 : s.targetSelector) || null,
+        this.wrapperSelector = (s == null ? void 0 : s.wrapperSelector) || null,
+        this.limit = (s == null ? void 0 : s.limit) || null,
+        this.items = [],
+        this.targetSelector && this.init()
     }
     elementClick() {
         this.copy()
@@ -136,62 +158,87 @@ class Be extends I {
         this.delete(e)
     }
     init() {
-        this.createCollection(window.$hsCopyMarkupCollection, this), this.onElementClickListener = () => this.elementClick(), this.setTarget(), this.setWrapper(), this.addPredefinedItems(), this.el.addEventListener("click", this.onElementClickListener)
+        this.createCollection(window.$hsCopyMarkupCollection, this),
+        this.onElementClickListener = () => this.elementClick(),
+        this.setTarget(),
+        this.setWrapper(),
+        this.addPredefinedItems(),
+        this.el.addEventListener("click", this.onElementClickListener)
     }
     copy() {
-        if (this.limit && this.items.length >= this.limit) return !1;
+        if (this.limit && this.items.length >= this.limit)
+            return !1;
         this.el.hasAttribute("disabled") && this.el.setAttribute("disabled", "");
         const e = this.target.cloneNode(!0);
-        this.addToItems(e), this.limit && this.items.length >= this.limit && this.el.setAttribute("disabled", "disabled"), this.fireEvent("copy", e), g("copy.hs.copyMarkup", e, e)
+        this.addToItems(e),
+        this.limit && this.items.length >= this.limit && this.el.setAttribute("disabled", "disabled"),
+        this.fireEvent("copy", e),
+        g("copy.hs.copyMarkup", e, e)
     }
     addPredefinedItems() {
         Array.from(this.wrapper.children).filter(e => !e.classList.contains("[--ignore-for-count]")).forEach(e => {
             this.addToItems(e)
-        }), this.limit && this.items.length >= this.limit && this.el.setAttribute("disabled", "disabled")
+        }
+        ),
+        this.limit && this.items.length >= this.limit && this.el.setAttribute("disabled", "disabled")
     }
     setTarget() {
         const e = typeof this.targetSelector == "string" ? document.querySelector(this.targetSelector).cloneNode(!0) : this.targetSelector.cloneNode(!0);
-        e.removeAttribute("id"), this.target = e
+        e.removeAttribute("id"),
+        this.target = e
     }
     setWrapper() {
         this.wrapper = typeof this.wrapperSelector == "string" ? document.querySelector(this.wrapperSelector) : this.wrapperSelector
     }
     addToItems(e) {
         const t = e.querySelector("[data-hs-copy-markup-delete-item]");
-        this.wrapper ? this.wrapper.append(e) : this.el.before(e), t && (this.onDeleteItemButtonClickListener = () => this.deleteItemButtonClick(e), t.addEventListener("click", this.onDeleteItemButtonClickListener)), this.items.push(e)
+        this.wrapper ? this.wrapper.append(e) : this.el.before(e),
+        t && (this.onDeleteItemButtonClickListener = () => this.deleteItemButtonClick(e),
+        t.addEventListener("click", this.onDeleteItemButtonClickListener)),
+        this.items.push(e)
     }
     delete(e) {
         const t = this.items.indexOf(e);
-        t !== -1 && this.items.splice(t, 1), e.remove(), this.fireEvent("delete", e), g("delete.hs.copyMarkup", e, e)
+        t !== -1 && this.items.splice(t, 1),
+        e.remove(),
+        this.fireEvent("delete", e),
+        g("delete.hs.copyMarkup", e, e)
     }
     destroy() {
         const e = this.wrapper.querySelectorAll("[data-hs-copy-markup-delete-item]");
-        this.el.removeEventListener("click", this.onElementClickListener), e.length && e.forEach(t => t.removeEventListener("click", this.onDeleteItemButtonClickListener)), this.el.removeAttribute("disabled"), this.target = null, this.wrapper = null, this.items = null, window.$hsCopyMarkupCollection = window.$hsCopyMarkupCollection.filter(({
-            element: t
-        }) => t.el !== this.el)
+        this.el.removeEventListener("click", this.onElementClickListener),
+        e.length && e.forEach(t => t.removeEventListener("click", this.onDeleteItemButtonClickListener)),
+        this.el.removeAttribute("disabled"),
+        this.target = null,
+        this.wrapper = null,
+        this.items = null,
+        window.$hsCopyMarkupCollection = window.$hsCopyMarkupCollection.filter( ({element: t}) => t.el !== this.el)
     }
     static getInstance(e, t) {
         const i = window.$hsCopyMarkupCollection.find(n => n.element.el === (typeof e == "string" ? document.querySelector(e) : e));
         return i ? t ? i : i.element : null
     }
     static autoInit() {
-        window.$hsCopyMarkupCollection || (window.$hsCopyMarkupCollection = []), window.$hsCopyMarkupCollection && (window.$hsCopyMarkupCollection = window.$hsCopyMarkupCollection.filter(({
-            element: e
-        }) => document.contains(e.el))), document.querySelectorAll("[data-hs-copy-markup]:not(.--prevent-on-load-init)").forEach(e => {
+        window.$hsCopyMarkupCollection || (window.$hsCopyMarkupCollection = []),
+        window.$hsCopyMarkupCollection && (window.$hsCopyMarkupCollection = window.$hsCopyMarkupCollection.filter( ({element: e}) => document.contains(e.el))),
+        document.querySelectorAll("[data-hs-copy-markup]:not(.--prevent-on-load-init)").forEach(e => {
             if (!window.$hsCopyMarkupCollection.find(t => {
-                    var i;
-                    return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
-                })) {
-                const t = e.getAttribute("data-hs-copy-markup"),
-                    i = t ? JSON.parse(t) : {};
-                new Be(e, i)
+                var i;
+                return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
             }
-        })
+            )) {
+                const t = e.getAttribute("data-hs-copy-markup")
+                  , i = t ? JSON.parse(t) : {};
+                new Be(e,i)
+            }
+        }
+        )
     }
 }
 window.addEventListener("load", () => {
     Be.autoInit()
-});
+}
+);
 typeof window < "u" && (window.HSCopyMarkup = Be);
 /*
  * HSAccordion
@@ -202,61 +249,101 @@ typeof window < "u" && (window.HSCopyMarkup = Be);
  */
 const R = class R extends I {
     constructor(e, t, i) {
-        super(e, t, i), this.toggle = this.el.querySelector(".hs-accordion-toggle") || null, this.content = this.el.querySelector(".hs-accordion-content") || null, this.update(), this.isToggleStopPropagated = ce(L(this.toggle, "--stop-propagation", "false") || "false"), this.toggle && this.content && this.init()
+        super(e, t, i),
+        this.toggle = this.el.querySelector(".hs-accordion-toggle") || null,
+        this.content = this.el.querySelector(".hs-accordion-content") || null,
+        this.update(),
+        this.isToggleStopPropagated = ce(L(this.toggle, "--stop-propagation", "false") || "false"),
+        this.toggle && this.content && this.init()
     }
     init() {
-        this.createCollection(window.$hsAccordionCollection, this), this.onToggleClickListener = e => this.toggleClick(e), this.toggle.addEventListener("click", this.onToggleClickListener)
+        this.createCollection(window.$hsAccordionCollection, this),
+        this.onToggleClickListener = e => this.toggleClick(e),
+        this.toggle.addEventListener("click", this.onToggleClickListener)
     }
     toggleClick(e) {
-        this.isToggleStopPropagated && e.stopPropagation(), this.el.classList.contains("active") ? this.hide() : this.show()
+        this.isToggleStopPropagated && e.stopPropagation(),
+        this.el.classList.contains("active") ? this.hide() : this.show()
     }
     show() {
         var e;
-        if (this.group && !this.isAlwaysOpened && this.group.querySelector(":scope > .hs-accordion.active") && this.group.querySelector(":scope > .hs-accordion.active") !== this.el && window.$hsAccordionCollection.find(i => i.element.el === this.group.querySelector(":scope > .hs-accordion.active")).element.hide(), this.el.classList.contains("active")) return !1;
-        this.el.classList.add("active"), (e = this == null ? void 0 : this.toggle) != null && e.ariaExpanded && (this.toggle.ariaExpanded = "true"), this.content.style.display = "block", this.content.style.height = "0", setTimeout(() => {
-            this.content.style.height = `${this.content.scrollHeight}px`, z(this.content, () => {
-                this.content.style.display = "block", this.content.style.height = "", this.fireEvent("open", this.el), g("open.hs.accordion", this.el, this.el)
-            })
-        })
+        if (this.group && !this.isAlwaysOpened && this.group.querySelector(":scope > .hs-accordion.active") && this.group.querySelector(":scope > .hs-accordion.active") !== this.el && window.$hsAccordionCollection.find(i => i.element.el === this.group.querySelector(":scope > .hs-accordion.active")).element.hide(),
+        this.el.classList.contains("active"))
+            return !1;
+        this.el.classList.add("active"),
+        (e = this == null ? void 0 : this.toggle) != null && e.ariaExpanded && (this.toggle.ariaExpanded = "true"),
+        this.content.style.display = "block",
+        this.content.style.height = "0",
+        setTimeout( () => {
+            this.content.style.height = `${this.content.scrollHeight}px`,
+            z(this.content, () => {
+                this.content.style.display = "block",
+                this.content.style.height = "",
+                this.fireEvent("open", this.el),
+                g("open.hs.accordion", this.el, this.el)
+            }
+            )
+        }
+        )
     }
     hide() {
         var e;
-        if (!this.el.classList.contains("active")) return !1;
-        this.el.classList.remove("active"), (e = this == null ? void 0 : this.toggle) != null && e.ariaExpanded && (this.toggle.ariaExpanded = "false"), this.content.style.height = `${this.content.scrollHeight}px`, setTimeout(() => {
+        if (!this.el.classList.contains("active"))
+            return !1;
+        this.el.classList.remove("active"),
+        (e = this == null ? void 0 : this.toggle) != null && e.ariaExpanded && (this.toggle.ariaExpanded = "false"),
+        this.content.style.height = `${this.content.scrollHeight}px`,
+        setTimeout( () => {
             this.content.style.height = "0"
-        }), z(this.content, () => {
-            this.content.style.display = "none", this.content.style.height = "", this.fireEvent("close", this.el), g("close.hs.accordion", this.el, this.el)
-        })
+        }
+        ),
+        z(this.content, () => {
+            this.content.style.display = "none",
+            this.content.style.height = "",
+            this.fireEvent("close", this.el),
+            g("close.hs.accordion", this.el, this.el)
+        }
+        )
     }
     update() {
-        if (this.group = this.el.closest(".hs-accordion-group") || null, !this.group) return !1;
-        this.isAlwaysOpened = this.group.hasAttribute("data-hs-accordion-always-open") || !1, window.$hsAccordionCollection.map(e => (e.id === this.el.id && (e.element.group = this.group, e.element.isAlwaysOpened = this.isAlwaysOpened), e))
+        if (this.group = this.el.closest(".hs-accordion-group") || null,
+        !this.group)
+            return !1;
+        this.isAlwaysOpened = this.group.hasAttribute("data-hs-accordion-always-open") || !1,
+        window.$hsAccordionCollection.map(e => (e.id === this.el.id && (e.element.group = this.group,
+        e.element.isAlwaysOpened = this.isAlwaysOpened),
+        e))
     }
     destroy() {
         var e;
         (e = R == null ? void 0 : R.selectable) != null && e.length && R.selectable.forEach(t => {
-            t.listeners.forEach(({
-                el: i,
-                listener: n
-            }) => {
+            t.listeners.forEach( ({el: i, listener: n}) => {
                 i.removeEventListener("click", n)
-            })
-        }), this.onToggleClickListener && this.toggle.removeEventListener("click", this.onToggleClickListener), this.toggle = null, this.content = null, this.group = null, this.onToggleClickListener = null, window.$hsAccordionCollection = window.$hsAccordionCollection.filter(({
-            element: t
-        }) => t.el !== this.el)
+            }
+            )
+        }
+        ),
+        this.onToggleClickListener && this.toggle.removeEventListener("click", this.onToggleClickListener),
+        this.toggle = null,
+        this.content = null,
+        this.group = null,
+        this.onToggleClickListener = null,
+        window.$hsAccordionCollection = window.$hsAccordionCollection.filter( ({element: t}) => t.el !== this.el)
     }
     static findInCollection(e) {
         return window.$hsAccordionCollection.find(t => e instanceof R ? t.element.el === e.el : typeof e == "string" ? t.element.el === document.querySelector(e) : t.element.el === e) || null
     }
     static autoInit() {
-        window.$hsAccordionCollection || (window.$hsAccordionCollection = []), window.$hsAccordionCollection && (window.$hsAccordionCollection = window.$hsAccordionCollection.filter(({
-            element: e
-        }) => document.contains(e.el))), document.querySelectorAll(".hs-accordion:not(.--prevent-on-load-init)").forEach(e => {
+        window.$hsAccordionCollection || (window.$hsAccordionCollection = []),
+        window.$hsAccordionCollection && (window.$hsAccordionCollection = window.$hsAccordionCollection.filter( ({element: e}) => document.contains(e.el))),
+        document.querySelectorAll(".hs-accordion:not(.--prevent-on-load-init)").forEach(e => {
             window.$hsAccordionCollection.find(t => {
                 var i;
                 return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
-            }) || new R(e)
-        })
+            }
+            ) || new R(e)
+        }
+        )
     }
     static getInstance(e, t) {
         const i = window.$hsAccordionCollection.find(n => n.element.el === (typeof e == "string" ? document.querySelector(e) : e));
@@ -267,79 +354,91 @@ const R = class R extends I {
         t && t.element.content.style.display !== "block" && t.element.show()
     }
     static hide(e) {
-        const t = R.findInCollection(e),
-            i = t ? window.getComputedStyle(t.element.content) : null;
+        const t = R.findInCollection(e)
+          , i = t ? window.getComputedStyle(t.element.content) : null;
         t && i.display !== "none" && t.element.hide()
     }
     static treeView() {
-        if (!document.querySelectorAll(".hs-accordion-treeview-root").length) return !1;
-        this.selectable = [], document.querySelectorAll(".hs-accordion-treeview-root").forEach(e => {
-            const t = e == null ? void 0 : e.getAttribute("data-hs-accordion-options"),
-                i = t ? JSON.parse(t) : {};
+        if (!document.querySelectorAll(".hs-accordion-treeview-root").length)
+            return !1;
+        this.selectable = [],
+        document.querySelectorAll(".hs-accordion-treeview-root").forEach(e => {
+            const t = e == null ? void 0 : e.getAttribute("data-hs-accordion-options")
+              , i = t ? JSON.parse(t) : {};
             this.selectable.push({
                 el: e,
-                options: { ...i
+                options: {
+                    ...i
                 },
                 listeners: []
             })
-        }), this.selectable.length && this.selectable.forEach(e => {
-            const {
-                el: t
-            } = e;
+        }
+        ),
+        this.selectable.length && this.selectable.forEach(e => {
+            const {el: t} = e;
             t.querySelectorAll(".hs-accordion-selectable").forEach(i => {
                 const n = s => this.onSelectableClick(s, e, i);
-                i.addEventListener("click", n), e.listeners.push({
+                i.addEventListener("click", n),
+                e.listeners.push({
                     el: i,
                     listener: n
                 })
-            })
-        })
+            }
+            )
+        }
+        )
     }
     static toggleSelected(e, t) {
-        t.classList.contains("selected") ? t.classList.remove("selected") : (e.el.querySelectorAll(".hs-accordion-selectable").forEach(i => i.classList.remove("selected")), t.classList.add("selected"))
+        t.classList.contains("selected") ? t.classList.remove("selected") : (e.el.querySelectorAll(".hs-accordion-selectable").forEach(i => i.classList.remove("selected")),
+        t.classList.add("selected"))
     }
     static on(e, t, i) {
         const n = R.findInCollection(t);
         n && (n.element.events[e] = i)
     }
-};
+}
+;
 R.onSelectableClick = (e, t, i) => {
-    e.stopPropagation(), R.toggleSelected(t, i)
-};
+    e.stopPropagation(),
+    R.toggleSelected(t, i)
+}
+;
 let fe = R;
 window.addEventListener("load", () => {
-    fe.autoInit(), document.querySelectorAll(".hs-accordion-treeview-root").length && fe.treeView()
-});
+    fe.autoInit(),
+    document.querySelectorAll(".hs-accordion-treeview-root").length && fe.treeView()
+}
+);
 typeof window < "u" && (window.HSAccordion = fe);
 const tt = {
-        auto: "auto",
-        "auto-start": "auto-start",
-        "auto-end": "auto-end",
-        top: "top",
-        "top-left": "top-start",
-        "top-right": "top-end",
-        bottom: "bottom",
-        "bottom-left": "bottom-start",
-        "bottom-right": "bottom-end",
-        right: "right",
-        "right-start": "right-start",
-        "right-end": "right-end",
-        left: "left",
-        "left-start": "left-start",
-        "left-end": "left-end"
-    },
-    di = ["Escape", "ArrowUp", "ArrowDown", "ArrowRight", "ArrowLeft", "Home", "End", "Enter"],
-    ui = ["ArrowUp", "ArrowLeft", "ArrowDown", "ArrowRight", "Home", "End"],
-    pi = ["ArrowUp", "ArrowLeft", "ArrowDown", "ArrowRight", "Home", "End", "Escape", "Enter", "Space", "Tab"],
-    fi = ["ArrowUp", "ArrowLeft", "ArrowDown", "ArrowRight", "Home", "End", "Escape", "Enter"],
-    ht = {
-        xs: 0,
-        sm: 640,
-        md: 768,
-        lg: 1024,
-        xl: 1280,
-        "2xl": 1536
-    };
+    auto: "auto",
+    "auto-start": "auto-start",
+    "auto-end": "auto-end",
+    top: "top",
+    "top-left": "top-start",
+    "top-right": "top-end",
+    bottom: "bottom",
+    "bottom-left": "bottom-start",
+    "bottom-right": "bottom-end",
+    right: "right",
+    "right-start": "right-start",
+    "right-end": "right-end",
+    left: "left",
+    "left-start": "left-start",
+    "left-end": "left-end"
+}
+  , di = ["Escape", "ArrowUp", "ArrowDown", "ArrowRight", "ArrowLeft", "Home", "End", "Enter"]
+  , ui = ["ArrowUp", "ArrowLeft", "ArrowDown", "ArrowRight", "Home", "End"]
+  , pi = ["ArrowUp", "ArrowLeft", "ArrowDown", "ArrowRight", "Home", "End", "Escape", "Enter", "Space", "Tab"]
+  , fi = ["ArrowUp", "ArrowLeft", "ArrowDown", "ArrowRight", "Home", "End", "Escape", "Enter"]
+  , ht = {
+    xs: 0,
+    sm: 640,
+    md: 768,
+    lg: 1024,
+    xl: 1280,
+    "2xl": 1536
+};
 /*
  * HSCarousel
  * @version: 2.7.0
@@ -351,45 +450,91 @@ class De extends I {
     constructor(e, t) {
         var o, r, a, h, c;
         super(e, t);
-        const i = e.getAttribute("data-hs-carousel"),
-            s = { ...i ? JSON.parse(i) : {},
-                ...t
-            };
-        this.currentIndex = s.currentIndex || 0, this.loadingClasses = s.loadingClasses ? `${s.loadingClasses}`.split(",") : null, this.dotsItemClasses = s.dotsItemClasses ? s.dotsItemClasses : null, this.isAutoHeight = typeof s.isAutoHeight < "u" ? s.isAutoHeight : !1, this.isAutoPlay = typeof s.isAutoPlay < "u" ? s.isAutoPlay : !1, this.isCentered = typeof s.isCentered < "u" ? s.isCentered : !1, this.isDraggable = typeof s.isDraggable < "u" ? s.isDraggable : !1, this.isInfiniteLoop = typeof s.isInfiniteLoop < "u" ? s.isInfiniteLoop : !1, this.isRTL = typeof s.isRTL < "u" ? s.isRTL : !1, this.isSnap = typeof s.isSnap < "u" ? s.isSnap : !1, this.hasSnapSpacers = typeof s.hasSnapSpacers < "u" ? s.hasSnapSpacers : !0, this.speed = s.speed || 4e3, this.updateDelay = s.updateDelay || 0, this.slidesQty = s.slidesQty || 1, this.loadingClassesRemove = (o = this.loadingClasses) != null && o[0] ? this.loadingClasses[0].split(" ") : "opacity-0", this.loadingClassesAdd = (r = this.loadingClasses) != null && r[1] ? this.loadingClasses[1].split(" ") : "", this.afterLoadingClassesAdd = (a = this.loadingClasses) != null && a[2] ? this.loadingClasses[2].split(" ") : "", this.container = this.el.querySelector(".hs-carousel") || null, this.inner = this.el.querySelector(".hs-carousel-body") || null, this.slides = this.el.querySelectorAll(".hs-carousel-slide") || [], this.prev = this.el.querySelector(".hs-carousel-prev") || null, this.next = this.el.querySelector(".hs-carousel-next") || null, this.dots = this.el.querySelector(".hs-carousel-pagination") || null, this.info = this.el.querySelector(".hs-carousel-info") || null, this.infoTotal = ((h = this == null ? void 0 : this.info) == null ? void 0 : h.querySelector(".hs-carousel-info-total")) || null, this.infoCurrent = ((c = this == null ? void 0 : this.info) == null ? void 0 : c.querySelector(".hs-carousel-info-current")) || null, this.sliderWidth = this.el.getBoundingClientRect().width, this.isDragging = !1, this.dragStartX = null, this.initialTranslateX = null, this.touchX = {
+        const i = e.getAttribute("data-hs-carousel")
+          , s = {
+            ...i ? JSON.parse(i) : {},
+            ...t
+        };
+        this.currentIndex = s.currentIndex || 0,
+        this.loadingClasses = s.loadingClasses ? `${s.loadingClasses}`.split(",") : null,
+        this.dotsItemClasses = s.dotsItemClasses ? s.dotsItemClasses : null,
+        this.isAutoHeight = typeof s.isAutoHeight < "u" ? s.isAutoHeight : !1,
+        this.isAutoPlay = typeof s.isAutoPlay < "u" ? s.isAutoPlay : !1,
+        this.isCentered = typeof s.isCentered < "u" ? s.isCentered : !1,
+        this.isDraggable = typeof s.isDraggable < "u" ? s.isDraggable : !1,
+        this.isInfiniteLoop = typeof s.isInfiniteLoop < "u" ? s.isInfiniteLoop : !1,
+        this.isRTL = typeof s.isRTL < "u" ? s.isRTL : !1,
+        this.isSnap = typeof s.isSnap < "u" ? s.isSnap : !1,
+        this.hasSnapSpacers = typeof s.hasSnapSpacers < "u" ? s.hasSnapSpacers : !0,
+        this.speed = s.speed || 4e3,
+        this.updateDelay = s.updateDelay || 0,
+        this.slidesQty = s.slidesQty || 1,
+        this.loadingClassesRemove = (o = this.loadingClasses) != null && o[0] ? this.loadingClasses[0].split(" ") : "opacity-0",
+        this.loadingClassesAdd = (r = this.loadingClasses) != null && r[1] ? this.loadingClasses[1].split(" ") : "",
+        this.afterLoadingClassesAdd = (a = this.loadingClasses) != null && a[2] ? this.loadingClasses[2].split(" ") : "",
+        this.container = this.el.querySelector(".hs-carousel") || null,
+        this.inner = this.el.querySelector(".hs-carousel-body") || null,
+        this.slides = this.el.querySelectorAll(".hs-carousel-slide") || [],
+        this.prev = this.el.querySelector(".hs-carousel-prev") || null,
+        this.next = this.el.querySelector(".hs-carousel-next") || null,
+        this.dots = this.el.querySelector(".hs-carousel-pagination") || null,
+        this.info = this.el.querySelector(".hs-carousel-info") || null,
+        this.infoTotal = ((h = this == null ? void 0 : this.info) == null ? void 0 : h.querySelector(".hs-carousel-info-total")) || null,
+        this.infoCurrent = ((c = this == null ? void 0 : this.info) == null ? void 0 : c.querySelector(".hs-carousel-info-current")) || null,
+        this.sliderWidth = this.el.getBoundingClientRect().width,
+        this.isDragging = !1,
+        this.dragStartX = null,
+        this.initialTranslateX = null,
+        this.touchX = {
             start: 0,
             end: 0
-        }, this.resizeContainer = document.querySelector("body"), this.resizeContainerWidth = 0, this.init()
+        },
+        this.resizeContainer = document.querySelector("body"),
+        this.resizeContainerWidth = 0,
+        this.init()
     }
     setIsSnap() {
-        const e = this.container.getBoundingClientRect(),
-            t = e.left + e.width / 2;
-        let i = null,
-            n = null,
-            s = 1 / 0;
+        const e = this.container.getBoundingClientRect()
+          , t = e.left + e.width / 2;
+        let i = null
+          , n = null
+          , s = 1 / 0;
         Array.from(this.inner.children).forEach(o => {
-            const r = o.getBoundingClientRect(),
-                a = this.inner.getBoundingClientRect(),
-                h = r.left + r.width / 2 - a.left,
-                c = Math.abs(t - (a.left + h));
-            c < s && (s = c, i = o)
-        }), i && (n = Array.from(this.slides).findIndex(o => o === i)), this.setIndex(n), this.dots && this.setCurrentDot()
+            const r = o.getBoundingClientRect()
+              , a = this.inner.getBoundingClientRect()
+              , h = r.left + r.width / 2 - a.left
+              , c = Math.abs(t - (a.left + h));
+            c < s && (s = c,
+            i = o)
+        }
+        ),
+        i && (n = Array.from(this.slides).findIndex(o => o === i)),
+        this.setIndex(n),
+        this.dots && this.setCurrentDot()
     }
     prevClick() {
-        this.goToPrev(), this.isAutoPlay && (this.resetTimer(), this.setTimer())
+        this.goToPrev(),
+        this.isAutoPlay && (this.resetTimer(),
+        this.setTimer())
     }
     nextClick() {
-        this.goToNext(), this.isAutoPlay && (this.resetTimer(), this.setTimer())
+        this.goToNext(),
+        this.isAutoPlay && (this.resetTimer(),
+        this.setTimer())
     }
     containerScroll() {
-        clearTimeout(this.isScrolling), this.isScrolling = setTimeout(() => {
+        clearTimeout(this.isScrolling),
+        this.isScrolling = setTimeout( () => {
             this.setIsSnap()
-        }, 100)
+        }
+        , 100)
     }
     elementTouchStart(e) {
         this.touchX.start = e.changedTouches[0].screenX
     }
     elementTouchEnd(e) {
-        this.touchX.end = e.changedTouches[0].screenX, this.detectDirection()
+        this.touchX.end = e.changedTouches[0].screenX,
+        this.detectDirection()
     }
     innerMouseDown(e) {
         this.handleDragStart(e)
@@ -410,22 +555,60 @@ class De extends I {
         this.handleDragEnd()
     }
     dotClick(e) {
-        this.goTo(e), this.isAutoPlay && (this.resetTimer(), this.setTimer())
+        this.goTo(e),
+        this.isAutoPlay && (this.resetTimer(),
+        this.setTimer())
     }
     init() {
-        this.createCollection(window.$hsCarouselCollection, this), this.inner && (this.calculateWidth(), this.isDraggable && !this.isSnap && this.initDragHandling()), this.prev && (this.onPrevClickListener = () => this.prevClick(), this.prev.addEventListener("click", this.onPrevClickListener)), this.next && (this.onNextClickListener = () => this.nextClick(), this.next.addEventListener("click", this.onNextClickListener)), this.dots && this.initDots(), this.info && this.buildInfo(), this.slides.length && (this.addCurrentClass(), this.isInfiniteLoop || this.addDisabledClass(), this.isAutoPlay && this.autoPlay()), setTimeout(() => {
-            this.isSnap && this.setIsSnap(), this.loadingClassesRemove && (typeof this.loadingClassesRemove == "string" ? this.inner.classList.remove(this.loadingClassesRemove) : this.inner.classList.remove(...this.loadingClassesRemove)), this.loadingClassesAdd && (typeof this.loadingClassesAdd == "string" ? this.inner.classList.add(this.loadingClassesAdd) : this.inner.classList.add(...this.loadingClassesAdd)), this.inner && this.afterLoadingClassesAdd && setTimeout(() => {
+        this.createCollection(window.$hsCarouselCollection, this),
+        this.inner && (this.calculateWidth(),
+        this.isDraggable && !this.isSnap && this.initDragHandling()),
+        this.prev && (this.onPrevClickListener = () => this.prevClick(),
+        this.prev.addEventListener("click", this.onPrevClickListener)),
+        this.next && (this.onNextClickListener = () => this.nextClick(),
+        this.next.addEventListener("click", this.onNextClickListener)),
+        this.dots && this.initDots(),
+        this.info && this.buildInfo(),
+        this.slides.length && (this.addCurrentClass(),
+        this.isInfiniteLoop || this.addDisabledClass(),
+        this.isAutoPlay && this.autoPlay()),
+        setTimeout( () => {
+            this.isSnap && this.setIsSnap(),
+            this.loadingClassesRemove && (typeof this.loadingClassesRemove == "string" ? this.inner.classList.remove(this.loadingClassesRemove) : this.inner.classList.remove(...this.loadingClassesRemove)),
+            this.loadingClassesAdd && (typeof this.loadingClassesAdd == "string" ? this.inner.classList.add(this.loadingClassesAdd) : this.inner.classList.add(...this.loadingClassesAdd)),
+            this.inner && this.afterLoadingClassesAdd && setTimeout( () => {
                 typeof this.afterLoadingClassesAdd == "string" ? this.inner.classList.add(this.afterLoadingClassesAdd) : this.inner.classList.add(...this.afterLoadingClassesAdd)
-            })
-        }, 400), this.isSnap && (this.onContainerScrollListener = () => this.containerScroll(), this.container.addEventListener("scroll", this.onContainerScrollListener)), this.el.classList.add("init"), this.isSnap || (this.onElementTouchStartListener = e => this.elementTouchStart(e), this.onElementTouchEndListener = e => this.elementTouchEnd(e), this.el.addEventListener("touchstart", this.onElementTouchStartListener), this.el.addEventListener("touchend", this.onElementTouchEndListener)), this.observeResize()
+            }
+            )
+        }
+        , 400),
+        this.isSnap && (this.onContainerScrollListener = () => this.containerScroll(),
+        this.container.addEventListener("scroll", this.onContainerScrollListener)),
+        this.el.classList.add("init"),
+        this.isSnap || (this.onElementTouchStartListener = e => this.elementTouchStart(e),
+        this.onElementTouchEndListener = e => this.elementTouchEnd(e),
+        this.el.addEventListener("touchstart", this.onElementTouchStartListener),
+        this.el.addEventListener("touchend", this.onElementTouchEndListener)),
+        this.observeResize()
     }
     initDragHandling() {
         const e = this.inner;
-        this.onInnerMouseDownListener = t => this.innerMouseDown(t), this.onInnerTouchStartListener = t => this.innerTouchStart(t), this.onDocumentMouseMoveListener = t => this.documentMouseMove(t), this.onDocumentTouchMoveListener = t => this.documentTouchMove(t), this.onDocumentMouseUpListener = () => this.documentMouseUp(), this.onDocumentTouchEndListener = () => this.documentTouchEnd(), e && (e.addEventListener("mousedown", this.onInnerMouseDownListener), e.addEventListener("touchstart", this.onInnerTouchStartListener, {
+        this.onInnerMouseDownListener = t => this.innerMouseDown(t),
+        this.onInnerTouchStartListener = t => this.innerTouchStart(t),
+        this.onDocumentMouseMoveListener = t => this.documentMouseMove(t),
+        this.onDocumentTouchMoveListener = t => this.documentTouchMove(t),
+        this.onDocumentMouseUpListener = () => this.documentMouseUp(),
+        this.onDocumentTouchEndListener = () => this.documentTouchEnd(),
+        e && (e.addEventListener("mousedown", this.onInnerMouseDownListener),
+        e.addEventListener("touchstart", this.onInnerTouchStartListener, {
             passive: !0
-        }), document.addEventListener("mousemove", this.onDocumentMouseMoveListener), document.addEventListener("touchmove", this.onDocumentTouchMoveListener, {
+        }),
+        document.addEventListener("mousemove", this.onDocumentMouseMoveListener),
+        document.addEventListener("touchmove", this.onDocumentTouchMoveListener, {
             passive: !1
-        }), document.addEventListener("mouseup", this.onDocumentMouseUpListener), document.addEventListener("touchend", this.onDocumentTouchEndListener))
+        }),
+        document.addEventListener("mouseup", this.onDocumentMouseUpListener),
+        document.addEventListener("touchend", this.onDocumentTouchEndListener))
     }
     getTranslateXValue() {
         var t;
@@ -434,7 +617,8 @@ class De extends I {
             const i = (t = e.match(/matrix.*\((.+)\)/)) == null ? void 0 : t[1].split(", ");
             if (i) {
                 let n = parseFloat(i.length === 6 ? i[4] : i[12]);
-                return this.isRTL && (n = -n), isNaN(n) || n === 0 ? 0 : -n
+                return this.isRTL && (n = -n),
+                isNaN(n) || n === 0 ? 0 : -n
             }
         }
         return 0
@@ -443,39 +627,57 @@ class De extends I {
         e.preventDefault()
     }
     handleDragStart(e) {
-        e.preventDefault(), this.isDragging = !0, this.dragStartX = this.getEventX(e), this.initialTranslateX = this.isRTL ? this.getTranslateXValue() : -this.getTranslateXValue(), this.inner.classList.add("dragging")
+        e.preventDefault(),
+        this.isDragging = !0,
+        this.dragStartX = this.getEventX(e),
+        this.initialTranslateX = this.isRTL ? this.getTranslateXValue() : -this.getTranslateXValue(),
+        this.inner.classList.add("dragging")
     }
     handleDragMove(e) {
-        if (!this.isDragging) return;
+        if (!this.isDragging)
+            return;
         this.inner.querySelectorAll("a:not(.prevented-click)").forEach(o => {
-            o.classList.add("prevented-click"), o.addEventListener("click", this.removeClickEventWhileDragging)
-        });
+            o.classList.add("prevented-click"),
+            o.addEventListener("click", this.removeClickEventWhileDragging)
+        }
+        );
         let i = this.getEventX(e) - this.dragStartX;
         this.isRTL && (i = -i);
-        const n = this.initialTranslateX + i,
-            s = () => {
-                let o = this.sliderWidth * this.slides.length / this.getCurrentSlidesQty() - this.sliderWidth;
-                const r = this.sliderWidth,
-                    a = r / this.getCurrentSlidesQty(),
-                    h = (r - a) / 2,
-                    c = this.isCentered ? h : 0;
-                this.isCentered && (o = o + h);
-                const d = -o;
-                return this.isRTL ? n < c ? c : n > o ? d : -n : n > c ? c : n < -o ? d : n
-            };
+        const n = this.initialTranslateX + i
+          , s = () => {
+            let o = this.sliderWidth * this.slides.length / this.getCurrentSlidesQty() - this.sliderWidth;
+            const r = this.sliderWidth
+              , a = r / this.getCurrentSlidesQty()
+              , h = (r - a) / 2
+              , c = this.isCentered ? h : 0;
+            this.isCentered && (o = o + h);
+            const d = -o;
+            return this.isRTL ? n < c ? c : n > o ? d : -n : n > c ? c : n < -o ? d : n
+        }
+        ;
         this.setTranslate(s())
     }
     handleDragEnd() {
-        if (!this.isDragging) return;
+        if (!this.isDragging)
+            return;
         this.isDragging = !1;
-        const t = this.sliderWidth / this.getCurrentSlidesQty(),
-            i = this.getTranslateXValue();
+        const t = this.sliderWidth / this.getCurrentSlidesQty()
+          , i = this.getTranslateXValue();
         let n = Math.round(i / t);
-        this.isRTL && (n = Math.round(i / t)), this.inner.classList.remove("dragging"), setTimeout(() => {
-            this.calculateTransform(n), this.dots && this.setCurrentDot(), this.dragStartX = null, this.initialTranslateX = null, this.inner.querySelectorAll("a.prevented-click").forEach(s => {
-                s.classList.remove("prevented-click"), s.removeEventListener("click", this.removeClickEventWhileDragging)
-            })
-        })
+        this.isRTL && (n = Math.round(i / t)),
+        this.inner.classList.remove("dragging"),
+        setTimeout( () => {
+            this.calculateTransform(n),
+            this.dots && this.setCurrentDot(),
+            this.dragStartX = null,
+            this.initialTranslateX = null,
+            this.inner.querySelectorAll("a.prevented-click").forEach(s => {
+                s.classList.remove("prevented-click"),
+                s.removeEventListener("click", this.removeClickEventWhileDragging)
+            }
+            )
+        }
+        )
     }
     getEventX(e) {
         return e instanceof MouseEvent ? e.clientX : e.touches[0].clientX
@@ -486,22 +688,28 @@ class De extends I {
             let t = 0;
             return Object.keys(this.slidesQty).forEach(i => {
                 e >= (typeof i + 1 == "number" ? this.slidesQty[i] : ht[i]) && (t = this.slidesQty[i])
-            }), t
-        } else return this.slidesQty
+            }
+            ),
+            t
+        } else
+            return this.slidesQty
     }
     buildSnapSpacers() {
-        const e = this.inner.querySelector(".hs-snap-before"),
-            t = this.inner.querySelector(".hs-snap-after");
-        e && e.remove(), t && t.remove();
-        const i = this.sliderWidth,
-            n = i / this.getCurrentSlidesQty(),
-            s = i / 2 - n / 2,
-            o = y(`<div class="hs-snap-before" style="height: 100%; width: ${s}px"></div>`),
-            r = y(`<div class="hs-snap-after" style="height: 100%; width: ${s}px"></div>`);
-        this.inner.prepend(o), this.inner.appendChild(r)
+        const e = this.inner.querySelector(".hs-snap-before")
+          , t = this.inner.querySelector(".hs-snap-after");
+        e && e.remove(),
+        t && t.remove();
+        const i = this.sliderWidth
+          , n = i / this.getCurrentSlidesQty()
+          , s = i / 2 - n / 2
+          , o = y(`<div class="hs-snap-before" style="height: 100%; width: ${s}px"></div>`)
+          , r = y(`<div class="hs-snap-after" style="height: 100%; width: ${s}px"></div>`);
+        this.inner.prepend(o),
+        this.inner.appendChild(r)
     }
     initDots() {
-        this.el.querySelectorAll(".hs-carousel-pagination-item").length ? this.setDots() : this.buildDots(), this.dots && this.setCurrentDot()
+        this.el.querySelectorAll(".hs-carousel-pagination-item").length ? this.setDots() : this.buildDots(),
+        this.dots && this.setCurrentDot()
     }
     buildDots() {
         this.dots.innerHTML = "";
@@ -512,60 +720,75 @@ class De extends I {
         }
     }
     setDots() {
-        this.dotsItems = this.dots.querySelectorAll(".hs-carousel-pagination-item"), this.dotsItems.forEach((e, t) => {
+        this.dotsItems = this.dots.querySelectorAll(".hs-carousel-pagination-item"),
+        this.dotsItems.forEach( (e, t) => {
             const i = e.getAttribute("data-carousel-pagination-item-target");
             this.singleDotEvents(e, i ? +i : t)
-        })
+        }
+        )
     }
     goToCurrentDot() {
-        const e = this.dots,
-            t = e.getBoundingClientRect(),
-            i = e.scrollLeft,
-            n = e.scrollTop,
-            s = e.clientWidth,
-            o = e.clientHeight,
-            r = this.dotsItems[this.currentIndex],
-            a = r.getBoundingClientRect(),
-            h = a.left - t.left + i,
-            c = h + r.clientWidth,
-            d = a.top - t.top + n,
-            u = d + r.clientHeight;
-        let p = i,
-            w = n;
-        (h < i || c > i + s) && (p = c - s), (d < n || u > n + o) && (w = u - o), e.scrollTo({
+        const e = this.dots
+          , t = e.getBoundingClientRect()
+          , i = e.scrollLeft
+          , n = e.scrollTop
+          , s = e.clientWidth
+          , o = e.clientHeight
+          , r = this.dotsItems[this.currentIndex]
+          , a = r.getBoundingClientRect()
+          , h = a.left - t.left + i
+          , c = h + r.clientWidth
+          , d = a.top - t.top + n
+          , u = d + r.clientHeight;
+        let p = i
+          , w = n;
+        (h < i || c > i + s) && (p = c - s),
+        (d < n || u > n + o) && (w = u - o),
+        e.scrollTo({
             left: p,
             top: w,
             behavior: "smooth"
         })
     }
     buildInfo() {
-        this.infoTotal && this.setInfoTotal(), this.infoCurrent && this.setInfoCurrent()
+        this.infoTotal && this.setInfoTotal(),
+        this.infoCurrent && this.setInfoCurrent()
     }
     setInfoTotal() {
         this.infoTotal.innerText = `${this.slides.length}`
     }
     setInfoCurrent() {
-        this.infoCurrent.innerText = `${this.currentIndex+1}`
+        this.infoCurrent.innerText = `${this.currentIndex + 1}`
     }
     buildSingleDot(e) {
         const t = y("<span></span>");
-        return this.dotsItemClasses && D(this.dotsItemClasses, t), this.singleDotEvents(t, e), t
+        return this.dotsItemClasses && D(this.dotsItemClasses, t),
+        this.singleDotEvents(t, e),
+        t
     }
     singleDotEvents(e, t) {
-        this.onDotClickListener = () => this.dotClick(t), e.addEventListener("click", this.onDotClickListener)
+        this.onDotClickListener = () => this.dotClick(t),
+        e.addEventListener("click", this.onDotClickListener)
     }
     observeResize() {
         new ResizeObserver(ke(t => {
             for (let i of t) {
                 const n = i.contentRect.width;
-                n !== this.resizeContainerWidth && (this.recalculateWidth(), this.dots && this.initDots(), this.addCurrentClass(), this.resizeContainerWidth = n)
+                n !== this.resizeContainerWidth && (this.recalculateWidth(),
+                this.dots && this.initDots(),
+                this.addCurrentClass(),
+                this.resizeContainerWidth = n)
             }
-        }, this.updateDelay)).observe(this.resizeContainer)
+        }
+        , this.updateDelay)).observe(this.resizeContainer)
     }
     calculateWidth() {
-        this.isSnap || (this.inner.style.width = `${this.sliderWidth*this.slides.length/this.getCurrentSlidesQty()}px`), this.slides.forEach(e => {
-            e.style.width = `${this.sliderWidth/this.getCurrentSlidesQty()}px`
-        }), this.calculateTransform()
+        this.isSnap || (this.inner.style.width = `${this.sliderWidth * this.slides.length / this.getCurrentSlidesQty()}px`),
+        this.slides.forEach(e => {
+            e.style.width = `${this.sliderWidth / this.getCurrentSlidesQty()}px`
+        }
+        ),
+        this.calculateTransform()
     }
     addCurrentClass() {
         if (this.isSnap) {
@@ -576,136 +799,211 @@ class De extends I {
             }
         } else {
             const e = this.isCentered ? this.currentIndex + this.getCurrentSlidesQty() + (this.getCurrentSlidesQty() - 1) : this.currentIndex + this.getCurrentSlidesQty();
-            this.slides.forEach((t, i) => {
+            this.slides.forEach( (t, i) => {
                 i >= this.currentIndex && i < e ? t.classList.add("active") : t.classList.remove("active")
-            })
+            }
+            )
         }
     }
     setCurrentDot() {
         const e = (t, i) => {
             let n = !1;
             const s = Math.floor(this.getCurrentSlidesQty() / 2);
-            this.isSnap && !this.hasSnapSpacers ? n = i === (this.getCurrentSlidesQty() % 2 === 0 ? this.currentIndex - s + 1 : this.currentIndex - s) : n = i === this.currentIndex, n ? t.classList.add("active") : t.classList.remove("active")
-        };
-        this.dotsItems ? this.dotsItems.forEach((t, i) => e(t, i)) : this.dots.querySelectorAll(":scope > *").forEach((t, i) => e(t, i))
+            this.isSnap && !this.hasSnapSpacers ? n = i === (this.getCurrentSlidesQty() % 2 === 0 ? this.currentIndex - s + 1 : this.currentIndex - s) : n = i === this.currentIndex,
+            n ? t.classList.add("active") : t.classList.remove("active")
+        }
+        ;
+        this.dotsItems ? this.dotsItems.forEach( (t, i) => e(t, i)) : this.dots.querySelectorAll(":scope > *").forEach( (t, i) => e(t, i))
     }
     setElementToDisabled(e) {
-        e.classList.add("disabled"), (e.tagName === "BUTTON" || e.tagName === "INPUT") && e.setAttribute("disabled", "disabled")
+        e.classList.add("disabled"),
+        (e.tagName === "BUTTON" || e.tagName === "INPUT") && e.setAttribute("disabled", "disabled")
     }
     unsetElementToDisabled(e) {
-        e.classList.remove("disabled"), (e.tagName === "BUTTON" || e.tagName === "INPUT") && e.removeAttribute("disabled")
+        e.classList.remove("disabled"),
+        (e.tagName === "BUTTON" || e.tagName === "INPUT") && e.removeAttribute("disabled")
     }
     addDisabledClass() {
-        if (!this.prev || !this.next) return !1;
-        const e = getComputedStyle(this.inner).getPropertyValue("gap"),
-            t = Math.floor(this.getCurrentSlidesQty() / 2);
-        let i = 0,
-            n = 0,
-            s = !1,
-            o = !1;
-        this.isSnap ? (i = this.currentIndex, n = this.hasSnapSpacers ? this.slides.length - 1 : this.slides.length - t - 1, s = this.hasSnapSpacers ? i === 0 : this.getCurrentSlidesQty() % 2 === 0 ? i - t < 0 : i - t === 0, o = i >= n && this.container.scrollLeft + this.container.clientWidth + (parseFloat(e) || 0) >= this.container.scrollWidth) : (i = this.currentIndex, n = this.isCentered ? this.slides.length - this.getCurrentSlidesQty() + (this.getCurrentSlidesQty() - 1) : this.slides.length - this.getCurrentSlidesQty(), s = i === 0, o = i >= n), s ? (this.unsetElementToDisabled(this.next), this.setElementToDisabled(this.prev)) : o ? (this.unsetElementToDisabled(this.prev), this.setElementToDisabled(this.next)) : (this.unsetElementToDisabled(this.prev), this.unsetElementToDisabled(this.next))
+        if (!this.prev || !this.next)
+            return !1;
+        const e = getComputedStyle(this.inner).getPropertyValue("gap")
+          , t = Math.floor(this.getCurrentSlidesQty() / 2);
+        let i = 0
+          , n = 0
+          , s = !1
+          , o = !1;
+        this.isSnap ? (i = this.currentIndex,
+        n = this.hasSnapSpacers ? this.slides.length - 1 : this.slides.length - t - 1,
+        s = this.hasSnapSpacers ? i === 0 : this.getCurrentSlidesQty() % 2 === 0 ? i - t < 0 : i - t === 0,
+        o = i >= n && this.container.scrollLeft + this.container.clientWidth + (parseFloat(e) || 0) >= this.container.scrollWidth) : (i = this.currentIndex,
+        n = this.isCentered ? this.slides.length - this.getCurrentSlidesQty() + (this.getCurrentSlidesQty() - 1) : this.slides.length - this.getCurrentSlidesQty(),
+        s = i === 0,
+        o = i >= n),
+        s ? (this.unsetElementToDisabled(this.next),
+        this.setElementToDisabled(this.prev)) : o ? (this.unsetElementToDisabled(this.prev),
+        this.setElementToDisabled(this.next)) : (this.unsetElementToDisabled(this.prev),
+        this.unsetElementToDisabled(this.next))
     }
     autoPlay() {
         this.setTimer()
     }
     setTimer() {
-        this.timer = setInterval(() => {
+        this.timer = setInterval( () => {
             this.currentIndex === this.slides.length - 1 ? this.goTo(0) : this.goToNext()
-        }, this.speed)
+        }
+        , this.speed)
     }
     resetTimer() {
         clearInterval(this.timer)
     }
     detectDirection() {
-        const {
-            start: e,
-            end: t
-        } = this.touchX;
-        t < e && this.goToNext(), t > e && this.goToPrev()
+        const {start: e, end: t} = this.touchX;
+        t < e && this.goToNext(),
+        t > e && this.goToPrev()
     }
     calculateTransform(e) {
-        e !== void 0 && (this.currentIndex = e), this.currentIndex > this.slides.length - this.getCurrentSlidesQty() && !this.isCentered && (this.currentIndex = this.slides.length - this.getCurrentSlidesQty());
-        const t = this.sliderWidth,
-            i = t / this.getCurrentSlidesQty();
+        e !== void 0 && (this.currentIndex = e),
+        this.currentIndex > this.slides.length - this.getCurrentSlidesQty() && !this.isCentered && (this.currentIndex = this.slides.length - this.getCurrentSlidesQty());
+        const t = this.sliderWidth
+          , i = t / this.getCurrentSlidesQty();
         let n = this.currentIndex * i;
-        if (this.isSnap && !this.isCentered && this.container.scrollLeft < t && this.container.scrollLeft + i / 2 > t && (this.container.scrollLeft = this.container.scrollWidth), this.isCentered && !this.isSnap) {
+        if (this.isSnap && !this.isCentered && this.container.scrollLeft < t && this.container.scrollLeft + i / 2 > t && (this.container.scrollLeft = this.container.scrollWidth),
+        this.isCentered && !this.isSnap) {
             const s = (t - i) / 2;
             this.currentIndex === 0 ? n = -s : this.currentIndex >= this.slides.length - this.getCurrentSlidesQty() + (this.getCurrentSlidesQty() - 1) ? n = this.slides.length * i - t + s : n = this.currentIndex * i - s
         }
-        this.isSnap || (this.inner.style.transform = this.isRTL ? `translate(${n}px, 0px)` : `translate(${-n}px, 0px)`), this.isAutoHeight && (this.inner.style.height = `${this.slides[this.currentIndex].clientHeight}px`), this.dotsItems && this.goToCurrentDot(), this.addCurrentClass(), this.isInfiniteLoop || this.addDisabledClass(), this.isSnap && this.hasSnapSpacers && this.buildSnapSpacers(), this.infoCurrent && this.setInfoCurrent()
+        this.isSnap || (this.inner.style.transform = this.isRTL ? `translate(${n}px, 0px)` : `translate(${-n}px, 0px)`),
+        this.isAutoHeight && (this.inner.style.height = `${this.slides[this.currentIndex].clientHeight}px`),
+        this.dotsItems && this.goToCurrentDot(),
+        this.addCurrentClass(),
+        this.isInfiniteLoop || this.addDisabledClass(),
+        this.isSnap && this.hasSnapSpacers && this.buildSnapSpacers(),
+        this.infoCurrent && this.setInfoCurrent()
     }
     setTranslate(e) {
         this.inner.style.transform = this.isRTL ? `translate(${-e}px, 0px)` : `translate(${e}px, 0px)`
     }
     setIndex(e) {
-        this.currentIndex = e, this.addCurrentClass(), this.isInfiniteLoop || this.addDisabledClass()
+        this.currentIndex = e,
+        this.addCurrentClass(),
+        this.isInfiniteLoop || this.addDisabledClass()
     }
     recalculateWidth() {
-        this.sliderWidth = this.inner.parentElement.getBoundingClientRect().width, this.calculateWidth(), this.sliderWidth !== this.inner.parentElement.getBoundingClientRect().width && this.recalculateWidth()
+        this.sliderWidth = this.inner.parentElement.getBoundingClientRect().width,
+        this.calculateWidth(),
+        this.sliderWidth !== this.inner.parentElement.getBoundingClientRect().width && this.recalculateWidth()
     }
     goToPrev() {
-        if (this.currentIndex > 0 ? this.currentIndex-- : this.currentIndex = this.slides.length - this.getCurrentSlidesQty(), this.isSnap) {
+        if (this.currentIndex > 0 ? this.currentIndex-- : this.currentIndex = this.slides.length - this.getCurrentSlidesQty(),
+        this.isSnap) {
             const e = this.sliderWidth / this.getCurrentSlidesQty();
             this.container.scrollBy({
                 left: Math.max(-this.container.scrollLeft, -e),
                 behavior: "smooth"
-            }), this.addCurrentClass(), this.isInfiniteLoop || this.addDisabledClass()
-        } else this.calculateTransform();
+            }),
+            this.addCurrentClass(),
+            this.isInfiniteLoop || this.addDisabledClass()
+        } else
+            this.calculateTransform();
         this.dots && this.setCurrentDot()
     }
     goToNext() {
         const e = this.isCentered ? this.slides.length - this.getCurrentSlidesQty() + (this.getCurrentSlidesQty() - 1) : this.slides.length - this.getCurrentSlidesQty();
-        if (this.currentIndex < e ? this.currentIndex++ : this.currentIndex = 0, this.isSnap) {
-            const t = this.sliderWidth / this.getCurrentSlidesQty(),
-                i = this.container.scrollWidth - this.container.clientWidth;
+        if (this.currentIndex < e ? this.currentIndex++ : this.currentIndex = 0,
+        this.isSnap) {
+            const t = this.sliderWidth / this.getCurrentSlidesQty()
+              , i = this.container.scrollWidth - this.container.clientWidth;
             this.container.scrollBy({
                 left: Math.min(t, i - this.container.scrollLeft),
                 behavior: "smooth"
-            }), this.addCurrentClass(), this.isInfiniteLoop || this.addDisabledClass()
-        } else this.calculateTransform();
+            }),
+            this.addCurrentClass(),
+            this.isInfiniteLoop || this.addDisabledClass()
+        } else
+            this.calculateTransform();
         this.dots && this.setCurrentDot()
     }
     goTo(e) {
         const t = this.currentIndex;
-        if (this.currentIndex = e, this.isSnap) {
-            const i = this.sliderWidth / this.getCurrentSlidesQty(),
-                n = t > this.currentIndex ? t - this.currentIndex : this.currentIndex - t,
-                s = t > this.currentIndex ? -(i * n) : i * n;
+        if (this.currentIndex = e,
+        this.isSnap) {
+            const i = this.sliderWidth / this.getCurrentSlidesQty()
+              , n = t > this.currentIndex ? t - this.currentIndex : this.currentIndex - t
+              , s = t > this.currentIndex ? -(i * n) : i * n;
             this.container.scrollBy({
                 left: s,
                 behavior: "smooth"
-            }), this.addCurrentClass(), this.isInfiniteLoop || this.addDisabledClass()
-        } else this.calculateTransform();
+            }),
+            this.addCurrentClass(),
+            this.isInfiniteLoop || this.addDisabledClass()
+        } else
+            this.calculateTransform();
         this.dots && this.setCurrentDot()
     }
     destroy() {
         var e, t;
-        this.loadingClassesAdd && (typeof this.loadingClassesAdd == "string" ? this.inner.classList.remove(this.loadingClassesAdd) : this.inner.classList.remove(...this.loadingClassesAdd)), this.inner && this.afterLoadingClassesAdd && setTimeout(() => {
+        this.loadingClassesAdd && (typeof this.loadingClassesAdd == "string" ? this.inner.classList.remove(this.loadingClassesAdd) : this.inner.classList.remove(...this.loadingClassesAdd)),
+        this.inner && this.afterLoadingClassesAdd && setTimeout( () => {
             typeof this.afterLoadingClassesAdd == "string" ? this.inner.classList.remove(this.afterLoadingClassesAdd) : this.inner.classList.remove(...this.afterLoadingClassesAdd)
-        }), this.el.classList.remove("init"), this.inner.classList.remove("dragging"), this.slides.forEach(i => i.classList.remove("active")), (e = this == null ? void 0 : this.dotsItems) != null && e.length && this.dotsItems.forEach(i => i.classList.remove("active")), this.prev.classList.remove("disabled"), this.next.classList.remove("disabled"), this.inner.style.width = "", this.slides.forEach(i => i.style.width = ""), this.isSnap || (this.inner.style.transform = ""), this.isAutoHeight && (this.inner.style.height = ""), this.prev.removeEventListener("click", this.onPrevClickListener), this.next.removeEventListener("click", this.onNextClickListener), this.container.removeEventListener("scroll", this.onContainerScrollListener), this.el.removeEventListener("touchstart", this.onElementTouchStartListener), this.el.removeEventListener("touchend", this.onElementTouchEndListener), this.inner.removeEventListener("mousedown", this.onInnerMouseDownListener), this.inner.removeEventListener("touchstart", this.onInnerTouchStartListener), document.removeEventListener("mousemove", this.onDocumentMouseMoveListener), document.removeEventListener("touchmove", this.onDocumentTouchMoveListener), document.removeEventListener("mouseup", this.onDocumentMouseUpListener), document.removeEventListener("touchend", this.onDocumentTouchEndListener), this.inner.querySelectorAll("a:not(.prevented-click)").forEach(i => {
-            i.classList.remove("prevented-click"), i.removeEventListener("click", this.removeClickEventWhileDragging)
-        }), ((t = this == null ? void 0 : this.dotsItems) != null && t.length || this.dots.querySelectorAll(":scope > *").length) && (((this == null ? void 0 : this.dotsItems) || this.dots.querySelectorAll(":scope > *")).forEach(n => n.removeEventListener("click", this.onDotClickListener)), this.dots.innerHTML = null), this.inner.querySelector(".hs-snap-before").remove(), this.inner.querySelector(".hs-snap-after").remove(), this.dotsItems = null, this.isDragging = !1, this.dragStartX = null, this.initialTranslateX = null, window.$hsCarouselCollection = window.$hsCarouselCollection.filter(({
-            element: i
-        }) => i.el !== this.el)
+        }
+        ),
+        this.el.classList.remove("init"),
+        this.inner.classList.remove("dragging"),
+        this.slides.forEach(i => i.classList.remove("active")),
+        (e = this == null ? void 0 : this.dotsItems) != null && e.length && this.dotsItems.forEach(i => i.classList.remove("active")),
+        this.prev.classList.remove("disabled"),
+        this.next.classList.remove("disabled"),
+        this.inner.style.width = "",
+        this.slides.forEach(i => i.style.width = ""),
+        this.isSnap || (this.inner.style.transform = ""),
+        this.isAutoHeight && (this.inner.style.height = ""),
+        this.prev.removeEventListener("click", this.onPrevClickListener),
+        this.next.removeEventListener("click", this.onNextClickListener),
+        this.container.removeEventListener("scroll", this.onContainerScrollListener),
+        this.el.removeEventListener("touchstart", this.onElementTouchStartListener),
+        this.el.removeEventListener("touchend", this.onElementTouchEndListener),
+        this.inner.removeEventListener("mousedown", this.onInnerMouseDownListener),
+        this.inner.removeEventListener("touchstart", this.onInnerTouchStartListener),
+        document.removeEventListener("mousemove", this.onDocumentMouseMoveListener),
+        document.removeEventListener("touchmove", this.onDocumentTouchMoveListener),
+        document.removeEventListener("mouseup", this.onDocumentMouseUpListener),
+        document.removeEventListener("touchend", this.onDocumentTouchEndListener),
+        this.inner.querySelectorAll("a:not(.prevented-click)").forEach(i => {
+            i.classList.remove("prevented-click"),
+            i.removeEventListener("click", this.removeClickEventWhileDragging)
+        }
+        ),
+        ((t = this == null ? void 0 : this.dotsItems) != null && t.length || this.dots.querySelectorAll(":scope > *").length) && (((this == null ? void 0 : this.dotsItems) || this.dots.querySelectorAll(":scope > *")).forEach(n => n.removeEventListener("click", this.onDotClickListener)),
+        this.dots.innerHTML = null),
+        this.inner.querySelector(".hs-snap-before").remove(),
+        this.inner.querySelector(".hs-snap-after").remove(),
+        this.dotsItems = null,
+        this.isDragging = !1,
+        this.dragStartX = null,
+        this.initialTranslateX = null,
+        window.$hsCarouselCollection = window.$hsCarouselCollection.filter( ({element: i}) => i.el !== this.el)
     }
     static getInstance(e, t) {
         const i = window.$hsCarouselCollection.find(n => n.element.el === (typeof e == "string" ? document.querySelector(e) : e));
         return i ? t ? i : i.element : null
     }
     static autoInit() {
-        window.$hsCarouselCollection || (window.$hsCarouselCollection = []), window.$hsCarouselCollection && (window.$hsCarouselCollection = window.$hsCarouselCollection.filter(({
-            element: e
-        }) => document.contains(e.el))), document.querySelectorAll("[data-hs-carousel]:not(.--prevent-on-load-init)").forEach(e => {
+        window.$hsCarouselCollection || (window.$hsCarouselCollection = []),
+        window.$hsCarouselCollection && (window.$hsCarouselCollection = window.$hsCarouselCollection.filter( ({element: e}) => document.contains(e.el))),
+        document.querySelectorAll("[data-hs-carousel]:not(.--prevent-on-load-init)").forEach(e => {
             window.$hsCarouselCollection.find(t => {
                 var i;
                 return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
-            }) || new De(e)
-        })
+            }
+            ) || new De(e)
+        }
+        )
     }
 }
 window.addEventListener("load", () => {
     De.autoInit()
-});
+}
+);
 typeof window < "u" && (window.HSCarousel = De);
 /*
  * HSCollapse
@@ -716,59 +1014,100 @@ typeof window < "u" && (window.HSCarousel = De);
  */
 class ee extends I {
     constructor(e, t, i) {
-        super(e, t, i), this.contentId = this.el.dataset.hsCollapse, this.content = document.querySelector(this.contentId), this.animationInProcess = !1, this.content && this.init()
+        super(e, t, i),
+        this.contentId = this.el.dataset.hsCollapse,
+        this.content = document.querySelector(this.contentId),
+        this.animationInProcess = !1,
+        this.content && this.init()
     }
     elementClick() {
         this.content.classList.contains("open") ? this.hide() : this.show()
     }
     init() {
         var e;
-        this.createCollection(window.$hsCollapseCollection, this), this.onElementClickListener = () => this.elementClick(), (e = this == null ? void 0 : this.el) != null && e.ariaExpanded && (this.el.classList.contains("open") ? this.el.ariaExpanded = "true" : this.el.ariaExpanded = "false"), this.el.addEventListener("click", this.onElementClickListener)
+        this.createCollection(window.$hsCollapseCollection, this),
+        this.onElementClickListener = () => this.elementClick(),
+        (e = this == null ? void 0 : this.el) != null && e.ariaExpanded && (this.el.classList.contains("open") ? this.el.ariaExpanded = "true" : this.el.ariaExpanded = "false"),
+        this.el.addEventListener("click", this.onElementClickListener)
     }
     hideAllMegaMenuItems() {
         this.content.querySelectorAll(".hs-mega-menu-content.block").forEach(e => {
-            e.classList.remove("block"), e.classList.add("hidden")
-        })
+            e.classList.remove("block"),
+            e.classList.add("hidden")
+        }
+        )
     }
     show() {
         var e;
-        if (this.animationInProcess || this.el.classList.contains("open")) return !1;
-        this.animationInProcess = !0, this.el.classList.add("open"), (e = this == null ? void 0 : this.el) != null && e.ariaExpanded && (this.el.ariaExpanded = "true"), this.content.classList.add("open"), this.content.classList.remove("hidden"), this.content.style.height = "0", setTimeout(() => {
-            this.content.style.height = `${this.content.scrollHeight}px`, this.fireEvent("beforeOpen", this.el), g("beforeOpen.hs.collapse", this.el, this.el)
-        }), z(this.content, () => {
-            this.content.style.height = "", this.fireEvent("open", this.el), g("open.hs.collapse", this.el, this.el), this.animationInProcess = !1
-        })
+        if (this.animationInProcess || this.el.classList.contains("open"))
+            return !1;
+        this.animationInProcess = !0,
+        this.el.classList.add("open"),
+        (e = this == null ? void 0 : this.el) != null && e.ariaExpanded && (this.el.ariaExpanded = "true"),
+        this.content.classList.add("open"),
+        this.content.classList.remove("hidden"),
+        this.content.style.height = "0",
+        setTimeout( () => {
+            this.content.style.height = `${this.content.scrollHeight}px`,
+            this.fireEvent("beforeOpen", this.el),
+            g("beforeOpen.hs.collapse", this.el, this.el)
+        }
+        ),
+        z(this.content, () => {
+            this.content.style.height = "",
+            this.fireEvent("open", this.el),
+            g("open.hs.collapse", this.el, this.el),
+            this.animationInProcess = !1
+        }
+        )
     }
     hide() {
         var e;
-        if (this.animationInProcess || !this.el.classList.contains("open")) return !1;
-        this.animationInProcess = !0, this.el.classList.remove("open"), (e = this == null ? void 0 : this.el) != null && e.ariaExpanded && (this.el.ariaExpanded = "false"), this.content.style.height = `${this.content.scrollHeight}px`, setTimeout(() => {
+        if (this.animationInProcess || !this.el.classList.contains("open"))
+            return !1;
+        this.animationInProcess = !0,
+        this.el.classList.remove("open"),
+        (e = this == null ? void 0 : this.el) != null && e.ariaExpanded && (this.el.ariaExpanded = "false"),
+        this.content.style.height = `${this.content.scrollHeight}px`,
+        setTimeout( () => {
             this.content.style.height = "0"
-        }), this.content.classList.remove("open"), z(this.content, () => {
-            this.content.classList.add("hidden"), this.content.style.height = "", this.fireEvent("hide", this.el), g("hide.hs.collapse", this.el, this.el), this.animationInProcess = !1
-        }), this.content.querySelectorAll(".hs-mega-menu-content.block").length && this.hideAllMegaMenuItems()
+        }
+        ),
+        this.content.classList.remove("open"),
+        z(this.content, () => {
+            this.content.classList.add("hidden"),
+            this.content.style.height = "",
+            this.fireEvent("hide", this.el),
+            g("hide.hs.collapse", this.el, this.el),
+            this.animationInProcess = !1
+        }
+        ),
+        this.content.querySelectorAll(".hs-mega-menu-content.block").length && this.hideAllMegaMenuItems()
     }
     destroy() {
-        this.el.removeEventListener("click", this.onElementClickListener), this.content = null, this.animationInProcess = !1, window.$hsCollapseCollection = window.$hsCollapseCollection.filter(({
-            element: e
-        }) => e.el !== this.el)
+        this.el.removeEventListener("click", this.onElementClickListener),
+        this.content = null,
+        this.animationInProcess = !1,
+        window.$hsCollapseCollection = window.$hsCollapseCollection.filter( ({element: e}) => e.el !== this.el)
     }
     static findInCollection(e) {
         return window.$hsCollapseCollection.find(t => e instanceof ee ? t.element.el === e.el : typeof e == "string" ? t.element.el === document.querySelector(e) : t.element.el === e) || null
     }
-    static getInstance(e, t = !1) {
+    static getInstance(e, t=!1) {
         const i = window.$hsCollapseCollection.find(n => n.element.el === (typeof e == "string" ? document.querySelector(e) : e));
         return i ? t ? i : i.element.el : null
     }
     static autoInit() {
-        window.$hsCollapseCollection || (window.$hsCollapseCollection = []), window.$hsCollapseCollection && (window.$hsCollapseCollection = window.$hsCollapseCollection.filter(({
-            element: e
-        }) => document.contains(e.el))), document.querySelectorAll(".hs-collapse-toggle:not(.--prevent-on-load-init)").forEach(e => {
+        window.$hsCollapseCollection || (window.$hsCollapseCollection = []),
+        window.$hsCollapseCollection && (window.$hsCollapseCollection = window.$hsCollapseCollection.filter( ({element: e}) => document.contains(e.el))),
+        document.querySelectorAll(".hs-collapse-toggle:not(.--prevent-on-load-init)").forEach(e => {
             window.$hsCollapseCollection.find(t => {
                 var i;
                 return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
-            }) || new ee(e)
-        })
+            }
+            ) || new ee(e)
+        }
+        )
     }
     static show(e) {
         const t = ee.findInCollection(e);
@@ -785,7 +1124,8 @@ class ee extends I {
 }
 window.addEventListener("load", () => {
     ee.autoInit()
-});
+}
+);
 typeof window < "u" && (window.HSCollapse = ee);
 /*
  * HSComboBox
@@ -796,12 +1136,26 @@ typeof window < "u" && (window.HSCollapse = ee);
  */
 class X extends I {
     constructor(e, t, i) {
-        super(e, t, i), this.isSearchLengthExceeded = !1;
-        const n = e.getAttribute("data-hs-combo-box"),
-            o = { ...n ? JSON.parse(n) : {},
-                ...t
-            };
-        this.gap = 5, this.viewport = (typeof(o == null ? void 0 : o.viewport) == "string" ? document.querySelector(o == null ? void 0 : o.viewport) : o == null ? void 0 : o.viewport) ? ? null, this.preventVisibility = (o == null ? void 0 : o.preventVisibility) ? ? !1, this.minSearchLength = (o == null ? void 0 : o.minSearchLength) ? ? 0, this.apiUrl = (o == null ? void 0 : o.apiUrl) ? ? null, this.apiDataPart = (o == null ? void 0 : o.apiDataPart) ? ? null, this.apiQuery = (o == null ? void 0 : o.apiQuery) ? ? null, this.apiSearchQuery = (o == null ? void 0 : o.apiSearchQuery) ? ? null, this.apiSearchPath = (o == null ? void 0 : o.apiSearchPath) ? ? null, this.apiSearchDefaultPath = (o == null ? void 0 : o.apiSearchDefaultPath) ? ? null, this.apiHeaders = (o == null ? void 0 : o.apiHeaders) ? ? {}, this.apiGroupField = (o == null ? void 0 : o.apiGroupField) ? ? null, this.outputItemTemplate = (o == null ? void 0 : o.outputItemTemplate) ? ? `<div class="cursor-pointer py-2 px-4 w-full text-sm text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:text-neutral-200 dark:focus:bg-neutral-800" data-hs-combo-box-output-item>
+        super(e, t, i),
+        this.isSearchLengthExceeded = !1;
+        const n = e.getAttribute("data-hs-combo-box")
+          , o = {
+            ...n ? JSON.parse(n) : {},
+            ...t
+        };
+        this.gap = 5,
+        this.viewport = (typeof (o == null ? void 0 : o.viewport) == "string" ? document.querySelector(o == null ? void 0 : o.viewport) : o == null ? void 0 : o.viewport) ?? null,
+        this.preventVisibility = (o == null ? void 0 : o.preventVisibility) ?? !1,
+        this.minSearchLength = (o == null ? void 0 : o.minSearchLength) ?? 0,
+        this.apiUrl = (o == null ? void 0 : o.apiUrl) ?? null,
+        this.apiDataPart = (o == null ? void 0 : o.apiDataPart) ?? null,
+        this.apiQuery = (o == null ? void 0 : o.apiQuery) ?? null,
+        this.apiSearchQuery = (o == null ? void 0 : o.apiSearchQuery) ?? null,
+        this.apiSearchPath = (o == null ? void 0 : o.apiSearchPath) ?? null,
+        this.apiSearchDefaultPath = (o == null ? void 0 : o.apiSearchDefaultPath) ?? null,
+        this.apiHeaders = (o == null ? void 0 : o.apiHeaders) ?? {},
+        this.apiGroupField = (o == null ? void 0 : o.apiGroupField) ?? null,
+        this.outputItemTemplate = (o == null ? void 0 : o.outputItemTemplate) ?? `<div class="cursor-pointer py-2 px-4 w-full text-sm text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:text-neutral-200 dark:focus:bg-neutral-800" data-hs-combo-box-output-item>
 				<div class="flex justify-between items-center w-full">
 					<span data-hs-combo-box-search-text></span>
 					<span class="hidden hs-combo-box-selected:block">
@@ -810,18 +1164,45 @@ class X extends I {
 						</svg>
 					</span>
 				</div>
-			</div>`, this.outputEmptyTemplate = (o == null ? void 0 : o.outputEmptyTemplate) ? ? '<div class="py-2 px-4 w-full text-sm text-gray-800 rounded-lg dark:bg-neutral-900 dark:text-neutral-200">Nothing found...</div>', this.outputLoaderTemplate = (o == null ? void 0 : o.outputLoaderTemplate) ? ? `<div class="flex justify-center items-center py-2 px-4 text-sm text-gray-800 rounded-lg bg-white dark:bg-neutral-900 dark:text-neutral-200">
+			</div>`,
+        this.outputEmptyTemplate = (o == null ? void 0 : o.outputEmptyTemplate) ?? '<div class="py-2 px-4 w-full text-sm text-gray-800 rounded-lg dark:bg-neutral-900 dark:text-neutral-200">Nothing found...</div>',
+        this.outputLoaderTemplate = (o == null ? void 0 : o.outputLoaderTemplate) ?? `<div class="flex justify-center items-center py-2 px-4 text-sm text-gray-800 rounded-lg bg-white dark:bg-neutral-900 dark:text-neutral-200">
 				<div class="animate-spin inline-block size-6 border-[3px] border-current border-t-transparent text-blue-600 rounded-full dark:text-blue-500" role="status" aria-label="loading">
 					<span class="sr-only">Loading...</span>
 				</div>
-			</div>`, this.groupingType = (o == null ? void 0 : o.groupingType) ? ? null, this.groupingTitleTemplate = (o == null ? void 0 : o.groupingTitleTemplate) ? ? (this.groupingType === "default" ? '<div class="block mb-1 text-xs font-semibold uppercase text-blue-600 dark:text-blue-500"></div>' : '<button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold whitespace-nowrap rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"></button>'), this.tabsWrapperTemplate = (o == null ? void 0 : o.tabsWrapperTemplate) ? ? '<div class="overflow-x-auto p-4"></div>', this.preventSelection = (o == null ? void 0 : o.preventSelection) ? ? !1, this.preventAutoPosition = (o == null ? void 0 : o.preventAutoPosition) ? ? !1, this.isOpenOnFocus = (o == null ? void 0 : o.isOpenOnFocus) ? ? !1, this.input = this.el.querySelector("[data-hs-combo-box-input]") ? ? null, this.output = this.el.querySelector("[data-hs-combo-box-output]") ? ? null, this.itemsWrapper = this.el.querySelector("[data-hs-combo-box-output-items-wrapper]") ? ? null, this.items = Array.from(this.el.querySelectorAll("[data-hs-combo-box-output-item]")) ? ? [], this.tabs = [], this.toggle = this.el.querySelector("[data-hs-combo-box-toggle]") ? ? null, this.toggleClose = this.el.querySelector("[data-hs-combo-box-close]") ? ? null, this.toggleOpen = this.el.querySelector("[data-hs-combo-box-open]") ? ? null, this.outputPlaceholder = null, this.selected = this.value = this.el.querySelector("[data-hs-combo-box-input]").value ? ? "", this.currentData = null, this.isOpened = !1, this.isCurrent = !1, this.animationInProcess = !1, this.selectedGroup = "all", this.init()
+			</div>`,
+        this.groupingType = (o == null ? void 0 : o.groupingType) ?? null,
+        this.groupingTitleTemplate = (o == null ? void 0 : o.groupingTitleTemplate) ?? (this.groupingType === "default" ? '<div class="block mb-1 text-xs font-semibold uppercase text-blue-600 dark:text-blue-500"></div>' : '<button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold whitespace-nowrap rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"></button>'),
+        this.tabsWrapperTemplate = (o == null ? void 0 : o.tabsWrapperTemplate) ?? '<div class="overflow-x-auto p-4"></div>',
+        this.preventSelection = (o == null ? void 0 : o.preventSelection) ?? !1,
+        this.preventAutoPosition = (o == null ? void 0 : o.preventAutoPosition) ?? !1,
+        this.isOpenOnFocus = (o == null ? void 0 : o.isOpenOnFocus) ?? !1,
+        this.input = this.el.querySelector("[data-hs-combo-box-input]") ?? null,
+        this.output = this.el.querySelector("[data-hs-combo-box-output]") ?? null,
+        this.itemsWrapper = this.el.querySelector("[data-hs-combo-box-output-items-wrapper]") ?? null,
+        this.items = Array.from(this.el.querySelectorAll("[data-hs-combo-box-output-item]")) ?? [],
+        this.tabs = [],
+        this.toggle = this.el.querySelector("[data-hs-combo-box-toggle]") ?? null,
+        this.toggleClose = this.el.querySelector("[data-hs-combo-box-close]") ?? null,
+        this.toggleOpen = this.el.querySelector("[data-hs-combo-box-open]") ?? null,
+        this.outputPlaceholder = null,
+        this.selected = this.value = this.el.querySelector("[data-hs-combo-box-input]").value ?? "",
+        this.currentData = null,
+        this.isOpened = !1,
+        this.isCurrent = !1,
+        this.animationInProcess = !1,
+        this.selectedGroup = "all",
+        this.init()
     }
     inputFocus() {
-        this.isOpened || (this.setResultAndRender(), this.open())
+        this.isOpened || (this.setResultAndRender(),
+        this.open())
     }
     inputInput(e) {
         const t = e.target.value.trim();
-        t.length <= this.minSearchLength ? this.setResultAndRender("") : this.setResultAndRender(t), this.input.value !== "" ? this.el.classList.add("has-value") : this.el.classList.remove("has-value"), this.isOpened || this.open()
+        t.length <= this.minSearchLength ? this.setResultAndRender("") : this.setResultAndRender(t),
+        this.input.value !== "" ? this.el.classList.add("has-value") : this.el.classList.remove("has-value"),
+        this.isOpened || this.open()
     }
     toggleClick() {
         this.isOpened ? this.close() : this.open(this.toggle.getAttribute("data-hs-combo-box-toggle"))
@@ -833,43 +1214,62 @@ class X extends I {
         this.open()
     }
     init() {
-        this.createCollection(window.$hsComboBoxCollection, this), this.build()
+        this.createCollection(window.$hsComboBoxCollection, this),
+        this.build()
     }
     build() {
-        this.buildInput(), this.groupingType && this.setGroups(), this.buildItems(), this.preventVisibility && (this.preventAutoPosition || this.recalculateDirection()), this.toggle && this.buildToggle(), this.toggleClose && this.buildToggleClose(), this.toggleOpen && this.buildToggleOpen()
+        this.buildInput(),
+        this.groupingType && this.setGroups(),
+        this.buildItems(),
+        this.preventVisibility && (this.preventAutoPosition || this.recalculateDirection()),
+        this.toggle && this.buildToggle(),
+        this.toggleClose && this.buildToggleClose(),
+        this.toggleOpen && this.buildToggleOpen()
     }
     getNestedProperty(e, t) {
-        return t.split(".").reduce((i, n) => i && i[n], e)
+        return t.split(".").reduce( (i, n) => i && i[n], e)
     }
-    setValue(e, t = null) {
-        this.selected = e, this.value = e, this.input.value = e, t && (this.currentData = t), this.fireEvent("select", this.currentData), g("select.hs.combobox", this.el, this.currentData)
+    setValue(e, t=null) {
+        this.selected = e,
+        this.value = e,
+        this.input.value = e,
+        t && (this.currentData = t),
+        this.fireEvent("select", this.currentData),
+        g("select.hs.combobox", this.el, this.currentData)
     }
     setValueAndOpen(e) {
-        this.value = e, this.items.length && this.setItemsVisibility()
+        this.value = e,
+        this.items.length && this.setItemsVisibility()
     }
-    setValueAndClear(e, t = null) {
-        e ? this.setValue(e, t) : this.setValue(this.selected, t), this.outputPlaceholder && this.destroyOutputPlaceholder()
+    setValueAndClear(e, t=null) {
+        e ? this.setValue(e, t) : this.setValue(this.selected, t),
+        this.outputPlaceholder && this.destroyOutputPlaceholder()
     }
     setSelectedByValue(e) {
         this.items.forEach(t => {
             this.isTextExists(t, e) ? t.classList.add("selected") : t.classList.remove("selected")
-        })
+        }
+        )
     }
-    setResultAndRender(e = "") {
+    setResultAndRender(e="") {
         let t = this.preventVisibility ? this.input.value : e;
-        this.setResults(t), (this.apiSearchQuery || this.apiSearchPath || this.apiSearchDefaultPath) && this.itemsFromJson(), t === "" ? this.isSearchLengthExceeded = !0 : this.isSearchLengthExceeded = !1
+        this.setResults(t),
+        (this.apiSearchQuery || this.apiSearchPath || this.apiSearchDefaultPath) && this.itemsFromJson(),
+        t === "" ? this.isSearchLengthExceeded = !0 : this.isSearchLengthExceeded = !1
     }
     setResults(e) {
-        this.value = e, this.resultItems(), this.hasVisibleItems() ? this.destroyOutputPlaceholder() : this.buildOutputPlaceholder()
+        this.value = e,
+        this.resultItems(),
+        this.hasVisibleItems() ? this.destroyOutputPlaceholder() : this.buildOutputPlaceholder()
     }
     setGroups() {
         const e = [];
         this.items.forEach(t => {
-            const {
-                group: i
-            } = JSON.parse(t.getAttribute("data-hs-combo-box-output-item"));
+            const {group: i} = JSON.parse(t.getAttribute("data-hs-combo-box-output-item"));
             e.some(n => (n == null ? void 0 : n.name) === i.name) || e.push(i)
-        }), this.groups = e
+        }
+        ),
+        this.groups = e
     }
     setApiGroups(e) {
         const t = [];
@@ -879,31 +1279,37 @@ class X extends I {
                 name: n,
                 title: n
             })
-        }), this.groups = t
+        }
+        ),
+        this.groups = t
     }
     setItemsVisibility() {
         this.groupingType === "tabs" && this.selectedGroup !== "all" && this.items.forEach(t => {
             t.style.display = "none"
-        });
+        }
+        );
         const e = this.groupingType === "tabs" ? this.selectedGroup === "all" ? this.items : this.items.filter(t => {
-            const {
-                group: i
-            } = JSON.parse(t.getAttribute("data-hs-combo-box-output-item"));
+            const {group: i} = JSON.parse(t.getAttribute("data-hs-combo-box-output-item"));
             return i.name === this.selectedGroup
-        }) : this.items;
+        }
+        ) : this.items;
         this.groupingType === "tabs" && this.selectedGroup !== "all" && e.forEach(t => {
             t.style.display = "block"
-        }), e.forEach(t => {
+        }
+        ),
+        e.forEach(t => {
             this.isTextExistsAny(t, this.value) ? t.style.display = "block" : t.style.display = "none"
-        }), this.groupingType === "default" && this.output.querySelectorAll("[data-hs-combo-box-group-title]").forEach(t => {
+        }
+        ),
+        this.groupingType === "default" && this.output.querySelectorAll("[data-hs-combo-box-group-title]").forEach(t => {
             const i = t.getAttribute("data-hs-combo-box-group-title");
             this.items.filter(s => {
-                const {
-                    group: o
-                } = JSON.parse(s.getAttribute("data-hs-combo-box-output-item"));
+                const {group: o} = JSON.parse(s.getAttribute("data-hs-combo-box-output-item"));
                 return o.name === i && s.style.display === "block"
-            }).length ? t.style.display = "block" : t.style.display = "none"
-        })
+            }
+            ).length ? t.style.display = "block" : t.style.display = "none"
+        }
+        )
     }
     isTextExists(e, t) {
         const i = t.map(n => n.toLowerCase());
@@ -916,109 +1322,184 @@ class X extends I {
         return this.items.length ? this.items.some(e => e.style.display === "block") : !1
     }
     valuesBySelector(e) {
-        return Array.from(e.querySelectorAll("[data-hs-combo-box-search-text]")).reduce((t, i) => [...t, i.getAttribute("data-hs-combo-box-search-text")], [])
+        return Array.from(e.querySelectorAll("[data-hs-combo-box-search-text]")).reduce( (t, i) => [...t, i.getAttribute("data-hs-combo-box-search-text")], [])
     }
     sortItems() {
         const e = (t, i) => {
-            const n = t.querySelector("[data-hs-combo-box-value]").getAttribute("data-hs-combo-box-search-text"),
-                s = i.querySelector("[data-hs-combo-box-value]").getAttribute("data-hs-combo-box-search-text");
+            const n = t.querySelector("[data-hs-combo-box-value]").getAttribute("data-hs-combo-box-search-text")
+              , s = i.querySelector("[data-hs-combo-box-value]").getAttribute("data-hs-combo-box-search-text");
             return n < s ? -1 : n > s ? 1 : 0
-        };
+        }
+        ;
         return this.items.sort(e)
     }
     buildInput() {
-        this.isOpenOnFocus && (this.onInputFocusListener = () => this.inputFocus(), this.input.addEventListener("focus", this.onInputFocusListener)), this.onInputInputListener = ke(e => this.inputInput(e)), this.input.addEventListener("input", this.onInputInputListener)
+        this.isOpenOnFocus && (this.onInputFocusListener = () => this.inputFocus(),
+        this.input.addEventListener("focus", this.onInputFocusListener)),
+        this.onInputInputListener = ke(e => this.inputInput(e)),
+        this.input.addEventListener("input", this.onInputInputListener)
     }
     async buildItems() {
-        this.output.role = "listbox", this.output.tabIndex = -1, this.output.ariaOrientation = "vertical", this.apiUrl ? await this.itemsFromJson() : (this.itemsWrapper ? this.itemsWrapper.innerHTML = "" : this.output.innerHTML = "", this.itemsFromHtml()), this.items[0].classList.contains("selected") && (this.currentData = JSON.parse(this.items[0].getAttribute("data-hs-combo-box-item-stored-data")))
+        this.output.role = "listbox",
+        this.output.tabIndex = -1,
+        this.output.ariaOrientation = "vertical",
+        this.apiUrl ? await this.itemsFromJson() : (this.itemsWrapper ? this.itemsWrapper.innerHTML = "" : this.output.innerHTML = "",
+        this.itemsFromHtml()),
+        this.items[0].classList.contains("selected") && (this.currentData = JSON.parse(this.items[0].getAttribute("data-hs-combo-box-item-stored-data")))
     }
     buildOutputLoader() {
-        if (this.outputLoader) return !1;
-        this.outputLoader = y(this.outputLoaderTemplate), this.items.length || this.outputPlaceholder ? (this.outputLoader.style.position = "absolute", this.outputLoader.style.top = "0", this.outputLoader.style.bottom = "0", this.outputLoader.style.left = "0", this.outputLoader.style.right = "0", this.outputLoader.style.zIndex = "2") : (this.outputLoader.style.position = "", this.outputLoader.style.top = "", this.outputLoader.style.bottom = "", this.outputLoader.style.left = "", this.outputLoader.style.right = "", this.outputLoader.style.zIndex = "", this.outputLoader.style.height = "30px"), this.output.append(this.outputLoader)
+        if (this.outputLoader)
+            return !1;
+        this.outputLoader = y(this.outputLoaderTemplate),
+        this.items.length || this.outputPlaceholder ? (this.outputLoader.style.position = "absolute",
+        this.outputLoader.style.top = "0",
+        this.outputLoader.style.bottom = "0",
+        this.outputLoader.style.left = "0",
+        this.outputLoader.style.right = "0",
+        this.outputLoader.style.zIndex = "2") : (this.outputLoader.style.position = "",
+        this.outputLoader.style.top = "",
+        this.outputLoader.style.bottom = "",
+        this.outputLoader.style.left = "",
+        this.outputLoader.style.right = "",
+        this.outputLoader.style.zIndex = "",
+        this.outputLoader.style.height = "30px"),
+        this.output.append(this.outputLoader)
     }
     buildToggle() {
         var e, t, i, n;
-        this.isOpened ? ((e = this == null ? void 0 : this.toggle) != null && e.ariaExpanded && (this.toggle.ariaExpanded = "true"), (t = this == null ? void 0 : this.input) != null && t.ariaExpanded && (this.input.ariaExpanded = "true")) : ((i = this == null ? void 0 : this.toggle) != null && i.ariaExpanded && (this.toggle.ariaExpanded = "false"), (n = this == null ? void 0 : this.input) != null && n.ariaExpanded && (this.input.ariaExpanded = "false")), this.onToggleClickListener = () => this.toggleClick(), this.toggle.addEventListener("click", this.onToggleClickListener)
+        this.isOpened ? ((e = this == null ? void 0 : this.toggle) != null && e.ariaExpanded && (this.toggle.ariaExpanded = "true"),
+        (t = this == null ? void 0 : this.input) != null && t.ariaExpanded && (this.input.ariaExpanded = "true")) : ((i = this == null ? void 0 : this.toggle) != null && i.ariaExpanded && (this.toggle.ariaExpanded = "false"),
+        (n = this == null ? void 0 : this.input) != null && n.ariaExpanded && (this.input.ariaExpanded = "false")),
+        this.onToggleClickListener = () => this.toggleClick(),
+        this.toggle.addEventListener("click", this.onToggleClickListener)
     }
     buildToggleClose() {
-        this.onToggleCloseClickListener = () => this.toggleCloseClick(), this.toggleClose.addEventListener("click", this.onToggleCloseClickListener)
+        this.onToggleCloseClickListener = () => this.toggleCloseClick(),
+        this.toggleClose.addEventListener("click", this.onToggleCloseClickListener)
     }
     buildToggleOpen() {
-        this.onToggleOpenClickListener = () => this.toggleOpenClick(), this.toggleOpen.addEventListener("click", this.onToggleOpenClickListener)
+        this.onToggleOpenClickListener = () => this.toggleOpenClick(),
+        this.toggleOpen.addEventListener("click", this.onToggleOpenClickListener)
     }
     buildOutputPlaceholder() {
-        this.outputPlaceholder || (this.outputPlaceholder = y(this.outputEmptyTemplate)), this.appendItemsToWrapper(this.outputPlaceholder)
+        this.outputPlaceholder || (this.outputPlaceholder = y(this.outputEmptyTemplate)),
+        this.appendItemsToWrapper(this.outputPlaceholder)
     }
     destroyOutputLoader() {
-        this.outputLoader && this.outputLoader.remove(), this.outputLoader = null
+        this.outputLoader && this.outputLoader.remove(),
+        this.outputLoader = null
     }
     itemRender(e) {
-        const t = e.querySelector("[data-hs-combo-box-value]").getAttribute("data-hs-combo-box-search-text"),
-            i = JSON.parse(e.getAttribute("data-hs-combo-box-item-stored-data")) ? ? null;
-        this.itemsWrapper ? this.itemsWrapper.append(e) : this.output.append(e), this.preventSelection || e.addEventListener("click", () => {
-            this.close(t, i), this.setSelectedByValue(this.valuesBySelector(e))
-        })
+        const t = e.querySelector("[data-hs-combo-box-value]").getAttribute("data-hs-combo-box-search-text")
+          , i = JSON.parse(e.getAttribute("data-hs-combo-box-item-stored-data")) ?? null;
+        this.itemsWrapper ? this.itemsWrapper.append(e) : this.output.append(e),
+        this.preventSelection || e.addEventListener("click", () => {
+            this.close(t, i),
+            this.setSelectedByValue(this.valuesBySelector(e))
+        }
+        )
     }
     plainRender(e) {
         e.forEach(t => {
             this.itemRender(t)
-        })
+        }
+        )
     }
     jsonItemsRender(e) {
-        e.forEach((t, i) => {
+        e.forEach( (t, i) => {
             const n = y(this.outputItemTemplate);
-            n.setAttribute("data-hs-combo-box-item-stored-data", JSON.stringify(t)), n.querySelectorAll("[data-hs-combo-box-output-item-field]").forEach(s => {
-                const o = this.getNestedProperty(t, s.getAttribute("data-hs-combo-box-output-item-field")),
-                    r = s.hasAttribute("data-hs-combo-box-output-item-hide-if-empty");
-                s.textContent = o ? ? "", !o && r && (s.style.display = "none")
-            }), n.querySelectorAll("[data-hs-combo-box-search-text]").forEach(s => {
+            n.setAttribute("data-hs-combo-box-item-stored-data", JSON.stringify(t)),
+            n.querySelectorAll("[data-hs-combo-box-output-item-field]").forEach(s => {
+                const o = this.getNestedProperty(t, s.getAttribute("data-hs-combo-box-output-item-field"))
+                  , r = s.hasAttribute("data-hs-combo-box-output-item-hide-if-empty");
+                s.textContent = o ?? "",
+                !o && r && (s.style.display = "none")
+            }
+            ),
+            n.querySelectorAll("[data-hs-combo-box-search-text]").forEach(s => {
                 const o = this.getNestedProperty(t, s.getAttribute("data-hs-combo-box-output-item-field"));
-                s.setAttribute("data-hs-combo-box-search-text", o ? ? "")
-            }), n.querySelectorAll("[data-hs-combo-box-output-item-attr]").forEach(s => {
+                s.setAttribute("data-hs-combo-box-search-text", o ?? "")
+            }
+            ),
+            n.querySelectorAll("[data-hs-combo-box-output-item-attr]").forEach(s => {
                 JSON.parse(s.getAttribute("data-hs-combo-box-output-item-attr")).forEach(r => {
                     s.setAttribute(r.attr, t[r.valueFrom])
-                })
-            }), n.setAttribute("tabIndex", `${i}`), (this.groupingType === "tabs" || this.groupingType === "default") && n.setAttribute("data-hs-combo-box-output-item", `{"group": {"name": "${t[this.apiGroupField]}", "title": "${t[this.apiGroupField]}"}}`), this.items = [...this.items, n], this.preventSelection || n.addEventListener("click", () => {
-                this.close(n.querySelector("[data-hs-combo-box-value]").getAttribute("data-hs-combo-box-search-text"), JSON.parse(n.getAttribute("data-hs-combo-box-item-stored-data"))), this.setSelectedByValue(this.valuesBySelector(n))
-            }), this.appendItemsToWrapper(n)
-        })
+                }
+                )
+            }
+            ),
+            n.setAttribute("tabIndex", `${i}`),
+            (this.groupingType === "tabs" || this.groupingType === "default") && n.setAttribute("data-hs-combo-box-output-item", `{"group": {"name": "${t[this.apiGroupField]}", "title": "${t[this.apiGroupField]}"}}`),
+            this.items = [...this.items, n],
+            this.preventSelection || n.addEventListener("click", () => {
+                this.close(n.querySelector("[data-hs-combo-box-value]").getAttribute("data-hs-combo-box-search-text"), JSON.parse(n.getAttribute("data-hs-combo-box-item-stored-data"))),
+                this.setSelectedByValue(this.valuesBySelector(n))
+            }
+            ),
+            this.appendItemsToWrapper(n)
+        }
+        )
     }
     groupDefaultRender() {
         this.groups.forEach(e => {
             const t = y(this.groupingTitleTemplate);
-            t.setAttribute("data-hs-combo-box-group-title", e.name), t.classList.add("--exclude-accessibility"), t.innerText = e.title, this.itemsWrapper ? this.itemsWrapper.append(t) : this.output.append(t);
+            t.setAttribute("data-hs-combo-box-group-title", e.name),
+            t.classList.add("--exclude-accessibility"),
+            t.innerText = e.title,
+            this.itemsWrapper ? this.itemsWrapper.append(t) : this.output.append(t);
             const i = this.sortItems().filter(n => {
-                const {
-                    group: s
-                } = JSON.parse(n.getAttribute("data-hs-combo-box-output-item"));
+                const {group: s} = JSON.parse(n.getAttribute("data-hs-combo-box-output-item"));
                 return s.name === e.name
-            });
+            }
+            );
             this.plainRender(i)
-        })
+        }
+        )
     }
     groupTabsRender() {
-        const e = y(this.tabsWrapperTemplate),
-            t = y('<div class="flex flex-nowrap gap-x-2"></div>');
-        e.append(t), this.output.insertBefore(e, this.output.firstChild);
+        const e = y(this.tabsWrapperTemplate)
+          , t = y('<div class="flex flex-nowrap gap-x-2"></div>');
+        e.append(t),
+        this.output.insertBefore(e, this.output.firstChild);
         const i = y(this.groupingTitleTemplate);
-        i.setAttribute("data-hs-combo-box-group-title", "all"), i.classList.add("--exclude-accessibility", "active"), i.innerText = "All", this.tabs = [...this.tabs, i], t.append(i), i.addEventListener("click", () => {
+        i.setAttribute("data-hs-combo-box-group-title", "all"),
+        i.classList.add("--exclude-accessibility", "active"),
+        i.innerText = "All",
+        this.tabs = [...this.tabs, i],
+        t.append(i),
+        i.addEventListener("click", () => {
             this.selectedGroup = "all";
             const n = this.tabs.find(s => s.getAttribute("data-hs-combo-box-group-title") === this.selectedGroup);
-            this.tabs.forEach(s => s.classList.remove("active")), n.classList.add("active"), this.setItemsVisibility()
-        }), this.groups.forEach(n => {
+            this.tabs.forEach(s => s.classList.remove("active")),
+            n.classList.add("active"),
+            this.setItemsVisibility()
+        }
+        ),
+        this.groups.forEach(n => {
             const s = y(this.groupingTitleTemplate);
-            s.setAttribute("data-hs-combo-box-group-title", n.name), s.classList.add("--exclude-accessibility"), s.innerText = n.title, this.tabs = [...this.tabs, s], t.append(s), s.addEventListener("click", () => {
+            s.setAttribute("data-hs-combo-box-group-title", n.name),
+            s.classList.add("--exclude-accessibility"),
+            s.innerText = n.title,
+            this.tabs = [...this.tabs, s],
+            t.append(s),
+            s.addEventListener("click", () => {
                 this.selectedGroup = n.name;
                 const o = this.tabs.find(r => r.getAttribute("data-hs-combo-box-group-title") === this.selectedGroup);
-                this.tabs.forEach(r => r.classList.remove("active")), o.classList.add("active"), this.setItemsVisibility()
-            })
-        })
+                this.tabs.forEach(r => r.classList.remove("active")),
+                o.classList.add("active"),
+                this.setItemsVisibility()
+            }
+            )
+        }
+        )
     }
     itemsFromHtml() {
-        if (this.groupingType === "default") this.groupDefaultRender();
+        if (this.groupingType === "default")
+            this.groupDefaultRender();
         else if (this.groupingType === "tabs") {
             const e = this.sortItems();
-            this.groupTabsRender(), this.plainRender(e)
+            this.groupTabsRender(),
+            this.plainRender(e)
         } else {
             const e = this.sortItems();
             this.plainRender(e)
@@ -1026,21 +1507,36 @@ class X extends I {
         this.setResults(this.input.value)
     }
     async itemsFromJson() {
-        if (this.isSearchLengthExceeded) return !1;
+        if (this.isSearchLengthExceeded)
+            return !1;
         this.buildOutputLoader();
         try {
             const e = `${this.apiQuery}`;
             let t, i, n = this.apiUrl;
-            !this.apiSearchQuery && this.apiSearchPath ? (this.apiSearchDefaultPath && this.value === "" ? i = `/${this.apiSearchDefaultPath}` : i = `/${this.apiSearchPath}/${this.value.toLowerCase()}`, (this.apiSearchPath || this.apiSearchDefaultPath) && (n += i)) : (t = `${this.apiSearchQuery}=${this.value.toLowerCase()}`, this.apiQuery && this.apiSearchQuery ? n += `?${t}&${e}` : this.apiQuery ? n += `?${e}` : this.apiSearchQuery && (n += `?${t}`));
+            !this.apiSearchQuery && this.apiSearchPath ? (this.apiSearchDefaultPath && this.value === "" ? i = `/${this.apiSearchDefaultPath}` : i = `/${this.apiSearchPath}/${this.value.toLowerCase()}`,
+            (this.apiSearchPath || this.apiSearchDefaultPath) && (n += i)) : (t = `${this.apiSearchQuery}=${this.value.toLowerCase()}`,
+            this.apiQuery && this.apiSearchQuery ? n += `?${t}&${e}` : this.apiQuery ? n += `?${e}` : this.apiSearchQuery && (n += `?${t}`));
             let o = await (await fetch(n, this.apiHeaders)).json();
-            this.apiDataPart && (o = o[this.apiDataPart]), (this.apiSearchQuery || this.apiSearchPath) && (this.items = []), this.itemsWrapper ? this.itemsWrapper.innerHTML = "" : this.output.innerHTML = "", this.groupingType === "tabs" ? (this.setApiGroups(o), this.groupTabsRender(), this.jsonItemsRender(o)) : this.groupingType === "default" ? (this.setApiGroups(o), this.groups.forEach(r => {
+            this.apiDataPart && (o = o[this.apiDataPart]),
+            (this.apiSearchQuery || this.apiSearchPath) && (this.items = []),
+            this.itemsWrapper ? this.itemsWrapper.innerHTML = "" : this.output.innerHTML = "",
+            this.groupingType === "tabs" ? (this.setApiGroups(o),
+            this.groupTabsRender(),
+            this.jsonItemsRender(o)) : this.groupingType === "default" ? (this.setApiGroups(o),
+            this.groups.forEach(r => {
                 const a = y(this.groupingTitleTemplate);
-                a.setAttribute("data-hs-combo-box-group-title", r.name), a.classList.add("--exclude-accessibility"), a.innerText = r.title;
+                a.setAttribute("data-hs-combo-box-group-title", r.name),
+                a.classList.add("--exclude-accessibility"),
+                a.innerText = r.title;
                 const h = o.filter(c => c[this.apiGroupField] === r.name);
-                this.itemsWrapper ? this.itemsWrapper.append(a) : this.output.append(a), this.jsonItemsRender(h)
-            })) : this.jsonItemsRender(o), this.setResults(this.input.value.length <= this.minSearchLength ? "" : this.input.value)
+                this.itemsWrapper ? this.itemsWrapper.append(a) : this.output.append(a),
+                this.jsonItemsRender(h)
+            }
+            )) : this.jsonItemsRender(o),
+            this.setResults(this.input.value.length <= this.minSearchLength ? "" : this.input.value)
         } catch (e) {
-            console.error(e), this.buildOutputPlaceholder()
+            console.error(e),
+            this.buildOutputPlaceholder()
         }
         this.destroyOutputLoader()
     }
@@ -1048,246 +1544,329 @@ class X extends I {
         this.itemsWrapper ? this.itemsWrapper.append(e) : this.output.append(e)
     }
     resultItems() {
-        if (!this.items.length) return !1;
-        this.setItemsVisibility(), this.setSelectedByValue([this.selected])
+        if (!this.items.length)
+            return !1;
+        this.setItemsVisibility(),
+        this.setSelectedByValue([this.selected])
     }
     destroyOutputPlaceholder() {
-        this.outputPlaceholder && this.outputPlaceholder.remove(), this.outputPlaceholder = null
+        this.outputPlaceholder && this.outputPlaceholder.remove(),
+        this.outputPlaceholder = null
     }
     getCurrentData() {
         return this.currentData
     }
     setCurrent() {
-        window.$hsComboBoxCollection.length && (window.$hsComboBoxCollection.map(e => e.element.isCurrent = !1), this.isCurrent = !0)
+        window.$hsComboBoxCollection.length && (window.$hsComboBoxCollection.map(e => e.element.isCurrent = !1),
+        this.isCurrent = !0)
     }
     open(e) {
-        if (this.animationInProcess || (typeof e < "u" && this.setValueAndOpen(e), this.preventVisibility)) return !1;
-        this.animationInProcess = !0, this.output.style.display = "block", this.preventAutoPosition || this.recalculateDirection(), setTimeout(() => {
+        if (this.animationInProcess || (typeof e < "u" && this.setValueAndOpen(e),
+        this.preventVisibility))
+            return !1;
+        this.animationInProcess = !0,
+        this.output.style.display = "block",
+        this.preventAutoPosition || this.recalculateDirection(),
+        setTimeout( () => {
             var t, i;
-            (t = this == null ? void 0 : this.input) != null && t.ariaExpanded && (this.input.ariaExpanded = "true"), (i = this == null ? void 0 : this.toggle) != null && i.ariaExpanded && (this.toggle.ariaExpanded = "true"), this.el.classList.add("active"), this.animationInProcess = !1
-        }), this.isOpened = !0
+            (t = this == null ? void 0 : this.input) != null && t.ariaExpanded && (this.input.ariaExpanded = "true"),
+            (i = this == null ? void 0 : this.toggle) != null && i.ariaExpanded && (this.toggle.ariaExpanded = "true"),
+            this.el.classList.add("active"),
+            this.animationInProcess = !1
+        }
+        ),
+        this.isOpened = !0
     }
-    close(e, t = null) {
+    close(e, t=null) {
         var i, n;
-        if (this.animationInProcess) return !1;
-        if (this.preventVisibility) return this.setValueAndClear(e, t), this.input.value !== "" ? this.el.classList.add("has-value") : this.el.classList.remove("has-value"), !1;
-        this.animationInProcess = !0, (i = this == null ? void 0 : this.input) != null && i.ariaExpanded && (this.input.ariaExpanded = "false"), (n = this == null ? void 0 : this.toggle) != null && n.ariaExpanded && (this.toggle.ariaExpanded = "false"), this.el.classList.remove("active"), this.preventAutoPosition || (this.output.classList.remove("bottom-full", "top-full"), this.output.style.marginTop = "", this.output.style.marginBottom = ""), z(this.output, () => {
-            this.output.style.display = "none", this.setValueAndClear(e, t || null), this.animationInProcess = !1
-        }), this.input.value !== "" ? this.el.classList.add("has-value") : this.el.classList.remove("has-value"), this.isOpened = !1
+        if (this.animationInProcess)
+            return !1;
+        if (this.preventVisibility)
+            return this.setValueAndClear(e, t),
+            this.input.value !== "" ? this.el.classList.add("has-value") : this.el.classList.remove("has-value"),
+            !1;
+        this.animationInProcess = !0,
+        (i = this == null ? void 0 : this.input) != null && i.ariaExpanded && (this.input.ariaExpanded = "false"),
+        (n = this == null ? void 0 : this.toggle) != null && n.ariaExpanded && (this.toggle.ariaExpanded = "false"),
+        this.el.classList.remove("active"),
+        this.preventAutoPosition || (this.output.classList.remove("bottom-full", "top-full"),
+        this.output.style.marginTop = "",
+        this.output.style.marginBottom = ""),
+        z(this.output, () => {
+            this.output.style.display = "none",
+            this.setValueAndClear(e, t || null),
+            this.animationInProcess = !1
+        }
+        ),
+        this.input.value !== "" ? this.el.classList.add("has-value") : this.el.classList.remove("has-value"),
+        this.isOpened = !1
     }
     recalculateDirection() {
-        pt(this.output, this.input, "bottom", this.gap, this.viewport) ? (this.output.classList.remove("bottom-full"), this.output.style.marginBottom = "", this.output.classList.add("top-full"), this.output.style.marginTop = `${this.gap}px`) : (this.output.classList.remove("top-full"), this.output.style.marginTop = "", this.output.classList.add("bottom-full"), this.output.style.marginBottom = `${this.gap}px`)
+        pt(this.output, this.input, "bottom", this.gap, this.viewport) ? (this.output.classList.remove("bottom-full"),
+        this.output.style.marginBottom = "",
+        this.output.classList.add("top-full"),
+        this.output.style.marginTop = `${this.gap}px`) : (this.output.classList.remove("top-full"),
+        this.output.style.marginTop = "",
+        this.output.classList.add("bottom-full"),
+        this.output.style.marginBottom = `${this.gap}px`)
     }
     destroy() {
-        this.input.removeEventListener("focus", this.onInputFocusListener), this.input.removeEventListener("input", this.onInputInputListener), this.toggle.removeEventListener("click", this.onToggleClickListener), this.toggleClose && this.toggleClose.removeEventListener("click", this.onToggleCloseClickListener), this.toggleOpen && this.toggleOpen.removeEventListener("click", this.onToggleOpenClickListener), this.el.classList.remove("has-value", "active"), this.items.length && this.items.forEach(e => {
-            e.classList.remove("selected"), e.style.display = ""
-        }), this.output.removeAttribute("role"), this.output.removeAttribute("tabindex"), this.output.removeAttribute("aria-orientation"), this.outputLoader && (this.outputLoader.remove(), this.outputLoader = null), this.outputPlaceholder && (this.outputPlaceholder.remove(), this.outputPlaceholder = null), this.apiUrl && (this.output.innerHTML = ""), this.items = [], window.$hsComboBoxCollection = window.$hsComboBoxCollection.filter(({
-            element: e
-        }) => e.el !== this.el)
+        this.input.removeEventListener("focus", this.onInputFocusListener),
+        this.input.removeEventListener("input", this.onInputInputListener),
+        this.toggle.removeEventListener("click", this.onToggleClickListener),
+        this.toggleClose && this.toggleClose.removeEventListener("click", this.onToggleCloseClickListener),
+        this.toggleOpen && this.toggleOpen.removeEventListener("click", this.onToggleOpenClickListener),
+        this.el.classList.remove("has-value", "active"),
+        this.items.length && this.items.forEach(e => {
+            e.classList.remove("selected"),
+            e.style.display = ""
+        }
+        ),
+        this.output.removeAttribute("role"),
+        this.output.removeAttribute("tabindex"),
+        this.output.removeAttribute("aria-orientation"),
+        this.outputLoader && (this.outputLoader.remove(),
+        this.outputLoader = null),
+        this.outputPlaceholder && (this.outputPlaceholder.remove(),
+        this.outputPlaceholder = null),
+        this.apiUrl && (this.output.innerHTML = ""),
+        this.items = [],
+        window.$hsComboBoxCollection = window.$hsComboBoxCollection.filter( ({element: e}) => e.el !== this.el)
     }
     static getInstance(e, t) {
         const i = window.$hsComboBoxCollection.find(n => n.element.el === (typeof e == "string" ? document.querySelector(e) : e));
         return i ? t ? i : i.element : null
     }
     static autoInit() {
-        window.$hsComboBoxCollection || (window.$hsComboBoxCollection = [], window.addEventListener("click", e => {
+        window.$hsComboBoxCollection || (window.$hsComboBoxCollection = [],
+        window.addEventListener("click", e => {
             const t = e.target;
             X.closeCurrentlyOpened(t)
-        }), document.addEventListener("keydown", e => X.accessibility(e))), window.$hsComboBoxCollection && (window.$hsComboBoxCollection = window.$hsComboBoxCollection.filter(({
-            element: e
-        }) => document.contains(e.el))), document.querySelectorAll("[data-hs-combo-box]:not(.--prevent-on-load-init)").forEach(e => {
+        }
+        ),
+        document.addEventListener("keydown", e => X.accessibility(e))),
+        window.$hsComboBoxCollection && (window.$hsComboBoxCollection = window.$hsComboBoxCollection.filter( ({element: e}) => document.contains(e.el))),
+        document.querySelectorAll("[data-hs-combo-box]:not(.--prevent-on-load-init)").forEach(e => {
             if (!window.$hsComboBoxCollection.find(t => {
-                    var i;
-                    return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
-                })) {
-                const t = e.getAttribute("data-hs-combo-box"),
-                    i = t ? JSON.parse(t) : {};
-                new X(e, i)
+                var i;
+                return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
             }
-        })
+            )) {
+                const t = e.getAttribute("data-hs-combo-box")
+                  , i = t ? JSON.parse(t) : {};
+                new X(e,i)
+            }
+        }
+        )
     }
     static close(e) {
         const t = window.$hsComboBoxCollection.find(i => i.element.el === (typeof e == "string" ? document.querySelector(e) : e));
         t && t.element.isOpened && t.element.close()
     }
-    static closeCurrentlyOpened(e = null) {
+    static closeCurrentlyOpened(e=null) {
         if (!e.closest("[data-hs-combo-box].active")) {
             const t = window.$hsComboBoxCollection.filter(i => i.element.isOpened) || null;
             t && t.forEach(i => {
                 i.element.close()
-            })
+            }
+            )
         }
     }
-    static getPreparedItems(e = !1, t) {
+    static getPreparedItems(e=!1, t) {
         return t ? (e ? Array.from(t.querySelectorAll(":scope > *:not(.--exclude-accessibility)")).filter(s => s.style.display !== "none").reverse() : Array.from(t.querySelectorAll(":scope > *:not(.--exclude-accessibility)")).filter(s => s.style.display !== "none")).filter(s => !s.classList.contains("disabled")) : null
     }
     static setHighlighted(e, t, i) {
-        t.focus(), i.value = t.querySelector("[data-hs-combo-box-value]").getAttribute("data-hs-combo-box-search-text"), e && e.classList.remove("hs-combo-box-output-item-highlighted"), t.classList.add("hs-combo-box-output-item-highlighted")
+        t.focus(),
+        i.value = t.querySelector("[data-hs-combo-box-value]").getAttribute("data-hs-combo-box-search-text"),
+        e && e.classList.remove("hs-combo-box-output-item-highlighted"),
+        t.classList.add("hs-combo-box-output-item-highlighted")
     }
     static accessibility(e) {
-        if (window.$hsComboBoxCollection.find(i => i.element.preventVisibility ? i.element.isCurrent : i.element.isOpened) && fi.includes(e.code) && !e.metaKey) switch (e.code) {
+        if (window.$hsComboBoxCollection.find(i => i.element.preventVisibility ? i.element.isCurrent : i.element.isOpened) && fi.includes(e.code) && !e.metaKey)
+            switch (e.code) {
             case "Escape":
-                e.preventDefault(), this.onEscape();
+                e.preventDefault(),
+                this.onEscape();
                 break;
             case "ArrowUp":
-                e.preventDefault(), e.stopImmediatePropagation(), this.onArrow();
+                e.preventDefault(),
+                e.stopImmediatePropagation(),
+                this.onArrow();
                 break;
             case "ArrowDown":
-                e.preventDefault(), e.stopImmediatePropagation(), this.onArrow(!1);
+                e.preventDefault(),
+                e.stopImmediatePropagation(),
+                this.onArrow(!1);
                 break;
             case "Home":
-                e.preventDefault(), e.stopImmediatePropagation(), this.onStartEnd();
+                e.preventDefault(),
+                e.stopImmediatePropagation(),
+                this.onStartEnd();
                 break;
             case "End":
-                e.preventDefault(), e.stopImmediatePropagation(), this.onStartEnd(!1);
+                e.preventDefault(),
+                e.stopImmediatePropagation(),
+                this.onStartEnd(!1);
                 break;
             case "Enter":
-                e.preventDefault(), this.onEnter(e);
+                e.preventDefault(),
+                this.onEnter(e);
                 break
-        }
+            }
     }
     static onEscape() {
         const e = window.$hsComboBoxCollection.find(t => !t.element.preventVisibility && t.element.isOpened);
-        e && (e.element.close(), e.element.input.blur())
+        e && (e.element.close(),
+        e.element.input.blur())
     }
-    static onArrow(e = !0) {
+    static onArrow(e=!0) {
         const t = window.$hsComboBoxCollection.find(i => i.element.preventVisibility ? i.element.isCurrent : i.element.isOpened);
         if (t) {
-            const i = t.element.itemsWrapper ? ? t.element.output;
-            if (!i) return !1;
-            const n = X.getPreparedItems(e, i),
-                s = i.querySelector(".hs-combo-box-output-item-highlighted");
+            const i = t.element.itemsWrapper ?? t.element.output;
+            if (!i)
+                return !1;
+            const n = X.getPreparedItems(e, i)
+              , s = i.querySelector(".hs-combo-box-output-item-highlighted");
             let o = null;
             s || n[0].classList.add("hs-combo-box-output-item-highlighted");
             let r = n.findIndex(a => a === s);
-            r + 1 < n.length && r++, o = n[r], X.setHighlighted(s, o, t.element.input)
+            r + 1 < n.length && r++,
+            o = n[r],
+            X.setHighlighted(s, o, t.element.input)
         }
     }
-    static onStartEnd(e = !0) {
+    static onStartEnd(e=!0) {
         const t = window.$hsComboBoxCollection.find(i => i.element.preventVisibility ? i.element.isCurrent : i.element.isOpened);
         if (t) {
-            const i = t.element.itemsWrapper ? ? t.element.output;
-            if (!i) return !1;
-            const n = X.getPreparedItems(e, i),
-                s = i.querySelector(".hs-combo-box-output-item-highlighted");
+            const i = t.element.itemsWrapper ?? t.element.output;
+            if (!i)
+                return !1;
+            const n = X.getPreparedItems(e, i)
+              , s = i.querySelector(".hs-combo-box-output-item-highlighted");
             n.length && X.setHighlighted(s, n[0], t.element.input)
         }
     }
     static onEnter(e) {
-        const t = e.target,
-            i = window.$hsComboBoxCollection.find(s => !ft(s.element.el) && e.target.closest("[data-hs-combo-box]") === s.element.el),
-            n = i.element.el.querySelector(".hs-combo-box-output-item-highlighted a");
-        t.hasAttribute("data-hs-combo-box-input") ? (i.element.close(), t.blur()) : (i.element.preventSelection || i.element.setSelectedByValue(i.element.valuesBySelector(e.target)), i.element.preventSelection && n && window.location.assign(n.getAttribute("href")), i.element.close(i.element.preventSelection ? null : e.target.querySelector("[data-hs-combo-box-value]").getAttribute("data-hs-combo-box-search-text"), JSON.parse(e.target.getAttribute("data-hs-combo-box-item-stored-data")) ? ? null))
+        const t = e.target
+          , i = window.$hsComboBoxCollection.find(s => !ft(s.element.el) && e.target.closest("[data-hs-combo-box]") === s.element.el)
+          , n = i.element.el.querySelector(".hs-combo-box-output-item-highlighted a");
+        t.hasAttribute("data-hs-combo-box-input") ? (i.element.close(),
+        t.blur()) : (i.element.preventSelection || i.element.setSelectedByValue(i.element.valuesBySelector(e.target)),
+        i.element.preventSelection && n && window.location.assign(n.getAttribute("href")),
+        i.element.close(i.element.preventSelection ? null : e.target.querySelector("[data-hs-combo-box-value]").getAttribute("data-hs-combo-box-search-text"), JSON.parse(e.target.getAttribute("data-hs-combo-box-item-stored-data")) ?? null))
     }
 }
 window.addEventListener("load", () => {
     X.autoInit()
-});
+}
+);
 document.addEventListener("scroll", () => {
-    if (!window.$hsComboBoxCollection) return !1;
+    if (!window.$hsComboBoxCollection)
+        return !1;
     const l = window.$hsComboBoxCollection.find(e => e.element.isOpened);
     l && !l.element.preventAutoPosition && l.element.recalculateDirection()
-});
+}
+);
 typeof window < "u" && (window.HSComboBox = X);
-var O = "top",
-    U = "bottom",
-    j = "right",
-    N = "left",
-    mt = "auto",
-    qe = [O, U, j, N],
-    me = "start",
-    Te = "end",
-    mi = "clippingParents",
-    Qt = "viewport",
-    Ie = "popper",
-    gi = "reference",
-    qt = qe.reduce(function(l, e) {
-        return l.concat([e + "-" + me, e + "-" + Te])
-    }, []),
-    Jt = [].concat(qe, [mt]).reduce(function(l, e) {
-        return l.concat([e, e + "-" + me, e + "-" + Te])
-    }, []),
-    wi = "beforeRead",
-    vi = "read",
-    yi = "afterRead",
-    bi = "beforeMain",
-    Ci = "main",
-    Si = "afterMain",
-    Li = "beforeWrite",
-    Ii = "write",
-    xi = "afterWrite",
-    Ei = [wi, vi, yi, bi, Ci, Si, Li, Ii, xi];
-
+var O = "top"
+  , U = "bottom"
+  , j = "right"
+  , N = "left"
+  , mt = "auto"
+  , qe = [O, U, j, N]
+  , me = "start"
+  , Te = "end"
+  , mi = "clippingParents"
+  , Qt = "viewport"
+  , Ie = "popper"
+  , gi = "reference"
+  , qt = qe.reduce(function(l, e) {
+    return l.concat([e + "-" + me, e + "-" + Te])
+}, [])
+  , Jt = [].concat(qe, [mt]).reduce(function(l, e) {
+    return l.concat([e, e + "-" + me, e + "-" + Te])
+}, [])
+  , wi = "beforeRead"
+  , vi = "read"
+  , yi = "afterRead"
+  , bi = "beforeMain"
+  , Ci = "main"
+  , Si = "afterMain"
+  , Li = "beforeWrite"
+  , Ii = "write"
+  , xi = "afterWrite"
+  , Ei = [wi, vi, yi, bi, Ci, Si, Li, Ii, xi];
 function G(l) {
     return l ? (l.nodeName || "").toLowerCase() : null
 }
-
 function V(l) {
-    if (l == null) return window;
+    if (l == null)
+        return window;
     if (l.toString() !== "[object Window]") {
         var e = l.ownerDocument;
         return e && e.defaultView || window
     }
     return l
 }
-
 function ue(l) {
     var e = V(l).Element;
     return l instanceof e || l instanceof Element
 }
-
 function W(l) {
     var e = V(l).HTMLElement;
     return l instanceof e || l instanceof HTMLElement
 }
-
 function gt(l) {
-    if (typeof ShadowRoot > "u") return !1;
+    if (typeof ShadowRoot > "u")
+        return !1;
     var e = V(l).ShadowRoot;
     return l instanceof e || l instanceof ShadowRoot
 }
-
 function ki(l) {
     var e = l.state;
     Object.keys(e.elements).forEach(function(t) {
-        var i = e.styles[t] || {},
-            n = e.attributes[t] || {},
-            s = e.elements[t];
-        !W(s) || !G(s) || (Object.assign(s.style, i), Object.keys(n).forEach(function(o) {
+        var i = e.styles[t] || {}
+          , n = e.attributes[t] || {}
+          , s = e.elements[t];
+        !W(s) || !G(s) || (Object.assign(s.style, i),
+        Object.keys(n).forEach(function(o) {
             var r = n[o];
             r === !1 ? s.removeAttribute(o) : s.setAttribute(o, r === !0 ? "" : r)
         }))
     })
 }
-
 function Ti(l) {
-    var e = l.state,
-        t = {
-            popper: {
-                position: e.options.strategy,
-                left: "0",
-                top: "0",
-                margin: "0"
-            },
-            arrow: {
-                position: "absolute"
-            },
-            reference: {}
-        };
-    return Object.assign(e.elements.popper.style, t.popper), e.styles = t, e.elements.arrow && Object.assign(e.elements.arrow.style, t.arrow),
-        function() {
-            Object.keys(e.elements).forEach(function(i) {
-                var n = e.elements[i],
-                    s = e.attributes[i] || {},
-                    o = Object.keys(e.styles.hasOwnProperty(i) ? e.styles[i] : t[i]),
-                    r = o.reduce(function(a, h) {
-                        return a[h] = "", a
-                    }, {});
-                !W(n) || !G(n) || (Object.assign(n.style, r), Object.keys(s).forEach(function(a) {
-                    n.removeAttribute(a)
-                }))
-            })
-        }
+    var e = l.state
+      , t = {
+        popper: {
+            position: e.options.strategy,
+            left: "0",
+            top: "0",
+            margin: "0"
+        },
+        arrow: {
+            position: "absolute"
+        },
+        reference: {}
+    };
+    return Object.assign(e.elements.popper.style, t.popper),
+    e.styles = t,
+    e.elements.arrow && Object.assign(e.elements.arrow.style, t.arrow),
+    function() {
+        Object.keys(e.elements).forEach(function(i) {
+            var n = e.elements[i]
+              , s = e.attributes[i] || {}
+              , o = Object.keys(e.styles.hasOwnProperty(i) ? e.styles[i] : t[i])
+              , r = o.reduce(function(a, h) {
+                return a[h] = "",
+                a
+            }, {});
+            !W(n) || !G(n) || (Object.assign(n.style, r),
+            Object.keys(s).forEach(function(a) {
+                n.removeAttribute(a)
+            }))
+        })
+    }
 }
 const Ai = {
     name: "applyStyles",
@@ -1297,38 +1876,36 @@ const Ai = {
     effect: Ti,
     requires: ["computeStyles"]
 };
-
 function Z(l) {
     return l.split("-")[0]
 }
-var de = Math.max,
-    it = Math.min,
-    ge = Math.round;
-
+var de = Math.max
+  , it = Math.min
+  , ge = Math.round;
 function ct() {
     var l = navigator.userAgentData;
     return l != null && l.brands && Array.isArray(l.brands) ? l.brands.map(function(e) {
         return e.brand + "/" + e.version
     }).join(" ") : navigator.userAgent
 }
-
 function Xt() {
     return !/^((?!chrome|android).)*safari/i.test(ct())
 }
-
 function we(l, e, t) {
-    e === void 0 && (e = !1), t === void 0 && (t = !1);
-    var i = l.getBoundingClientRect(),
-        n = 1,
-        s = 1;
-    e && W(l) && (n = l.offsetWidth > 0 && ge(i.width) / l.offsetWidth || 1, s = l.offsetHeight > 0 && ge(i.height) / l.offsetHeight || 1);
-    var o = ue(l) ? V(l) : window,
-        r = o.visualViewport,
-        a = !Xt() && t,
-        h = (i.left + (a && r ? r.offsetLeft : 0)) / n,
-        c = (i.top + (a && r ? r.offsetTop : 0)) / s,
-        d = i.width / n,
-        u = i.height / s;
+    e === void 0 && (e = !1),
+    t === void 0 && (t = !1);
+    var i = l.getBoundingClientRect()
+      , n = 1
+      , s = 1;
+    e && W(l) && (n = l.offsetWidth > 0 && ge(i.width) / l.offsetWidth || 1,
+    s = l.offsetHeight > 0 && ge(i.height) / l.offsetHeight || 1);
+    var o = ue(l) ? V(l) : window
+      , r = o.visualViewport
+      , a = !Xt() && t
+      , h = (i.left + (a && r ? r.offsetLeft : 0)) / n
+      , c = (i.top + (a && r ? r.offsetTop : 0)) / s
+      , d = i.width / n
+      , u = i.height / s;
     return {
         width: d,
         height: u,
@@ -1340,86 +1917,80 @@ function we(l, e, t) {
         y: c
     }
 }
-
 function wt(l) {
-    var e = we(l),
-        t = l.offsetWidth,
-        i = l.offsetHeight;
-    return Math.abs(e.width - t) <= 1 && (t = e.width), Math.abs(e.height - i) <= 1 && (i = e.height), {
+    var e = we(l)
+      , t = l.offsetWidth
+      , i = l.offsetHeight;
+    return Math.abs(e.width - t) <= 1 && (t = e.width),
+    Math.abs(e.height - i) <= 1 && (i = e.height),
+    {
         x: l.offsetLeft,
         y: l.offsetTop,
         width: t,
         height: i
     }
 }
-
 function Kt(l, e) {
     var t = e.getRootNode && e.getRootNode();
-    if (l.contains(e)) return !0;
+    if (l.contains(e))
+        return !0;
     if (t && gt(t)) {
         var i = e;
         do {
-            if (i && l.isSameNode(i)) return !0;
+            if (i && l.isSameNode(i))
+                return !0;
             i = i.parentNode || i.host
         } while (i)
     }
     return !1
 }
-
 function ie(l) {
     return V(l).getComputedStyle(l)
 }
-
 function $i(l) {
     return ["table", "td", "th"].indexOf(G(l)) >= 0
 }
-
 function ne(l) {
     return ((ue(l) ? l.ownerDocument : l.document) || window.document).documentElement
 }
-
 function st(l) {
     return G(l) === "html" ? l : l.assignedSlot || l.parentNode || (gt(l) ? l.host : null) || ne(l)
 }
-
 function Mt(l) {
     return !W(l) || ie(l).position === "fixed" ? null : l.offsetParent
 }
-
 function Pi(l) {
-    var e = /firefox/i.test(ct()),
-        t = /Trident/i.test(ct());
+    var e = /firefox/i.test(ct())
+      , t = /Trident/i.test(ct());
     if (t && W(l)) {
         var i = ie(l);
-        if (i.position === "fixed") return null
+        if (i.position === "fixed")
+            return null
     }
     var n = st(l);
-    for (gt(n) && (n = n.host); W(n) && ["html", "body"].indexOf(G(n)) < 0;) {
+    for (gt(n) && (n = n.host); W(n) && ["html", "body"].indexOf(G(n)) < 0; ) {
         var s = ie(n);
-        if (s.transform !== "none" || s.perspective !== "none" || s.contain === "paint" || ["transform", "perspective"].indexOf(s.willChange) !== -1 || e && s.willChange === "filter" || e && s.filter && s.filter !== "none") return n;
+        if (s.transform !== "none" || s.perspective !== "none" || s.contain === "paint" || ["transform", "perspective"].indexOf(s.willChange) !== -1 || e && s.willChange === "filter" || e && s.filter && s.filter !== "none")
+            return n;
         n = n.parentNode
     }
     return null
 }
-
 function Me(l) {
-    for (var e = V(l), t = Mt(l); t && $i(t) && ie(t).position === "static";) t = Mt(t);
+    for (var e = V(l), t = Mt(l); t && $i(t) && ie(t).position === "static"; )
+        t = Mt(t);
     return t && (G(t) === "html" || G(t) === "body" && ie(t).position === "static") ? e : t || Pi(l) || e
 }
-
 function vt(l) {
     return ["top", "bottom"].indexOf(l) >= 0 ? "x" : "y"
 }
-
 function xe(l, e, t) {
     return de(l, it(e, t))
 }
-
 function Bi(l, e, t) {
     var i = xe(l, e, t);
     return i > t ? t : i
 }
-
 function Zt() {
     return {
         top: 0,
@@ -1428,57 +1999,51 @@ function Zt() {
         left: 0
     }
 }
-
 function Gt(l) {
     return Object.assign({}, Zt(), l)
 }
-
 function Yt(l, e) {
     return e.reduce(function(t, i) {
-        return t[i] = l, t
+        return t[i] = l,
+        t
     }, {})
 }
 var Di = function(e, t) {
     return e = typeof e == "function" ? e(Object.assign({}, t.rects, {
         placement: t.placement
-    })) : e, Gt(typeof e != "number" ? e : Yt(e, qe))
+    })) : e,
+    Gt(typeof e != "number" ? e : Yt(e, qe))
 };
-
 function qi(l) {
-    var e, t = l.state,
-        i = l.name,
-        n = l.options,
-        s = t.elements.arrow,
-        o = t.modifiersData.popperOffsets,
-        r = Z(t.placement),
-        a = vt(r),
-        h = [N, j].indexOf(r) >= 0,
-        c = h ? "height" : "width";
+    var e, t = l.state, i = l.name, n = l.options, s = t.elements.arrow, o = t.modifiersData.popperOffsets, r = Z(t.placement), a = vt(r), h = [N, j].indexOf(r) >= 0, c = h ? "height" : "width";
     if (!(!s || !o)) {
-        var d = Di(n.padding, t),
-            u = wt(s),
-            p = a === "y" ? O : N,
-            w = a === "y" ? U : j,
-            v = t.rects.reference[c] + t.rects.reference[a] - o[a] - t.rects.popper[c],
-            m = o[a] - t.rects.reference[a],
-            b = Me(s),
-            x = b ? a === "y" ? b.clientHeight || 0 : b.clientWidth || 0 : 0,
-            E = v / 2 - m / 2,
-            f = d[p],
-            C = x - u[c] - d[w],
-            S = x / 2 - u[c] / 2 + E,
-            k = xe(f, S, C),
-            P = a;
-        t.modifiersData[i] = (e = {}, e[P] = k, e.centerOffset = k - S, e)
+        var d = Di(n.padding, t)
+          , u = wt(s)
+          , p = a === "y" ? O : N
+          , w = a === "y" ? U : j
+          , v = t.rects.reference[c] + t.rects.reference[a] - o[a] - t.rects.popper[c]
+          , m = o[a] - t.rects.reference[a]
+          , b = Me(s)
+          , x = b ? a === "y" ? b.clientHeight || 0 : b.clientWidth || 0 : 0
+          , E = v / 2 - m / 2
+          , f = d[p]
+          , C = x - u[c] - d[w]
+          , S = x / 2 - u[c] / 2 + E
+          , k = xe(f, S, C)
+          , P = a;
+        t.modifiersData[i] = (e = {},
+        e[P] = k,
+        e.centerOffset = k - S,
+        e)
     }
 }
-
 function Mi(l) {
-    var e = l.state,
-        t = l.options,
-        i = t.element,
-        n = i === void 0 ? "[data-popper-arrow]" : i;
-    n != null && (typeof n == "string" && (n = e.elements.popper.querySelector(n), !n) || Kt(e.elements.popper, n) && (e.elements.arrow = n))
+    var e = l.state
+      , t = l.options
+      , i = t.element
+      , n = i === void 0 ? "[data-popper-arrow]" : i;
+    n != null && (typeof n == "string" && (n = e.elements.popper.querySelector(n),
+    !n) || Kt(e.elements.popper, n) && (e.elements.arrow = n))
 }
 const Oi = {
     name: "arrow",
@@ -1489,7 +2054,6 @@ const Oi = {
     requires: ["popperOffsets"],
     requiresIfExists: ["preventOverflow"]
 };
-
 function ve(l) {
     return l.split("-")[1]
 }
@@ -1499,105 +2063,107 @@ var Ni = {
     bottom: "auto",
     left: "auto"
 };
-
 function Fi(l, e) {
-    var t = l.x,
-        i = l.y,
-        n = e.devicePixelRatio || 1;
+    var t = l.x
+      , i = l.y
+      , n = e.devicePixelRatio || 1;
     return {
         x: ge(t * n) / n || 0,
         y: ge(i * n) / n || 0
     }
 }
-
 function Ot(l) {
-    var e, t = l.popper,
-        i = l.popperRect,
-        n = l.placement,
-        s = l.variation,
-        o = l.offsets,
-        r = l.position,
-        a = l.gpuAcceleration,
-        h = l.adaptive,
-        c = l.roundOffsets,
-        d = l.isFixed,
-        u = o.x,
-        p = u === void 0 ? 0 : u,
-        w = o.y,
-        v = w === void 0 ? 0 : w,
-        m = typeof c == "function" ? c({
-            x: p,
-            y: v
-        }) : {
-            x: p,
-            y: v
-        };
-    p = m.x, v = m.y;
-    var b = o.hasOwnProperty("x"),
-        x = o.hasOwnProperty("y"),
-        E = N,
-        f = O,
-        C = window;
+    var e, t = l.popper, i = l.popperRect, n = l.placement, s = l.variation, o = l.offsets, r = l.position, a = l.gpuAcceleration, h = l.adaptive, c = l.roundOffsets, d = l.isFixed, u = o.x, p = u === void 0 ? 0 : u, w = o.y, v = w === void 0 ? 0 : w, m = typeof c == "function" ? c({
+        x: p,
+        y: v
+    }) : {
+        x: p,
+        y: v
+    };
+    p = m.x,
+    v = m.y;
+    var b = o.hasOwnProperty("x")
+      , x = o.hasOwnProperty("y")
+      , E = N
+      , f = O
+      , C = window;
     if (h) {
-        var S = Me(t),
-            k = "clientHeight",
-            P = "clientWidth";
-        if (S === V(t) && (S = ne(t), ie(S).position !== "static" && r === "absolute" && (k = "scrollHeight", P = "scrollWidth")), S = S, n === O || (n === N || n === j) && s === Te) {
+        var S = Me(t)
+          , k = "clientHeight"
+          , P = "clientWidth";
+        if (S === V(t) && (S = ne(t),
+        ie(S).position !== "static" && r === "absolute" && (k = "scrollHeight",
+        P = "scrollWidth")),
+        S = S,
+        n === O || (n === N || n === j) && s === Te) {
             f = U;
             var $ = d && S === C && C.visualViewport ? C.visualViewport.height : S[k];
-            v -= $ - i.height, v *= a ? 1 : -1
+            v -= $ - i.height,
+            v *= a ? 1 : -1
         }
         if (n === N || (n === O || n === U) && s === Te) {
             E = j;
             var T = d && S === C && C.visualViewport ? C.visualViewport.width : S[P];
-            p -= T - i.width, p *= a ? 1 : -1
+            p -= T - i.width,
+            p *= a ? 1 : -1
         }
     }
     var B = Object.assign({
-            position: r
-        }, h && Ni),
-        Q = c === !0 ? Fi({
-            x: p,
-            y: v
-        }, V(t)) : {
-            x: p,
-            y: v
-        };
-    if (p = Q.x, v = Q.y, a) {
+        position: r
+    }, h && Ni)
+      , Q = c === !0 ? Fi({
+        x: p,
+        y: v
+    }, V(t)) : {
+        x: p,
+        y: v
+    };
+    if (p = Q.x,
+    v = Q.y,
+    a) {
         var q;
-        return Object.assign({}, B, (q = {}, q[f] = x ? "0" : "", q[E] = b ? "0" : "", q.transform = (C.devicePixelRatio || 1) <= 1 ? "translate(" + p + "px, " + v + "px)" : "translate3d(" + p + "px, " + v + "px, 0)", q))
+        return Object.assign({}, B, (q = {},
+        q[f] = x ? "0" : "",
+        q[E] = b ? "0" : "",
+        q.transform = (C.devicePixelRatio || 1) <= 1 ? "translate(" + p + "px, " + v + "px)" : "translate3d(" + p + "px, " + v + "px, 0)",
+        q))
     }
-    return Object.assign({}, B, (e = {}, e[f] = x ? v + "px" : "", e[E] = b ? p + "px" : "", e.transform = "", e))
+    return Object.assign({}, B, (e = {},
+    e[f] = x ? v + "px" : "",
+    e[E] = b ? p + "px" : "",
+    e.transform = "",
+    e))
 }
-
 function Ri(l) {
-    var e = l.state,
-        t = l.options,
-        i = t.gpuAcceleration,
-        n = i === void 0 ? !0 : i,
-        s = t.adaptive,
-        o = s === void 0 ? !0 : s,
-        r = t.roundOffsets,
-        a = r === void 0 ? !0 : r,
-        h = {
-            placement: Z(e.placement),
-            variation: ve(e.placement),
-            popper: e.elements.popper,
-            popperRect: e.rects.popper,
-            gpuAcceleration: n,
-            isFixed: e.options.strategy === "fixed"
-        };
+    var e = l.state
+      , t = l.options
+      , i = t.gpuAcceleration
+      , n = i === void 0 ? !0 : i
+      , s = t.adaptive
+      , o = s === void 0 ? !0 : s
+      , r = t.roundOffsets
+      , a = r === void 0 ? !0 : r
+      , h = {
+        placement: Z(e.placement),
+        variation: ve(e.placement),
+        popper: e.elements.popper,
+        popperRect: e.rects.popper,
+        gpuAcceleration: n,
+        isFixed: e.options.strategy === "fixed"
+    };
     e.modifiersData.popperOffsets != null && (e.styles.popper = Object.assign({}, e.styles.popper, Ot(Object.assign({}, h, {
         offsets: e.modifiersData.popperOffsets,
         position: e.options.strategy,
         adaptive: o,
         roundOffsets: a
-    })))), e.modifiersData.arrow != null && (e.styles.arrow = Object.assign({}, e.styles.arrow, Ot(Object.assign({}, h, {
+    })))),
+    e.modifiersData.arrow != null && (e.styles.arrow = Object.assign({}, e.styles.arrow, Ot(Object.assign({}, h, {
         offsets: e.modifiersData.arrow,
         position: "absolute",
         adaptive: !1,
         roundOffsets: a
-    })))), e.attributes.popper = Object.assign({}, e.attributes.popper, {
+    })))),
+    e.attributes.popper = Object.assign({}, e.attributes.popper, {
         "data-popper-placement": e.placement
     })
 }
@@ -1611,25 +2177,26 @@ const Vi = {
 var Ye = {
     passive: !0
 };
-
 function Hi(l) {
-    var e = l.state,
-        t = l.instance,
-        i = l.options,
-        n = i.scroll,
-        s = n === void 0 ? !0 : n,
-        o = i.resize,
-        r = o === void 0 ? !0 : o,
-        a = V(e.elements.popper),
-        h = [].concat(e.scrollParents.reference, e.scrollParents.popper);
+    var e = l.state
+      , t = l.instance
+      , i = l.options
+      , n = i.scroll
+      , s = n === void 0 ? !0 : n
+      , o = i.resize
+      , r = o === void 0 ? !0 : o
+      , a = V(e.elements.popper)
+      , h = [].concat(e.scrollParents.reference, e.scrollParents.popper);
     return s && h.forEach(function(c) {
-            c.addEventListener("scroll", t.update, Ye)
-        }), r && a.addEventListener("resize", t.update, Ye),
-        function() {
-            s && h.forEach(function(c) {
-                c.removeEventListener("scroll", t.update, Ye)
-            }), r && a.removeEventListener("resize", t.update, Ye)
-        }
+        c.addEventListener("scroll", t.update, Ye)
+    }),
+    r && a.addEventListener("resize", t.update, Ye),
+    function() {
+        s && h.forEach(function(c) {
+            c.removeEventListener("scroll", t.update, Ye)
+        }),
+        r && a.removeEventListener("resize", t.update, Ye)
+    }
 }
 const Wi = {
     name: "eventListeners",
@@ -1645,7 +2212,6 @@ var zi = {
     bottom: "top",
     top: "bottom"
 };
-
 function et(l) {
     return l.replace(/left|right|bottom|top/g, function(e) {
         return zi[e]
@@ -1655,39 +2221,37 @@ var Ui = {
     start: "end",
     end: "start"
 };
-
 function Nt(l) {
     return l.replace(/start|end/g, function(e) {
         return Ui[e]
     })
 }
-
 function yt(l) {
-    var e = V(l),
-        t = e.pageXOffset,
-        i = e.pageYOffset;
+    var e = V(l)
+      , t = e.pageXOffset
+      , i = e.pageYOffset;
     return {
         scrollLeft: t,
         scrollTop: i
     }
 }
-
 function bt(l) {
     return we(ne(l)).left + yt(l).scrollLeft
 }
-
 function ji(l, e) {
-    var t = V(l),
-        i = ne(l),
-        n = t.visualViewport,
-        s = i.clientWidth,
-        o = i.clientHeight,
-        r = 0,
-        a = 0;
+    var t = V(l)
+      , i = ne(l)
+      , n = t.visualViewport
+      , s = i.clientWidth
+      , o = i.clientHeight
+      , r = 0
+      , a = 0;
     if (n) {
-        s = n.width, o = n.height;
+        s = n.width,
+        o = n.height;
         var h = Xt();
-        (h || !h && e === "fixed") && (r = n.offsetLeft, a = n.offsetTop)
+        (h || !h && e === "fixed") && (r = n.offsetLeft,
+        a = n.offsetTop)
     }
     return {
         width: s,
@@ -1696,46 +2260,36 @@ function ji(l, e) {
         y: a
     }
 }
-
 function Qi(l) {
-    var e, t = ne(l),
-        i = yt(l),
-        n = (e = l.ownerDocument) == null ? void 0 : e.body,
-        s = de(t.scrollWidth, t.clientWidth, n ? n.scrollWidth : 0, n ? n.clientWidth : 0),
-        o = de(t.scrollHeight, t.clientHeight, n ? n.scrollHeight : 0, n ? n.clientHeight : 0),
-        r = -i.scrollLeft + bt(l),
-        a = -i.scrollTop;
-    return ie(n || t).direction === "rtl" && (r += de(t.clientWidth, n ? n.clientWidth : 0) - s), {
+    var e, t = ne(l), i = yt(l), n = (e = l.ownerDocument) == null ? void 0 : e.body, s = de(t.scrollWidth, t.clientWidth, n ? n.scrollWidth : 0, n ? n.clientWidth : 0), o = de(t.scrollHeight, t.clientHeight, n ? n.scrollHeight : 0, n ? n.clientHeight : 0), r = -i.scrollLeft + bt(l), a = -i.scrollTop;
+    return ie(n || t).direction === "rtl" && (r += de(t.clientWidth, n ? n.clientWidth : 0) - s),
+    {
         width: s,
         height: o,
         x: r,
         y: a
     }
 }
-
 function Ct(l) {
-    var e = ie(l),
-        t = e.overflow,
-        i = e.overflowX,
-        n = e.overflowY;
+    var e = ie(l)
+      , t = e.overflow
+      , i = e.overflowX
+      , n = e.overflowY;
     return /auto|scroll|overlay|hidden/.test(t + n + i)
 }
-
 function _t(l) {
     return ["html", "body", "#document"].indexOf(G(l)) >= 0 ? l.ownerDocument.body : W(l) && Ct(l) ? l : _t(st(l))
 }
-
 function Ee(l, e) {
     var t;
     e === void 0 && (e = []);
-    var i = _t(l),
-        n = i === ((t = l.ownerDocument) == null ? void 0 : t.body),
-        s = V(i),
-        o = n ? [s].concat(s.visualViewport || [], Ct(i) ? i : []) : i,
-        r = e.concat(o);
+    var i = _t(l)
+      , n = i === ((t = l.ownerDocument) == null ? void 0 : t.body)
+      , s = V(i)
+      , o = n ? [s].concat(s.visualViewport || [], Ct(i) ? i : []) : i
+      , r = e.concat(o);
     return n ? r : r.concat(Ee(st(o)))
 }
-
 function dt(l) {
     return Object.assign({}, l, {
         left: l.x,
@@ -1744,157 +2298,159 @@ function dt(l) {
         bottom: l.y + l.height
     })
 }
-
 function Ji(l, e) {
     var t = we(l, !1, e === "fixed");
-    return t.top = t.top + l.clientTop, t.left = t.left + l.clientLeft, t.bottom = t.top + l.clientHeight, t.right = t.left + l.clientWidth, t.width = l.clientWidth, t.height = l.clientHeight, t.x = t.left, t.y = t.top, t
+    return t.top = t.top + l.clientTop,
+    t.left = t.left + l.clientLeft,
+    t.bottom = t.top + l.clientHeight,
+    t.right = t.left + l.clientWidth,
+    t.width = l.clientWidth,
+    t.height = l.clientHeight,
+    t.x = t.left,
+    t.y = t.top,
+    t
 }
-
 function Ft(l, e, t) {
     return e === Qt ? dt(ji(l, t)) : ue(e) ? Ji(e, t) : dt(Qi(ne(l)))
 }
-
 function Xi(l) {
-    var e = Ee(st(l)),
-        t = ["absolute", "fixed"].indexOf(ie(l).position) >= 0,
-        i = t && W(l) ? Me(l) : l;
+    var e = Ee(st(l))
+      , t = ["absolute", "fixed"].indexOf(ie(l).position) >= 0
+      , i = t && W(l) ? Me(l) : l;
     return ue(i) ? e.filter(function(n) {
         return ue(n) && Kt(n, i) && G(n) !== "body"
     }) : []
 }
-
 function Ki(l, e, t, i) {
-    var n = e === "clippingParents" ? Xi(l) : [].concat(e),
-        s = [].concat(n, [t]),
-        o = s[0],
-        r = s.reduce(function(a, h) {
-            var c = Ft(l, h, i);
-            return a.top = de(c.top, a.top), a.right = it(c.right, a.right), a.bottom = it(c.bottom, a.bottom), a.left = de(c.left, a.left), a
-        }, Ft(l, o, i));
-    return r.width = r.right - r.left, r.height = r.bottom - r.top, r.x = r.left, r.y = r.top, r
+    var n = e === "clippingParents" ? Xi(l) : [].concat(e)
+      , s = [].concat(n, [t])
+      , o = s[0]
+      , r = s.reduce(function(a, h) {
+        var c = Ft(l, h, i);
+        return a.top = de(c.top, a.top),
+        a.right = it(c.right, a.right),
+        a.bottom = it(c.bottom, a.bottom),
+        a.left = de(c.left, a.left),
+        a
+    }, Ft(l, o, i));
+    return r.width = r.right - r.left,
+    r.height = r.bottom - r.top,
+    r.x = r.left,
+    r.y = r.top,
+    r
 }
-
 function ei(l) {
-    var e = l.reference,
-        t = l.element,
-        i = l.placement,
-        n = i ? Z(i) : null,
-        s = i ? ve(i) : null,
-        o = e.x + e.width / 2 - t.width / 2,
-        r = e.y + e.height / 2 - t.height / 2,
-        a;
+    var e = l.reference, t = l.element, i = l.placement, n = i ? Z(i) : null, s = i ? ve(i) : null, o = e.x + e.width / 2 - t.width / 2, r = e.y + e.height / 2 - t.height / 2, a;
     switch (n) {
-        case O:
-            a = {
-                x: o,
-                y: e.y - t.height
-            };
-            break;
-        case U:
-            a = {
-                x: o,
-                y: e.y + e.height
-            };
-            break;
-        case j:
-            a = {
-                x: e.x + e.width,
-                y: r
-            };
-            break;
-        case N:
-            a = {
-                x: e.x - t.width,
-                y: r
-            };
-            break;
-        default:
-            a = {
-                x: e.x,
-                y: e.y
-            }
+    case O:
+        a = {
+            x: o,
+            y: e.y - t.height
+        };
+        break;
+    case U:
+        a = {
+            x: o,
+            y: e.y + e.height
+        };
+        break;
+    case j:
+        a = {
+            x: e.x + e.width,
+            y: r
+        };
+        break;
+    case N:
+        a = {
+            x: e.x - t.width,
+            y: r
+        };
+        break;
+    default:
+        a = {
+            x: e.x,
+            y: e.y
+        }
     }
     var h = n ? vt(n) : null;
     if (h != null) {
         var c = h === "y" ? "height" : "width";
         switch (s) {
-            case me:
-                a[h] = a[h] - (e[c] / 2 - t[c] / 2);
-                break;
-            case Te:
-                a[h] = a[h] + (e[c] / 2 - t[c] / 2);
-                break
+        case me:
+            a[h] = a[h] - (e[c] / 2 - t[c] / 2);
+            break;
+        case Te:
+            a[h] = a[h] + (e[c] / 2 - t[c] / 2);
+            break
         }
     }
     return a
 }
-
 function Ae(l, e) {
     e === void 0 && (e = {});
-    var t = e,
-        i = t.placement,
-        n = i === void 0 ? l.placement : i,
-        s = t.strategy,
-        o = s === void 0 ? l.strategy : s,
-        r = t.boundary,
-        a = r === void 0 ? mi : r,
-        h = t.rootBoundary,
-        c = h === void 0 ? Qt : h,
-        d = t.elementContext,
-        u = d === void 0 ? Ie : d,
-        p = t.altBoundary,
-        w = p === void 0 ? !1 : p,
-        v = t.padding,
-        m = v === void 0 ? 0 : v,
-        b = Gt(typeof m != "number" ? m : Yt(m, qe)),
-        x = u === Ie ? gi : Ie,
-        E = l.rects.popper,
-        f = l.elements[w ? x : u],
-        C = Ki(ue(f) ? f : f.contextElement || ne(l.elements.popper), a, c, o),
-        S = we(l.elements.reference),
-        k = ei({
-            reference: S,
-            element: E,
-            strategy: "absolute",
-            placement: n
-        }),
-        P = dt(Object.assign({}, E, k)),
-        $ = u === Ie ? P : S,
-        T = {
-            top: C.top - $.top + b.top,
-            bottom: $.bottom - C.bottom + b.bottom,
-            left: C.left - $.left + b.left,
-            right: $.right - C.right + b.right
-        },
-        B = l.modifiersData.offset;
+    var t = e
+      , i = t.placement
+      , n = i === void 0 ? l.placement : i
+      , s = t.strategy
+      , o = s === void 0 ? l.strategy : s
+      , r = t.boundary
+      , a = r === void 0 ? mi : r
+      , h = t.rootBoundary
+      , c = h === void 0 ? Qt : h
+      , d = t.elementContext
+      , u = d === void 0 ? Ie : d
+      , p = t.altBoundary
+      , w = p === void 0 ? !1 : p
+      , v = t.padding
+      , m = v === void 0 ? 0 : v
+      , b = Gt(typeof m != "number" ? m : Yt(m, qe))
+      , x = u === Ie ? gi : Ie
+      , E = l.rects.popper
+      , f = l.elements[w ? x : u]
+      , C = Ki(ue(f) ? f : f.contextElement || ne(l.elements.popper), a, c, o)
+      , S = we(l.elements.reference)
+      , k = ei({
+        reference: S,
+        element: E,
+        strategy: "absolute",
+        placement: n
+    })
+      , P = dt(Object.assign({}, E, k))
+      , $ = u === Ie ? P : S
+      , T = {
+        top: C.top - $.top + b.top,
+        bottom: $.bottom - C.bottom + b.bottom,
+        left: C.left - $.left + b.left,
+        right: $.right - C.right + b.right
+    }
+      , B = l.modifiersData.offset;
     if (u === Ie && B) {
         var Q = B[n];
         Object.keys(T).forEach(function(q) {
-            var oe = [j, U].indexOf(q) >= 0 ? 1 : -1,
-                le = [O, U].indexOf(q) >= 0 ? "y" : "x";
+            var oe = [j, U].indexOf(q) >= 0 ? 1 : -1
+              , le = [O, U].indexOf(q) >= 0 ? "y" : "x";
             T[q] += Q[le] * oe
         })
     }
     return T
 }
-
 function Zi(l, e) {
     e === void 0 && (e = {});
-    var t = e,
-        i = t.placement,
-        n = t.boundary,
-        s = t.rootBoundary,
-        o = t.padding,
-        r = t.flipVariations,
-        a = t.allowedAutoPlacements,
-        h = a === void 0 ? Jt : a,
-        c = ve(i),
-        d = c ? r ? qt : qt.filter(function(w) {
-            return ve(w) === c
-        }) : qe,
-        u = d.filter(function(w) {
-            return h.indexOf(w) >= 0
-        });
+    var t = e
+      , i = t.placement
+      , n = t.boundary
+      , s = t.rootBoundary
+      , o = t.padding
+      , r = t.flipVariations
+      , a = t.allowedAutoPlacements
+      , h = a === void 0 ? Jt : a
+      , c = ve(i)
+      , d = c ? r ? qt : qt.filter(function(w) {
+        return ve(w) === c
+    }) : qe
+      , u = d.filter(function(w) {
+        return h.indexOf(w) >= 0
+    });
     u.length === 0 && (u = d);
     var p = u.reduce(function(w, v) {
         return w[v] = Ae(l, {
@@ -1902,72 +2458,81 @@ function Zi(l, e) {
             boundary: n,
             rootBoundary: s,
             padding: o
-        })[Z(v)], w
+        })[Z(v)],
+        w
     }, {});
     return Object.keys(p).sort(function(w, v) {
         return p[w] - p[v]
     })
 }
-
 function Gi(l) {
-    if (Z(l) === mt) return [];
+    if (Z(l) === mt)
+        return [];
     var e = et(l);
     return [Nt(l), e, Nt(e)]
 }
-
 function Yi(l) {
-    var e = l.state,
-        t = l.options,
-        i = l.name;
+    var e = l.state
+      , t = l.options
+      , i = l.name;
     if (!e.modifiersData[i]._skip) {
         for (var n = t.mainAxis, s = n === void 0 ? !0 : n, o = t.altAxis, r = o === void 0 ? !0 : o, a = t.fallbackPlacements, h = t.padding, c = t.boundary, d = t.rootBoundary, u = t.altBoundary, p = t.flipVariations, w = p === void 0 ? !0 : p, v = t.allowedAutoPlacements, m = e.options.placement, b = Z(m), x = b === m, E = a || (x || !w ? [et(m)] : Gi(m)), f = [m].concat(E).reduce(function(pe, se) {
-                return pe.concat(Z(se) === mt ? Zi(e, {
-                    placement: se,
-                    boundary: c,
-                    rootBoundary: d,
-                    padding: h,
-                    flipVariations: w,
-                    allowedAutoPlacements: v
-                }) : se)
-            }, []), C = e.rects.reference, S = e.rects.popper, k = new Map, P = !0, $ = f[0], T = 0; T < f.length; T++) {
-            var B = f[T],
-                Q = Z(B),
-                q = ve(B) === me,
-                oe = [O, U].indexOf(Q) >= 0,
-                le = oe ? "width" : "height",
-                F = Ae(e, {
-                    placement: B,
-                    boundary: c,
-                    rootBoundary: d,
-                    altBoundary: u,
-                    padding: h
-                }),
-                J = oe ? q ? j : N : q ? U : O;
+            return pe.concat(Z(se) === mt ? Zi(e, {
+                placement: se,
+                boundary: c,
+                rootBoundary: d,
+                padding: h,
+                flipVariations: w,
+                allowedAutoPlacements: v
+            }) : se)
+        }, []), C = e.rects.reference, S = e.rects.popper, k = new Map, P = !0, $ = f[0], T = 0; T < f.length; T++) {
+            var B = f[T]
+              , Q = Z(B)
+              , q = ve(B) === me
+              , oe = [O, U].indexOf(Q) >= 0
+              , le = oe ? "width" : "height"
+              , F = Ae(e, {
+                placement: B,
+                boundary: c,
+                rootBoundary: d,
+                altBoundary: u,
+                padding: h
+            })
+              , J = oe ? q ? j : N : q ? U : O;
             C[le] > S[le] && (J = et(J));
-            var Je = et(J),
-                re = [];
-            if (s && re.push(F[Q] <= 0), r && re.push(F[J] <= 0, F[Je] <= 0), re.every(function(pe) {
-                    return pe
-                })) {
-                $ = B, P = !1;
+            var Je = et(J)
+              , re = [];
+            if (s && re.push(F[Q] <= 0),
+            r && re.push(F[J] <= 0, F[Je] <= 0),
+            re.every(function(pe) {
+                return pe
+            })) {
+                $ = B,
+                P = !1;
                 break
             }
             k.set(B, re)
         }
         if (P)
             for (var Xe = w ? 3 : 1, nt = function(se) {
-                    var Le = f.find(function(Ze) {
-                        var ae = k.get(Ze);
-                        if (ae) return ae.slice(0, se).every(function(ot) {
+                var Le = f.find(function(Ze) {
+                    var ae = k.get(Ze);
+                    if (ae)
+                        return ae.slice(0, se).every(function(ot) {
                             return ot
                         })
-                    });
-                    if (Le) return $ = Le, "break"
-                }, Se = Xe; Se > 0; Se--) {
+                });
+                if (Le)
+                    return $ = Le,
+                    "break"
+            }, Se = Xe; Se > 0; Se--) {
                 var Ke = nt(Se);
-                if (Ke === "break") break
+                if (Ke === "break")
+                    break
             }
-        e.placement !== $ && (e.modifiersData[i]._skip = !0, e.placement = $, e.reset = !0)
+        e.placement !== $ && (e.modifiersData[i]._skip = !0,
+        e.placement = $,
+        e.reset = !0)
     }
 }
 const _i = {
@@ -1980,47 +2545,46 @@ const _i = {
         _skip: !1
     }
 };
-
 function Rt(l, e, t) {
     return t === void 0 && (t = {
         x: 0,
         y: 0
-    }), {
+    }),
+    {
         top: l.top - e.height - t.y,
         right: l.right - e.width + t.x,
         bottom: l.bottom - e.height + t.y,
         left: l.left - e.width - t.x
     }
 }
-
 function Vt(l) {
     return [O, j, U, N].some(function(e) {
         return l[e] >= 0
     })
 }
-
 function es(l) {
-    var e = l.state,
-        t = l.name,
-        i = e.rects.reference,
-        n = e.rects.popper,
-        s = e.modifiersData.preventOverflow,
-        o = Ae(e, {
-            elementContext: "reference"
-        }),
-        r = Ae(e, {
-            altBoundary: !0
-        }),
-        a = Rt(o, i),
-        h = Rt(r, n, s),
-        c = Vt(a),
-        d = Vt(h);
+    var e = l.state
+      , t = l.name
+      , i = e.rects.reference
+      , n = e.rects.popper
+      , s = e.modifiersData.preventOverflow
+      , o = Ae(e, {
+        elementContext: "reference"
+    })
+      , r = Ae(e, {
+        altBoundary: !0
+    })
+      , a = Rt(o, i)
+      , h = Rt(r, n, s)
+      , c = Vt(a)
+      , d = Vt(h);
     e.modifiersData[t] = {
         referenceClippingOffsets: a,
         popperEscapeOffsets: h,
         isReferenceHidden: c,
         hasPopperEscaped: d
-    }, e.attributes.popper = Object.assign({}, e.attributes.popper, {
+    },
+    e.attributes.popper = Object.assign({}, e.attributes.popper, {
         "data-popper-reference-hidden": c,
         "data-popper-escaped": d
     })
@@ -2032,16 +2596,17 @@ const ts = {
     requiresIfExists: ["preventOverflow"],
     fn: es
 };
-
 function is(l, e, t) {
-    var i = Z(l),
-        n = [N, O].indexOf(i) >= 0 ? -1 : 1,
-        s = typeof t == "function" ? t(Object.assign({}, e, {
-            placement: l
-        })) : t,
-        o = s[0],
-        r = s[1];
-    return o = o || 0, r = (r || 0) * n, [N, j].indexOf(i) >= 0 ? {
+    var i = Z(l)
+      , n = [N, O].indexOf(i) >= 0 ? -1 : 1
+      , s = typeof t == "function" ? t(Object.assign({}, e, {
+        placement: l
+    })) : t
+      , o = s[0]
+      , r = s[1];
+    return o = o || 0,
+    r = (r || 0) * n,
+    [N, j].indexOf(i) >= 0 ? {
         x: r,
         y: o
     } : {
@@ -2049,20 +2614,22 @@ function is(l, e, t) {
         y: r
     }
 }
-
 function ss(l) {
-    var e = l.state,
-        t = l.options,
-        i = l.name,
-        n = t.offset,
-        s = n === void 0 ? [0, 0] : n,
-        o = Jt.reduce(function(c, d) {
-            return c[d] = is(d, e.rects, s), c
-        }, {}),
-        r = o[e.placement],
-        a = r.x,
-        h = r.y;
-    e.modifiersData.popperOffsets != null && (e.modifiersData.popperOffsets.x += a, e.modifiersData.popperOffsets.y += h), e.modifiersData[i] = o
+    var e = l.state
+      , t = l.options
+      , i = l.name
+      , n = t.offset
+      , s = n === void 0 ? [0, 0] : n
+      , o = Jt.reduce(function(c, d) {
+        return c[d] = is(d, e.rects, s),
+        c
+    }, {})
+      , r = o[e.placement]
+      , a = r.x
+      , h = r.y;
+    e.modifiersData.popperOffsets != null && (e.modifiersData.popperOffsets.x += a,
+    e.modifiersData.popperOffsets.y += h),
+    e.modifiersData[i] = o
 }
 const ns = {
     name: "offset",
@@ -2071,10 +2638,9 @@ const ns = {
     requires: ["popperOffsets"],
     fn: ss
 };
-
 function os(l) {
-    var e = l.state,
-        t = l.name;
+    var e = l.state
+      , t = l.name;
     e.modifiersData[t] = ei({
         reference: e.rects.reference,
         element: e.rects.popper,
@@ -2089,99 +2655,67 @@ const ls = {
     fn: os,
     data: {}
 };
-
 function rs(l) {
     return l === "x" ? "y" : "x"
 }
-
 function as(l) {
-    var e = l.state,
-        t = l.options,
-        i = l.name,
-        n = t.mainAxis,
-        s = n === void 0 ? !0 : n,
-        o = t.altAxis,
-        r = o === void 0 ? !1 : o,
-        a = t.boundary,
-        h = t.rootBoundary,
-        c = t.altBoundary,
-        d = t.padding,
-        u = t.tether,
-        p = u === void 0 ? !0 : u,
-        w = t.tetherOffset,
-        v = w === void 0 ? 0 : w,
-        m = Ae(e, {
-            boundary: a,
-            rootBoundary: h,
-            padding: d,
-            altBoundary: c
-        }),
-        b = Z(e.placement),
-        x = ve(e.placement),
-        E = !x,
-        f = vt(b),
-        C = rs(f),
-        S = e.modifiersData.popperOffsets,
-        k = e.rects.reference,
-        P = e.rects.popper,
-        $ = typeof v == "function" ? v(Object.assign({}, e.rects, {
-            placement: e.placement
-        })) : v,
-        T = typeof $ == "number" ? {
-            mainAxis: $,
-            altAxis: $
-        } : Object.assign({
-            mainAxis: 0,
-            altAxis: 0
-        }, $),
-        B = e.modifiersData.offset ? e.modifiersData.offset[e.placement] : null,
-        Q = {
-            x: 0,
-            y: 0
-        };
+    var e = l.state
+      , t = l.options
+      , i = l.name
+      , n = t.mainAxis
+      , s = n === void 0 ? !0 : n
+      , o = t.altAxis
+      , r = o === void 0 ? !1 : o
+      , a = t.boundary
+      , h = t.rootBoundary
+      , c = t.altBoundary
+      , d = t.padding
+      , u = t.tether
+      , p = u === void 0 ? !0 : u
+      , w = t.tetherOffset
+      , v = w === void 0 ? 0 : w
+      , m = Ae(e, {
+        boundary: a,
+        rootBoundary: h,
+        padding: d,
+        altBoundary: c
+    })
+      , b = Z(e.placement)
+      , x = ve(e.placement)
+      , E = !x
+      , f = vt(b)
+      , C = rs(f)
+      , S = e.modifiersData.popperOffsets
+      , k = e.rects.reference
+      , P = e.rects.popper
+      , $ = typeof v == "function" ? v(Object.assign({}, e.rects, {
+        placement: e.placement
+    })) : v
+      , T = typeof $ == "number" ? {
+        mainAxis: $,
+        altAxis: $
+    } : Object.assign({
+        mainAxis: 0,
+        altAxis: 0
+    }, $)
+      , B = e.modifiersData.offset ? e.modifiersData.offset[e.placement] : null
+      , Q = {
+        x: 0,
+        y: 0
+    };
     if (S) {
         if (s) {
-            var q, oe = f === "y" ? O : N,
-                le = f === "y" ? U : j,
-                F = f === "y" ? "height" : "width",
-                J = S[f],
-                Je = J + m[oe],
-                re = J - m[le],
-                Xe = p ? -P[F] / 2 : 0,
-                nt = x === me ? k[F] : P[F],
-                Se = x === me ? -P[F] : -k[F],
-                Ke = e.elements.arrow,
-                pe = p && Ke ? wt(Ke) : {
-                    width: 0,
-                    height: 0
-                },
-                se = e.modifiersData["arrow#persistent"] ? e.modifiersData["arrow#persistent"].padding : Zt(),
-                Le = se[oe],
-                Ze = se[le],
-                ae = xe(0, k[F], pe[F]),
-                ot = E ? k[F] / 2 - Xe - ae - Le - T.mainAxis : nt - ae - Le - T.mainAxis,
-                ii = E ? -k[F] / 2 + Xe + ae + Ze + T.mainAxis : Se + ae + Ze + T.mainAxis,
-                lt = e.elements.arrow && Me(e.elements.arrow),
-                si = lt ? f === "y" ? lt.clientTop || 0 : lt.clientLeft || 0 : 0,
-                St = (q = B == null ? void 0 : B[f]) != null ? q : 0,
-                ni = J + ot - St - si,
-                oi = J + ii - St,
-                Lt = xe(p ? it(Je, ni) : Je, J, p ? de(re, oi) : re);
-            S[f] = Lt, Q[f] = Lt - J
+            var q, oe = f === "y" ? O : N, le = f === "y" ? U : j, F = f === "y" ? "height" : "width", J = S[f], Je = J + m[oe], re = J - m[le], Xe = p ? -P[F] / 2 : 0, nt = x === me ? k[F] : P[F], Se = x === me ? -P[F] : -k[F], Ke = e.elements.arrow, pe = p && Ke ? wt(Ke) : {
+                width: 0,
+                height: 0
+            }, se = e.modifiersData["arrow#persistent"] ? e.modifiersData["arrow#persistent"].padding : Zt(), Le = se[oe], Ze = se[le], ae = xe(0, k[F], pe[F]), ot = E ? k[F] / 2 - Xe - ae - Le - T.mainAxis : nt - ae - Le - T.mainAxis, ii = E ? -k[F] / 2 + Xe + ae + Ze + T.mainAxis : Se + ae + Ze + T.mainAxis, lt = e.elements.arrow && Me(e.elements.arrow), si = lt ? f === "y" ? lt.clientTop || 0 : lt.clientLeft || 0 : 0, St = (q = B == null ? void 0 : B[f]) != null ? q : 0, ni = J + ot - St - si, oi = J + ii - St, Lt = xe(p ? it(Je, ni) : Je, J, p ? de(re, oi) : re);
+            S[f] = Lt,
+            Q[f] = Lt - J
         }
         if (r) {
-            var It, li = f === "x" ? O : N,
-                ri = f === "x" ? U : j,
-                he = S[C],
-                Ge = C === "y" ? "height" : "width",
-                xt = he + m[li],
-                Et = he - m[ri],
-                rt = [O, N].indexOf(b) !== -1,
-                kt = (It = B == null ? void 0 : B[C]) != null ? It : 0,
-                Tt = rt ? xt : he - k[Ge] - P[Ge] - kt + T.altAxis,
-                At = rt ? he + k[Ge] + P[Ge] - kt - T.altAxis : Et,
-                $t = p && rt ? Bi(Tt, he, At) : xe(p ? Tt : xt, he, p ? At : Et);
-            S[C] = $t, Q[C] = $t - he
+            var It, li = f === "x" ? O : N, ri = f === "x" ? U : j, he = S[C], Ge = C === "y" ? "height" : "width", xt = he + m[li], Et = he - m[ri], rt = [O, N].indexOf(b) !== -1, kt = (It = B == null ? void 0 : B[C]) != null ? It : 0, Tt = rt ? xt : he - k[Ge] - P[Ge] - kt + T.altAxis, At = rt ? he + k[Ge] + P[Ge] - kt - T.altAxis : Et, $t = p && rt ? Bi(Tt, he, At) : xe(p ? Tt : xt, he, p ? At : Et);
+            S[C] = $t,
+            Q[C] = $t - he
         }
         e.modifiersData[i] = Q
     }
@@ -2193,55 +2727,53 @@ const hs = {
     fn: as,
     requiresIfExists: ["offset"]
 };
-
 function cs(l) {
     return {
         scrollLeft: l.scrollLeft,
         scrollTop: l.scrollTop
     }
 }
-
 function ds(l) {
     return l === V(l) || !W(l) ? yt(l) : cs(l)
 }
-
 function us(l) {
-    var e = l.getBoundingClientRect(),
-        t = ge(e.width) / l.offsetWidth || 1,
-        i = ge(e.height) / l.offsetHeight || 1;
+    var e = l.getBoundingClientRect()
+      , t = ge(e.width) / l.offsetWidth || 1
+      , i = ge(e.height) / l.offsetHeight || 1;
     return t !== 1 || i !== 1
 }
-
 function ps(l, e, t) {
     t === void 0 && (t = !1);
-    var i = W(e),
-        n = W(e) && us(e),
-        s = ne(e),
-        o = we(l, n, t),
-        r = {
-            scrollLeft: 0,
-            scrollTop: 0
-        },
-        a = {
-            x: 0,
-            y: 0
-        };
-    return (i || !i && !t) && ((G(e) !== "body" || Ct(s)) && (r = ds(e)), W(e) ? (a = we(e, !0), a.x += e.clientLeft, a.y += e.clientTop) : s && (a.x = bt(s))), {
+    var i = W(e)
+      , n = W(e) && us(e)
+      , s = ne(e)
+      , o = we(l, n, t)
+      , r = {
+        scrollLeft: 0,
+        scrollTop: 0
+    }
+      , a = {
+        x: 0,
+        y: 0
+    };
+    return (i || !i && !t) && ((G(e) !== "body" || Ct(s)) && (r = ds(e)),
+    W(e) ? (a = we(e, !0),
+    a.x += e.clientLeft,
+    a.y += e.clientTop) : s && (a.x = bt(s))),
+    {
         x: o.left + r.scrollLeft - a.x,
         y: o.top + r.scrollTop - a.y,
         width: o.width,
         height: o.height
     }
 }
-
 function fs(l) {
-    var e = new Map,
-        t = new Set,
-        i = [];
+    var e = new Map
+      , t = new Set
+      , i = [];
     l.forEach(function(s) {
         e.set(s.name, s)
     });
-
     function n(s) {
         t.add(s.name);
         var o = [].concat(s.requires || [], s.requiresIfExists || []);
@@ -2250,13 +2782,14 @@ function fs(l) {
                 var a = e.get(r);
                 a && n(a)
             }
-        }), i.push(s)
+        }),
+        i.push(s)
     }
     return l.forEach(function(s) {
         t.has(s.name) || n(s)
-    }), i
+    }),
+    i
 }
-
 function ms(l) {
     var e = fs(l);
     return Ei.reduce(function(t, i) {
@@ -2265,25 +2798,27 @@ function ms(l) {
         }))
     }, [])
 }
-
 function gs(l) {
     var e;
     return function() {
         return e || (e = new Promise(function(t) {
             Promise.resolve().then(function() {
-                e = void 0, t(l())
+                e = void 0,
+                t(l())
             })
-        })), e
+        }
+        )),
+        e
     }
 }
-
 function ws(l) {
     var e = l.reduce(function(t, i) {
         var n = t[i.name];
         return t[i.name] = n ? Object.assign({}, n, i, {
             options: Object.assign({}, n.options, i.options),
             data: Object.assign({}, n.data, i.data)
-        }) : i, t
+        }) : i,
+        t
     }, {});
     return Object.keys(e).map(function(t) {
         return e[t]
@@ -2294,127 +2829,137 @@ var Ht = {
     modifiers: [],
     strategy: "absolute"
 };
-
 function Wt() {
-    for (var l = arguments.length, e = new Array(l), t = 0; t < l; t++) e[t] = arguments[t];
+    for (var l = arguments.length, e = new Array(l), t = 0; t < l; t++)
+        e[t] = arguments[t];
     return !e.some(function(i) {
         return !(i && typeof i.getBoundingClientRect == "function")
     })
 }
-
 function vs(l) {
     l === void 0 && (l = {});
-    var e = l,
-        t = e.defaultModifiers,
-        i = t === void 0 ? [] : t,
-        n = e.defaultOptions,
-        s = n === void 0 ? Ht : n;
+    var e = l
+      , t = e.defaultModifiers
+      , i = t === void 0 ? [] : t
+      , n = e.defaultOptions
+      , s = n === void 0 ? Ht : n;
     return function(r, a, h) {
         h === void 0 && (h = s);
         var c = {
-                placement: "bottom",
-                orderedModifiers: [],
-                options: Object.assign({}, Ht, s),
-                modifiersData: {},
-                elements: {
-                    reference: r,
-                    popper: a
-                },
-                attributes: {},
-                styles: {}
+            placement: "bottom",
+            orderedModifiers: [],
+            options: Object.assign({}, Ht, s),
+            modifiersData: {},
+            elements: {
+                reference: r,
+                popper: a
             },
-            d = [],
-            u = !1,
-            p = {
-                state: c,
-                setOptions: function(b) {
-                    var x = typeof b == "function" ? b(c.options) : b;
-                    v(), c.options = Object.assign({}, s, c.options, x), c.scrollParents = {
-                        reference: ue(r) ? Ee(r) : r.contextElement ? Ee(r.contextElement) : [],
-                        popper: Ee(a)
-                    };
-                    var E = ms(ws([].concat(i, c.options.modifiers)));
-                    return c.orderedModifiers = E.filter(function(f) {
-                        return f.enabled
-                    }), w(), p.update()
-                },
-                forceUpdate: function() {
-                    if (!u) {
-                        var b = c.elements,
-                            x = b.reference,
-                            E = b.popper;
-                        if (Wt(x, E)) {
-                            c.rects = {
-                                reference: ps(x, Me(E), c.options.strategy === "fixed"),
-                                popper: wt(E)
-                            }, c.reset = !1, c.placement = c.options.placement, c.orderedModifiers.forEach(function(T) {
-                                return c.modifiersData[T.name] = Object.assign({}, T.data)
-                            });
-                            for (var f = 0; f < c.orderedModifiers.length; f++) {
-                                if (c.reset === !0) {
-                                    c.reset = !1, f = -1;
-                                    continue
-                                }
-                                var C = c.orderedModifiers[f],
-                                    S = C.fn,
-                                    k = C.options,
-                                    P = k === void 0 ? {} : k,
-                                    $ = C.name;
-                                typeof S == "function" && (c = S({
-                                    state: c,
-                                    options: P,
-                                    name: $,
-                                    instance: p
-                                }) || c)
+            attributes: {},
+            styles: {}
+        }
+          , d = []
+          , u = !1
+          , p = {
+            state: c,
+            setOptions: function(b) {
+                var x = typeof b == "function" ? b(c.options) : b;
+                v(),
+                c.options = Object.assign({}, s, c.options, x),
+                c.scrollParents = {
+                    reference: ue(r) ? Ee(r) : r.contextElement ? Ee(r.contextElement) : [],
+                    popper: Ee(a)
+                };
+                var E = ms(ws([].concat(i, c.options.modifiers)));
+                return c.orderedModifiers = E.filter(function(f) {
+                    return f.enabled
+                }),
+                w(),
+                p.update()
+            },
+            forceUpdate: function() {
+                if (!u) {
+                    var b = c.elements
+                      , x = b.reference
+                      , E = b.popper;
+                    if (Wt(x, E)) {
+                        c.rects = {
+                            reference: ps(x, Me(E), c.options.strategy === "fixed"),
+                            popper: wt(E)
+                        },
+                        c.reset = !1,
+                        c.placement = c.options.placement,
+                        c.orderedModifiers.forEach(function(T) {
+                            return c.modifiersData[T.name] = Object.assign({}, T.data)
+                        });
+                        for (var f = 0; f < c.orderedModifiers.length; f++) {
+                            if (c.reset === !0) {
+                                c.reset = !1,
+                                f = -1;
+                                continue
                             }
+                            var C = c.orderedModifiers[f]
+                              , S = C.fn
+                              , k = C.options
+                              , P = k === void 0 ? {} : k
+                              , $ = C.name;
+                            typeof S == "function" && (c = S({
+                                state: c,
+                                options: P,
+                                name: $,
+                                instance: p
+                            }) || c)
                         }
                     }
-                },
-                update: gs(function() {
-                    return new Promise(function(m) {
-                        p.forceUpdate(), m(c)
-                    })
-                }),
-                destroy: function() {
-                    v(), u = !0
                 }
-            };
-        if (!Wt(r, a)) return p;
+            },
+            update: gs(function() {
+                return new Promise(function(m) {
+                    p.forceUpdate(),
+                    m(c)
+                }
+                )
+            }),
+            destroy: function() {
+                v(),
+                u = !0
+            }
+        };
+        if (!Wt(r, a))
+            return p;
         p.setOptions(h).then(function(m) {
             !u && h.onFirstUpdate && h.onFirstUpdate(m)
         });
-
         function w() {
             c.orderedModifiers.forEach(function(m) {
-                var b = m.name,
-                    x = m.options,
-                    E = x === void 0 ? {} : x,
-                    f = m.effect;
+                var b = m.name
+                  , x = m.options
+                  , E = x === void 0 ? {} : x
+                  , f = m.effect;
                 if (typeof f == "function") {
                     var C = f({
-                            state: c,
-                            name: b,
-                            instance: p,
-                            options: E
-                        }),
-                        S = function() {};
+                        state: c,
+                        name: b,
+                        instance: p,
+                        options: E
+                    })
+                      , S = function() {};
                     d.push(C || S)
                 }
             })
         }
-
         function v() {
             d.forEach(function(m) {
                 return m()
-            }), d = []
+            }),
+            d = []
         }
         return p
     }
 }
-var ys = [Wi, ls, Vi, Ai, ns, _i, hs, Oi, ts],
-    ut = vs({
-        defaultModifiers: ys
-    });
+var ys = [Wi, ls, Vi, Ai, ns, _i, hs, Oi, ts]
+  , ut = vs({
+    defaultModifiers: ys
+});
 /*
  * HSDropdown
  * @version: 2.7.0
@@ -2424,7 +2969,16 @@ var ys = [Wi, ls, Vi, Ai, ns, _i, hs, Oi, ts],
  */
 class M extends I {
     constructor(e, t, i) {
-        super(e, t, i), this.toggle = this.el.querySelector(":scope > .hs-dropdown-toggle") || this.el.querySelector(":scope > .hs-dropdown-toggle-wrapper > .hs-dropdown-toggle") || this.el.children[0], this.closers = Array.from(this.el.querySelectorAll(":scope .hs-dropdown-close")) || null, this.menu = this.el.querySelector(":scope > .hs-dropdown-menu"), this.eventMode = L(this.el, "--trigger", "click"), this.closeMode = L(this.el, "--auto-close", "true"), this.hasAutofocus = ce(L(this.el, "--has-autofocus", "true") || "true"), this.animationInProcess = !1, this.onCloserClickListener = [], this.toggle && this.menu && this.init()
+        super(e, t, i),
+        this.toggle = this.el.querySelector(":scope > .hs-dropdown-toggle") || this.el.querySelector(":scope > .hs-dropdown-toggle-wrapper > .hs-dropdown-toggle") || this.el.children[0],
+        this.closers = Array.from(this.el.querySelectorAll(":scope .hs-dropdown-close")) || null,
+        this.menu = this.el.querySelector(":scope > .hs-dropdown-menu"),
+        this.eventMode = L(this.el, "--trigger", "click"),
+        this.closeMode = L(this.el, "--auto-close", "true"),
+        this.hasAutofocus = ce(L(this.el, "--has-autofocus", "true") || "true"),
+        this.animationInProcess = !1,
+        this.onCloserClickListener = [],
+        this.toggle && this.menu && this.init()
     }
     elementMouseEnter() {
         this.onMouseEnterHandler()
@@ -2436,85 +2990,128 @@ class M extends I {
         this.onClickHandler(e)
     }
     toggleContextMenu(e) {
-        e.preventDefault(), this.onContextMenuHandler(e)
+        e.preventDefault(),
+        this.onContextMenuHandler(e)
     }
     closerClick() {
         this.close()
     }
     init() {
-        if (this.createCollection(window.$hsDropdownCollection, this), this.toggle.disabled) return !1;
-        this.toggle && this.buildToggle(), this.menu && this.buildMenu(), this.closers && this.buildClosers(), !Bt() && !Dt() && (this.onElementMouseEnterListener = () => this.elementMouseEnter(), this.onElementMouseLeaveListener = () => this.elementMouseLeave(), this.el.addEventListener("mouseenter", this.onElementMouseEnterListener), this.el.addEventListener("mouseleave", this.onElementMouseLeaveListener))
+        if (this.createCollection(window.$hsDropdownCollection, this),
+        this.toggle.disabled)
+            return !1;
+        this.toggle && this.buildToggle(),
+        this.menu && this.buildMenu(),
+        this.closers && this.buildClosers(),
+        !Bt() && !Dt() && (this.onElementMouseEnterListener = () => this.elementMouseEnter(),
+        this.onElementMouseLeaveListener = () => this.elementMouseLeave(),
+        this.el.addEventListener("mouseenter", this.onElementMouseEnterListener),
+        this.el.addEventListener("mouseleave", this.onElementMouseLeaveListener))
     }
     resizeHandler() {
-        this.eventMode = L(this.el, "--trigger", "click"), this.closeMode = L(this.el, "--auto-close", "true")
+        this.eventMode = L(this.el, "--trigger", "click"),
+        this.closeMode = L(this.el, "--auto-close", "true")
     }
     buildToggle() {
         var e;
-        (e = this == null ? void 0 : this.toggle) != null && e.ariaExpanded && (this.el.classList.contains("open") ? this.toggle.ariaExpanded = "true" : this.toggle.ariaExpanded = "false"), this.eventMode === "contextmenu" ? (this.onToggleContextMenuListener = t => this.toggleContextMenu(t), this.toggle.addEventListener("contextmenu", this.onToggleContextMenuListener)) : (this.onToggleClickListener = t => this.toggleClick(t), this.toggle.addEventListener("click", this.onToggleClickListener))
+        (e = this == null ? void 0 : this.toggle) != null && e.ariaExpanded && (this.el.classList.contains("open") ? this.toggle.ariaExpanded = "true" : this.toggle.ariaExpanded = "false"),
+        this.eventMode === "contextmenu" ? (this.onToggleContextMenuListener = t => this.toggleContextMenu(t),
+        this.toggle.addEventListener("contextmenu", this.onToggleContextMenuListener)) : (this.onToggleClickListener = t => this.toggleClick(t),
+        this.toggle.addEventListener("click", this.onToggleClickListener))
     }
     buildMenu() {
         this.menu.role = this.menu.getAttribute("role") || "menu";
-        const e = this.menu.querySelectorAll('[role="menuitemcheckbox"]'),
-            t = this.menu.querySelectorAll('[role="menuitemradio"]');
-        e.forEach(i => i.addEventListener("click", () => this.selectCheckbox(i))), t.forEach(i => i.addEventListener("click", () => this.selectRadio(i)))
+        const e = this.menu.querySelectorAll('[role="menuitemcheckbox"]')
+          , t = this.menu.querySelectorAll('[role="menuitemradio"]');
+        e.forEach(i => i.addEventListener("click", () => this.selectCheckbox(i))),
+        t.forEach(i => i.addEventListener("click", () => this.selectRadio(i)))
     }
     buildClosers() {
         this.closers.forEach(e => {
             this.onCloserClickListener.push({
                 el: e,
                 fn: () => this.closerClick()
-            }), e.addEventListener("click", this.onCloserClickListener.find(t => t.el === e).fn)
-        })
+            }),
+            e.addEventListener("click", this.onCloserClickListener.find(t => t.el === e).fn)
+        }
+        )
     }
     getScrollbarSize() {
         let e = document.createElement("div");
-        e.style.overflow = "scroll", e.style.width = "100px", e.style.height = "100px", document.body.appendChild(e);
+        e.style.overflow = "scroll",
+        e.style.width = "100px",
+        e.style.height = "100px",
+        document.body.appendChild(e);
         let t = e.offsetWidth - e.clientWidth;
-        return document.body.removeChild(e), t
+        return document.body.removeChild(e),
+        t
     }
     onContextMenuHandler(e) {
         const t = {
             getBoundingClientRect: () => new DOMRect
         };
-        t.getBoundingClientRect = () => new DOMRect(e.clientX, e.clientY, 0, 0), M.closeCurrentlyOpened(), this.el.classList.contains("open") && !this.menu.classList.contains("hidden") ? (this.close(), document.body.style.overflow = "", document.body.style.paddingRight = "") : (document.body.style.overflow = "hidden", document.body.style.paddingRight = `${this.getScrollbarSize()}px`, this.open(t))
+        t.getBoundingClientRect = () => new DOMRect(e.clientX,e.clientY,0,0),
+        M.closeCurrentlyOpened(),
+        this.el.classList.contains("open") && !this.menu.classList.contains("hidden") ? (this.close(),
+        document.body.style.overflow = "",
+        document.body.style.paddingRight = "") : (document.body.style.overflow = "hidden",
+        document.body.style.paddingRight = `${this.getScrollbarSize()}px`,
+        this.open(t))
     }
     onClickHandler(e) {
         this.el.classList.contains("open") && !this.menu.classList.contains("hidden") ? this.close() : this.open()
     }
     onMouseEnterHandler() {
-        if (this.eventMode !== "hover") return !1;
-        this.el._popper && this.forceClearState(), !this.el.classList.contains("open") && this.menu.classList.contains("hidden") && this.open()
+        if (this.eventMode !== "hover")
+            return !1;
+        this.el._popper && this.forceClearState(),
+        !this.el.classList.contains("open") && this.menu.classList.contains("hidden") && this.open()
     }
     onMouseLeaveHandler() {
-        if (this.eventMode !== "hover") return !1;
+        if (this.eventMode !== "hover")
+            return !1;
         this.el.classList.contains("open") && !this.menu.classList.contains("hidden") && this.close()
     }
     destroyPopper() {
         const e = (window.getComputedStyle(this.el).getPropertyValue("--scope") || "").replace(" ", "");
-        this.menu.classList.remove("block"), this.menu.classList.add("hidden"), this.menu.style.inset = null, this.menu.style.position = null, this.el && this.el._popper && this.el._popper.destroy(), e === "window" && this.el.appendChild(this.menu), this.animationInProcess = !1
+        this.menu.classList.remove("block"),
+        this.menu.classList.add("hidden"),
+        this.menu.style.inset = null,
+        this.menu.style.position = null,
+        this.el && this.el._popper && this.el._popper.destroy(),
+        e === "window" && this.el.appendChild(this.menu),
+        this.animationInProcess = !1
     }
     absoluteStrategyModifiers() {
         return [{
             name: "applyStyles",
             fn: e => {
-                const t = (window.getComputedStyle(this.el).getPropertyValue("--strategy") || "absolute").replace(" ", ""),
-                    i = (window.getComputedStyle(this.el).getPropertyValue("--adaptive") || "adaptive").replace(" ", "");
-                e.state.elements.popper.style.position = t, e.state.elements.popper.style.transform = i === "adaptive" ? e.state.styles.popper.transform : null, e.state.elements.popper.style.top = null, e.state.elements.popper.style.bottom = null, e.state.elements.popper.style.left = null, e.state.elements.popper.style.right = null, e.state.elements.popper.style.margin = 0
+                const t = (window.getComputedStyle(this.el).getPropertyValue("--strategy") || "absolute").replace(" ", "")
+                  , i = (window.getComputedStyle(this.el).getPropertyValue("--adaptive") || "adaptive").replace(" ", "");
+                e.state.elements.popper.style.position = t,
+                e.state.elements.popper.style.transform = i === "adaptive" ? e.state.styles.popper.transform : null,
+                e.state.elements.popper.style.top = null,
+                e.state.elements.popper.style.bottom = null,
+                e.state.elements.popper.style.left = null,
+                e.state.elements.popper.style.right = null,
+                e.state.elements.popper.style.margin = 0
             }
         }]
     }
     focusElement() {
         const e = this.menu.querySelector("[autofocus]");
-        if (e) e.focus();
-        else return !1
+        if (e)
+            e.focus();
+        else
+            return !1
     }
     setupPopper(e) {
-        const t = e || this.el,
-            i = (window.getComputedStyle(this.el).getPropertyValue("--placement") || "").replace(" ", ""),
-            n = (window.getComputedStyle(this.el).getPropertyValue("--flip") || "true").replace(" ", ""),
-            s = (window.getComputedStyle(this.el).getPropertyValue("--strategy") || "fixed").replace(" ", ""),
-            o = parseInt((window.getComputedStyle(this.el).getPropertyValue("--offset") || "10").replace(" ", "")),
-            r = (window.getComputedStyle(this.el).getPropertyValue("--gpu-acceleration") || "true").replace(" ", "");
+        const t = e || this.el
+          , i = (window.getComputedStyle(this.el).getPropertyValue("--placement") || "").replace(" ", "")
+          , n = (window.getComputedStyle(this.el).getPropertyValue("--flip") || "true").replace(" ", "")
+          , s = (window.getComputedStyle(this.el).getPropertyValue("--strategy") || "fixed").replace(" ", "")
+          , o = parseInt((window.getComputedStyle(this.el).getPropertyValue("--offset") || "10").replace(" ", ""))
+          , r = (window.getComputedStyle(this.el).getPropertyValue("--gpu-acceleration") || "true").replace(" ", "");
         return ut(t, this.menu, {
             placement: tt[i] || "bottom-start",
             strategy: s,
@@ -2539,29 +3136,35 @@ class M extends I {
         e.ariaChecked = e.ariaChecked === "true" ? "false" : "true"
     }
     selectRadio(e) {
-        if (e.ariaChecked === "true") return !1;
+        if (e.ariaChecked === "true")
+            return !1;
         const i = e.closest(".group").querySelectorAll('[role="menuitemradio"]');
         Array.from(i).filter(s => s !== e).forEach(s => {
             s.ariaChecked = "false"
-        }), e.ariaChecked = "true"
+        }
+        ),
+        e.ariaChecked = "true"
     }
     calculatePopperPosition(e) {
         const t = this.setupPopper(e);
         t.forceUpdate();
         const i = t.state.placement;
-        return t.destroy(), i
+        return t.destroy(),
+        i
     }
     open(e) {
-        if (this.el.classList.contains("open") || this.animationInProcess) return !1;
+        if (this.el.classList.contains("open") || this.animationInProcess)
+            return !1;
         const t = e || this.el;
         this.animationInProcess = !0;
-        const i = (window.getComputedStyle(this.el).getPropertyValue("--scope") || "").replace(" ", ""),
-            n = (window.getComputedStyle(this.el).getPropertyValue("--placement") || "").replace(" ", ""),
-            s = (window.getComputedStyle(this.el).getPropertyValue("--flip") || "true").replace(" ", ""),
-            o = (window.getComputedStyle(this.el).getPropertyValue("--strategy") || "fixed").replace(" ", ""),
-            r = parseInt((window.getComputedStyle(this.el).getPropertyValue("--offset") || "10").replace(" ", "")),
-            a = (window.getComputedStyle(this.el).getPropertyValue("--gpu-acceleration") || "true").replace(" ", "");
-        i === "window" && document.body.appendChild(this.menu), o !== "static" && (this.el._popper = ut(t, this.menu, {
+        const i = (window.getComputedStyle(this.el).getPropertyValue("--scope") || "").replace(" ", "")
+          , n = (window.getComputedStyle(this.el).getPropertyValue("--placement") || "").replace(" ", "")
+          , s = (window.getComputedStyle(this.el).getPropertyValue("--flip") || "true").replace(" ", "")
+          , o = (window.getComputedStyle(this.el).getPropertyValue("--strategy") || "fixed").replace(" ", "")
+          , r = parseInt((window.getComputedStyle(this.el).getPropertyValue("--offset") || "10").replace(" ", ""))
+          , a = (window.getComputedStyle(this.el).getPropertyValue("--gpu-acceleration") || "true").replace(" ", "");
+        i === "window" && document.body.appendChild(this.menu),
+        o !== "static" && (this.el._popper = ut(t, this.menu, {
             placement: tt[n] || "bottom-start",
             strategy: o,
             modifiers: [...o !== "fixed" ? this.absoluteStrategyModifiers() : [], {
@@ -2579,33 +3182,64 @@ class M extends I {
                     gpuAcceleration: a === "true"
                 }
             }]
-        })), this.menu.style.margin = null, this.menu.classList.remove("hidden"), this.menu.classList.add("block"), setTimeout(() => {
+        })),
+        this.menu.style.margin = null,
+        this.menu.classList.remove("hidden"),
+        this.menu.classList.add("block"),
+        setTimeout( () => {
             var h;
-            (h = this == null ? void 0 : this.toggle) != null && h.ariaExpanded && (this.toggle.ariaExpanded = "true"), this.el.classList.add("open"), i === "window" && this.menu.classList.add("open"), this.animationInProcess = !1, this.hasAutofocus && this.focusElement(), this.fireEvent("open", this.el), g("open.hs.dropdown", this.el, this.el)
-        })
+            (h = this == null ? void 0 : this.toggle) != null && h.ariaExpanded && (this.toggle.ariaExpanded = "true"),
+            this.el.classList.add("open"),
+            i === "window" && this.menu.classList.add("open"),
+            this.animationInProcess = !1,
+            this.hasAutofocus && this.focusElement(),
+            this.fireEvent("open", this.el),
+            g("open.hs.dropdown", this.el, this.el)
+        }
+        )
     }
-    close(e = !0) {
-        if (this.animationInProcess || !this.el.classList.contains("open")) return !1;
-        const t = (window.getComputedStyle(this.el).getPropertyValue("--scope") || "").replace(" ", ""),
-            i = () => {
-                var n;
-                this.menu.style.margin = null, (n = this == null ? void 0 : this.toggle) != null && n.ariaExpanded && (this.toggle.ariaExpanded = "false"), this.el.classList.remove("open"), this.fireEvent("close", this.el), g("close.hs.dropdown", this.el, this.el)
-            };
-        if (this.animationInProcess = !0, t === "window" && this.menu.classList.remove("open"), e) {
+    close(e=!0) {
+        if (this.animationInProcess || !this.el.classList.contains("open"))
+            return !1;
+        const t = (window.getComputedStyle(this.el).getPropertyValue("--scope") || "").replace(" ", "")
+          , i = () => {
+            var n;
+            this.menu.style.margin = null,
+            (n = this == null ? void 0 : this.toggle) != null && n.ariaExpanded && (this.toggle.ariaExpanded = "false"),
+            this.el.classList.remove("open"),
+            this.fireEvent("close", this.el),
+            g("close.hs.dropdown", this.el, this.el)
+        }
+        ;
+        if (this.animationInProcess = !0,
+        t === "window" && this.menu.classList.remove("open"),
+        e) {
             const n = this.el.querySelector("[data-hs-dropdown-transition]") || this.menu;
             z(n, () => this.destroyPopper())
-        } else this.destroyPopper();
+        } else
+            this.destroyPopper();
         i()
     }
     forceClearState() {
-        this.destroyPopper(), this.menu.style.margin = null, this.el.classList.remove("open")
+        this.destroyPopper(),
+        this.menu.style.margin = null,
+        this.el.classList.remove("open")
     }
     destroy() {
-        !Bt() && !Dt() && (this.el.removeEventListener("mouseenter", this.onElementMouseEnterListener), this.el.removeEventListener("mouseleave", () => this.onElementMouseLeaveListener), this.onElementMouseEnterListener = null, this.onElementMouseLeaveListener = null), this.toggle.removeEventListener("click", this.onToggleClickListener), this.onToggleClickListener = null, this.closers.length && (this.closers.forEach(e => {
+        !Bt() && !Dt() && (this.el.removeEventListener("mouseenter", this.onElementMouseEnterListener),
+        this.el.removeEventListener("mouseleave", () => this.onElementMouseLeaveListener),
+        this.onElementMouseEnterListener = null,
+        this.onElementMouseLeaveListener = null),
+        this.toggle.removeEventListener("click", this.onToggleClickListener),
+        this.onToggleClickListener = null,
+        this.closers.length && (this.closers.forEach(e => {
             e.removeEventListener("click", this.onCloserClickListener.find(t => t.el === e).fn)
-        }), this.onCloserClickListener = null), this.el.classList.remove("open"), this.destroyPopper(), window.$hsDropdownCollection = window.$hsDropdownCollection.filter(({
-            element: e
-        }) => e.el !== this.el)
+        }
+        ),
+        this.onCloserClickListener = null),
+        this.el.classList.remove("open"),
+        this.destroyPopper(),
+        window.$hsDropdownCollection = window.$hsDropdownCollection.filter( ({element: e}) => e.el !== this.el)
     }
     static findInCollection(e) {
         return window.$hsDropdownCollection.find(t => e instanceof M ? t.element.el === e.el : typeof e == "string" ? t.element.el === document.querySelector(e) : t.element.el === e) || null
@@ -2616,23 +3250,29 @@ class M extends I {
     }
     static autoInit() {
         if (!window.$hsDropdownCollection) {
-            window.$hsDropdownCollection = [], document.addEventListener("keydown", t => M.accessibility(t)), window.addEventListener("click", t => {
+            window.$hsDropdownCollection = [],
+            document.addEventListener("keydown", t => M.accessibility(t)),
+            window.addEventListener("click", t => {
                 const i = t.target;
                 M.closeCurrentlyOpened(i)
-            });
+            }
+            );
             let e = window.innerWidth;
             window.addEventListener("resize", () => {
-                window.innerWidth !== e && (e = innerWidth, M.closeCurrentlyOpened(null, !1))
-            })
+                window.innerWidth !== e && (e = innerWidth,
+                M.closeCurrentlyOpened(null, !1))
+            }
+            )
         }
-        window.$hsDropdownCollection && (window.$hsDropdownCollection = window.$hsDropdownCollection.filter(({
-            element: e
-        }) => document.contains(e.el))), document.querySelectorAll(".hs-dropdown:not(.--prevent-on-load-init)").forEach(e => {
+        window.$hsDropdownCollection && (window.$hsDropdownCollection = window.$hsDropdownCollection.filter( ({element: e}) => document.contains(e.el))),
+        document.querySelectorAll(".hs-dropdown:not(.--prevent-on-load-init)").forEach(e => {
             window.$hsDropdownCollection.find(t => {
                 var i;
                 return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
-            }) || new M(e)
-        })
+            }
+            ) || new M(e)
+        }
+        )
     }
     static open(e) {
         const t = M.findInCollection(e);
@@ -2645,87 +3285,119 @@ class M extends I {
     static accessibility(e) {
         this.history = ci;
         const t = window.$hsDropdownCollection.find(i => i.element.el.classList.contains("open"));
-        if (t && (di.includes(e.code) || e.code.length === 4 && e.code[e.code.length - 1].match(/^[A-Z]*$/)) && !e.metaKey && !t.element.menu.querySelector("input:focus") && !t.element.menu.querySelector("textarea:focus")) switch (e.code) {
+        if (t && (di.includes(e.code) || e.code.length === 4 && e.code[e.code.length - 1].match(/^[A-Z]*$/)) && !e.metaKey && !t.element.menu.querySelector("input:focus") && !t.element.menu.querySelector("textarea:focus"))
+            switch (e.code) {
             case "Escape":
-                t.element.menu.querySelector(".hs-select.active") || (e.preventDefault(), this.onEscape(e));
+                t.element.menu.querySelector(".hs-select.active") || (e.preventDefault(),
+                this.onEscape(e));
                 break;
             case "Enter":
                 !t.element.menu.querySelector(".hs-select button:focus") && !t.element.menu.querySelector(".hs-collapse-toggle:focus") && this.onEnter(e);
                 break;
             case "ArrowUp":
-                e.preventDefault(), e.stopImmediatePropagation(), this.onArrow();
+                e.preventDefault(),
+                e.stopImmediatePropagation(),
+                this.onArrow();
                 break;
             case "ArrowDown":
-                e.preventDefault(), e.stopImmediatePropagation(), this.onArrow(!1);
+                e.preventDefault(),
+                e.stopImmediatePropagation(),
+                this.onArrow(!1);
                 break;
             case "ArrowRight":
-                e.preventDefault(), e.stopImmediatePropagation(), this.onArrowX(e, "right");
+                e.preventDefault(),
+                e.stopImmediatePropagation(),
+                this.onArrowX(e, "right");
                 break;
             case "ArrowLeft":
-                e.preventDefault(), e.stopImmediatePropagation(), this.onArrowX(e, "left");
+                e.preventDefault(),
+                e.stopImmediatePropagation(),
+                this.onArrowX(e, "left");
                 break;
             case "Home":
-                e.preventDefault(), e.stopImmediatePropagation(), this.onStartEnd();
+                e.preventDefault(),
+                e.stopImmediatePropagation(),
+                this.onStartEnd();
                 break;
             case "End":
-                e.preventDefault(), e.stopImmediatePropagation(), this.onStartEnd(!1);
+                e.preventDefault(),
+                e.stopImmediatePropagation(),
+                this.onStartEnd(!1);
                 break;
             default:
-                e.preventDefault(), this.onFirstLetter(e.key);
+                e.preventDefault(),
+                this.onFirstLetter(e.key);
                 break
-        }
+            }
     }
     static onEscape(e) {
         const t = e.target.closest(".hs-dropdown.open");
         if (window.$hsDropdownCollection.find(i => i.element.el === t)) {
             const i = window.$hsDropdownCollection.find(n => n.element.el === t);
-            i && (i.element.close(), i.element.toggle.focus())
-        } else this.closeCurrentlyOpened()
+            i && (i.element.close(),
+            i.element.toggle.focus())
+        } else
+            this.closeCurrentlyOpened()
     }
     static onEnter(e) {
-        const t = e.target,
-            {
-                element: i
-            } = window.$hsDropdownCollection.find(n => n.element.el === t.closest(".hs-dropdown")) ? ? null;
-        if (i && t.classList.contains("hs-dropdown-toggle")) e.preventDefault(), i.open();
-        else if (i && t.getAttribute("role") === "menuitemcheckbox") i.selectCheckbox(t), i.close();
-        else if (i && t.getAttribute("role") === "menuitemradio") i.selectRadio(t), i.close();
-        else return !1
+        const t = e.target
+          , {element: i} = window.$hsDropdownCollection.find(n => n.element.el === t.closest(".hs-dropdown")) ?? null;
+        if (i && t.classList.contains("hs-dropdown-toggle"))
+            e.preventDefault(),
+            i.open();
+        else if (i && t.getAttribute("role") === "menuitemcheckbox")
+            i.selectCheckbox(t),
+            i.close();
+        else if (i && t.getAttribute("role") === "menuitemradio")
+            i.selectRadio(t),
+            i.close();
+        else
+            return !1
     }
-    static onArrow(e = !0) {
+    static onArrow(e=!0) {
         const t = window.$hsDropdownCollection.find(i => i.element.el.classList.contains("open"));
         if (t) {
             const i = t.element.menu;
-            if (!i) return !1;
-            const n = e ? Array.from(i.querySelectorAll('a:not([hidden]), .hs-dropdown > button:not([hidden]), [role="button"]:not([hidden]), [role^="menuitem"]:not([hidden])')).reverse() : Array.from(i.querySelectorAll('a:not([hidden]), .hs-dropdown > button:not([hidden]), [role="button"]:not([hidden]), [role^="menuitem"]:not([hidden])')),
-                o = Array.from(n).filter(h => {
-                    const c = h;
-                    return c.closest("[hidden]") === null && c.offsetParent !== null
-                }).filter(h => !h.classList.contains("disabled")),
-                r = i.querySelector('a:focus, button:focus, [role="button"]:focus, [role^="menuitem"]:focus');
+            if (!i)
+                return !1;
+            const n = e ? Array.from(i.querySelectorAll('a:not([hidden]), .hs-dropdown > button:not([hidden]), [role="button"]:not([hidden]), [role^="menuitem"]:not([hidden])')).reverse() : Array.from(i.querySelectorAll('a:not([hidden]), .hs-dropdown > button:not([hidden]), [role="button"]:not([hidden]), [role^="menuitem"]:not([hidden])'))
+              , o = Array.from(n).filter(h => {
+                const c = h;
+                return c.closest("[hidden]") === null && c.offsetParent !== null
+            }
+            ).filter(h => !h.classList.contains("disabled"))
+              , r = i.querySelector('a:focus, button:focus, [role="button"]:focus, [role^="menuitem"]:focus');
             let a = o.findIndex(h => h === r);
-            a + 1 < o.length && a++, o[a].focus()
+            a + 1 < o.length && a++,
+            o[a].focus()
         }
     }
     static onArrowX(e, t) {
-        const i = e.target,
-            n = i.closest(".hs-dropdown.open"),
-            s = !!n && !(n != null && n.parentElement.closest(".hs-dropdown")),
-            o = M.getInstance(i.closest(".hs-dropdown"), !0) ? ? null,
-            r = o.element.menu.querySelector('a, button, [role="button"], [role^="menuitem"]');
-        if (s && !i.classList.contains("hs-dropdown-toggle")) return !1;
-        const a = M.getInstance(i.closest(".hs-dropdown.open"), !0) ? ? null;
-        if (o.element.el.classList.contains("open") && o.element.el._popper.state.placement.includes(t)) return r.focus(), !1;
+        const i = e.target
+          , n = i.closest(".hs-dropdown.open")
+          , s = !!n && !(n != null && n.parentElement.closest(".hs-dropdown"))
+          , o = M.getInstance(i.closest(".hs-dropdown"), !0) ?? null
+          , r = o.element.menu.querySelector('a, button, [role="button"], [role^="menuitem"]');
+        if (s && !i.classList.contains("hs-dropdown-toggle"))
+            return !1;
+        const a = M.getInstance(i.closest(".hs-dropdown.open"), !0) ?? null;
+        if (o.element.el.classList.contains("open") && o.element.el._popper.state.placement.includes(t))
+            return r.focus(),
+            !1;
         console.log(o);
         const h = o.element.calculatePopperPosition();
-        if (s && !h.includes(t)) return !1;
-        h.includes(t) && i.classList.contains("hs-dropdown-toggle") ? (o.element.open(), r.focus()) : (a.element.close(!1), a.element.toggle.focus())
+        if (s && !h.includes(t))
+            return !1;
+        h.includes(t) && i.classList.contains("hs-dropdown-toggle") ? (o.element.open(),
+        r.focus()) : (a.element.close(!1),
+        a.element.toggle.focus())
     }
-    static onStartEnd(e = !0) {
+    static onStartEnd(e=!0) {
         const t = window.$hsDropdownCollection.find(i => i.element.el.classList.contains("open"));
         if (t) {
             const i = t.element.menu;
-            if (!i) return !1;
+            if (!i)
+                return !1;
             const s = (e ? Array.from(i.querySelectorAll('a, button, [role="button"], [role^="menuitem"]')) : Array.from(i.querySelectorAll('a, button, [role="button"], [role^="menuitem"]')).reverse()).filter(o => !o.classList.contains("disabled"));
             s.length && s[0].focus()
         }
@@ -2734,23 +3406,34 @@ class M extends I {
         const t = window.$hsDropdownCollection.find(i => i.element.el.classList.contains("open"));
         if (t) {
             const i = t.element.menu;
-            if (!i) return !1;
-            const n = Array.from(i.querySelectorAll('a, [role="button"], [role^="menuitem"]')),
-                s = () => n.findIndex((r, a) => r.innerText.toLowerCase().charAt(0) === e.toLowerCase() && this.history.existsInHistory(a));
+            if (!i)
+                return !1;
+            const n = Array.from(i.querySelectorAll('a, [role="button"], [role^="menuitem"]'))
+              , s = () => n.findIndex( (r, a) => r.innerText.toLowerCase().charAt(0) === e.toLowerCase() && this.history.existsInHistory(a));
             let o = s();
-            o === -1 && (this.history.clearHistory(), o = s()), o !== -1 && (n[o].focus(), this.history.addHistory(o))
+            o === -1 && (this.history.clearHistory(),
+            o = s()),
+            o !== -1 && (n[o].focus(),
+            this.history.addHistory(o))
         }
     }
-    static closeCurrentlyOpened(e = null, t = !0) {
+    static closeCurrentlyOpened(e=null, t=!0) {
         const i = e && e.closest(".hs-dropdown") && e.closest(".hs-dropdown").parentElement.closest(".hs-dropdown") ? e.closest(".hs-dropdown").parentElement.closest(".hs-dropdown") : null;
         let n = i ? window.$hsDropdownCollection.filter(s => s.element.el.classList.contains("open") && s.element.menu.closest(".hs-dropdown").parentElement.closest(".hs-dropdown") === i) : window.$hsDropdownCollection.filter(s => s.element.el.classList.contains("open"));
-        e && e.closest(".hs-dropdown") && Pt(e.closest(".hs-dropdown"), "--auto-close") === "inside" && (n = n.filter(s => s.element.el !== e.closest(".hs-dropdown"))), n && n.forEach(s => {
-            if (s.element.closeMode === "false" || s.element.closeMode === "outside") return !1;
+        e && e.closest(".hs-dropdown") && Pt(e.closest(".hs-dropdown"), "--auto-close") === "inside" && (n = n.filter(s => s.element.el !== e.closest(".hs-dropdown"))),
+        n && n.forEach(s => {
+            if (s.element.closeMode === "false" || s.element.closeMode === "outside")
+                return !1;
             s.element.close(t)
-        }), n && n.forEach(s => {
-            if (Pt(s.element.el, "--trigger") !== "contextmenu") return !1;
-            document.body.style.overflow = "", document.body.style.paddingRight = ""
-        })
+        }
+        ),
+        n && n.forEach(s => {
+            if (Pt(s.element.el, "--trigger") !== "contextmenu")
+                return !1;
+            document.body.style.overflow = "",
+            document.body.style.paddingRight = ""
+        }
+        )
     }
     static on(e, t, i) {
         const n = M.findInCollection(t);
@@ -2759,10 +3442,13 @@ class M extends I {
 }
 window.addEventListener("load", () => {
     M.autoInit()
-});
+}
+);
 window.addEventListener("resize", () => {
-    window.$hsDropdownCollection || (window.$hsDropdownCollection = []), window.$hsDropdownCollection.forEach(l => l.element.resizeHandler())
-});
+    window.$hsDropdownCollection || (window.$hsDropdownCollection = []),
+    window.$hsDropdownCollection.forEach(l => l.element.resizeHandler())
+}
+);
 typeof window < "u" && (window.HSDropdown = M);
 /*
  * HSInputNumber
@@ -2773,14 +3459,22 @@ typeof window < "u" && (window.HSDropdown = M);
  */
 class Oe extends I {
     constructor(e, t) {
-        super(e, t), this.input = this.el.querySelector("[data-hs-input-number-input]") || null, this.increment = this.el.querySelector("[data-hs-input-number-increment]") || null, this.decrement = this.el.querySelector("[data-hs-input-number-decrement]") || null, this.input && this.checkIsNumberAndConvert();
-        const i = this.el.dataset.hsInputNumber,
-            s = { ...i ? JSON.parse(i) : {
-                    step: 1
-                },
-                ...t
-            };
-        this.minInputValue = "min" in s ? s.min : 0, this.maxInputValue = "max" in s ? s.max : null, this.step = "step" in s && s.step > 0 ? s.step : 1, this.init()
+        super(e, t),
+        this.input = this.el.querySelector("[data-hs-input-number-input]") || null,
+        this.increment = this.el.querySelector("[data-hs-input-number-increment]") || null,
+        this.decrement = this.el.querySelector("[data-hs-input-number-decrement]") || null,
+        this.input && this.checkIsNumberAndConvert();
+        const i = this.el.dataset.hsInputNumber
+          , s = {
+            ...i ? JSON.parse(i) : {
+                step: 1
+            },
+            ...t
+        };
+        this.minInputValue = "min"in s ? s.min : 0,
+        this.maxInputValue = "max"in s ? s.max : null,
+        this.step = "step"in s && s.step > 0 ? s.step : 1,
+        this.init()
     }
     inputInput() {
         this.changeValue()
@@ -2792,86 +3486,121 @@ class Oe extends I {
         this.changeValue("decrement")
     }
     init() {
-        this.createCollection(window.$hsInputNumberCollection, this), this.input && this.increment && this.build()
+        this.createCollection(window.$hsInputNumberCollection, this),
+        this.input && this.increment && this.build()
     }
     checkIsNumberAndConvert() {
-        const e = this.input.value.trim(),
-            t = this.cleanAndExtractNumber(e);
-        t !== null ? (this.inputValue = t, this.input.value = t.toString()) : (this.inputValue = 0, this.input.value = "0")
+        const e = this.input.value.trim()
+          , t = this.cleanAndExtractNumber(e);
+        t !== null ? (this.inputValue = t,
+        this.input.value = t.toString()) : (this.inputValue = 0,
+        this.input.value = "0")
     }
     cleanAndExtractNumber(e) {
         const t = [];
         let i = !1;
         e.split("").forEach(o => {
-            o >= "0" && o <= "9" ? t.push(o) : o === "." && !i && (t.push(o), i = !0)
-        });
-        const n = t.join(""),
-            s = parseFloat(n);
+            o >= "0" && o <= "9" ? t.push(o) : o === "." && !i && (t.push(o),
+            i = !0)
+        }
+        );
+        const n = t.join("")
+          , s = parseFloat(n);
         return isNaN(s) ? null : s
     }
     build() {
-        this.input && this.buildInput(), this.increment && this.buildIncrement(), this.decrement && this.buildDecrement(), this.inputValue <= this.minInputValue && (this.inputValue = this.minInputValue, this.input.value = `${this.minInputValue}`), this.inputValue <= this.minInputValue && this.changeValue(), this.input.hasAttribute("disabled") && this.disableButtons()
+        this.input && this.buildInput(),
+        this.increment && this.buildIncrement(),
+        this.decrement && this.buildDecrement(),
+        this.inputValue <= this.minInputValue && (this.inputValue = this.minInputValue,
+        this.input.value = `${this.minInputValue}`),
+        this.inputValue <= this.minInputValue && this.changeValue(),
+        this.input.hasAttribute("disabled") && this.disableButtons()
     }
     buildInput() {
-        this.onInputInputListener = () => this.inputInput(), this.input.addEventListener("input", this.onInputInputListener)
+        this.onInputInputListener = () => this.inputInput(),
+        this.input.addEventListener("input", this.onInputInputListener)
     }
     buildIncrement() {
-        this.onIncrementClickListener = () => this.incrementClick(), this.increment.addEventListener("click", this.onIncrementClickListener)
+        this.onIncrementClickListener = () => this.incrementClick(),
+        this.increment.addEventListener("click", this.onIncrementClickListener)
     }
     buildDecrement() {
-        this.onDecrementClickListener = () => this.decrementClick(), this.decrement.addEventListener("click", this.onDecrementClickListener)
+        this.onDecrementClickListener = () => this.decrementClick(),
+        this.decrement.addEventListener("click", this.onDecrementClickListener)
     }
-    changeValue(e = "none") {
+    changeValue(e="none") {
         const t = {
-                inputValue: this.inputValue
-            },
-            i = this.minInputValue ? ? Number.MIN_SAFE_INTEGER,
-            n = this.maxInputValue ? ? Number.MAX_SAFE_INTEGER;
-        switch (this.inputValue = isNaN(this.inputValue) ? 0 : this.inputValue, e) {
-            case "increment":
-                const s = this.inputValue + this.step;
-                this.inputValue = s >= i && s <= n ? s : n, this.input.value = this.inputValue.toString();
-                break;
-            case "decrement":
-                const o = this.inputValue - this.step;
-                this.inputValue = o >= i && o <= n ? o : i, this.input.value = this.inputValue.toString();
-                break;
-            default:
-                const r = isNaN(parseInt(this.input.value)) ? 0 : parseInt(this.input.value);
-                this.inputValue = r >= n ? n : r <= i ? i : r, this.inputValue <= i && (this.input.value = this.inputValue.toString());
-                break
+            inputValue: this.inputValue
         }
-        t.inputValue = this.inputValue, this.inputValue === i ? (this.el.classList.add("disabled"), this.decrement && this.disableButtons("decrement")) : (this.el.classList.remove("disabled"), this.decrement && this.enableButtons("decrement")), this.inputValue === n ? (this.el.classList.add("disabled"), this.increment && this.disableButtons("increment")) : (this.el.classList.remove("disabled"), this.increment && this.enableButtons("increment")), this.fireEvent("change", t), g("change.hs.inputNumber", this.el, t)
+          , i = this.minInputValue ?? Number.MIN_SAFE_INTEGER
+          , n = this.maxInputValue ?? Number.MAX_SAFE_INTEGER;
+        switch (this.inputValue = isNaN(this.inputValue) ? 0 : this.inputValue,
+        e) {
+        case "increment":
+            const s = this.inputValue + this.step;
+            this.inputValue = s >= i && s <= n ? s : n,
+            this.input.value = this.inputValue.toString();
+            break;
+        case "decrement":
+            const o = this.inputValue - this.step;
+            this.inputValue = o >= i && o <= n ? o : i,
+            this.input.value = this.inputValue.toString();
+            break;
+        default:
+            const r = isNaN(parseInt(this.input.value)) ? 0 : parseInt(this.input.value);
+            this.inputValue = r >= n ? n : r <= i ? i : r,
+            this.inputValue <= i && (this.input.value = this.inputValue.toString());
+            break
+        }
+        t.inputValue = this.inputValue,
+        this.inputValue === i ? (this.el.classList.add("disabled"),
+        this.decrement && this.disableButtons("decrement")) : (this.el.classList.remove("disabled"),
+        this.decrement && this.enableButtons("decrement")),
+        this.inputValue === n ? (this.el.classList.add("disabled"),
+        this.increment && this.disableButtons("increment")) : (this.el.classList.remove("disabled"),
+        this.increment && this.enableButtons("increment")),
+        this.fireEvent("change", t),
+        g("change.hs.inputNumber", this.el, t)
     }
-    disableButtons(e = "all") {
-        e === "all" ? ((this.increment.tagName === "BUTTON" || this.increment.tagName === "INPUT") && this.increment.setAttribute("disabled", "disabled"), (this.decrement.tagName === "BUTTON" || this.decrement.tagName === "INPUT") && this.decrement.setAttribute("disabled", "disabled")) : e === "increment" ? (this.increment.tagName === "BUTTON" || this.increment.tagName === "INPUT") && this.increment.setAttribute("disabled", "disabled") : e === "decrement" && (this.decrement.tagName === "BUTTON" || this.decrement.tagName === "INPUT") && this.decrement.setAttribute("disabled", "disabled")
+    disableButtons(e="all") {
+        e === "all" ? ((this.increment.tagName === "BUTTON" || this.increment.tagName === "INPUT") && this.increment.setAttribute("disabled", "disabled"),
+        (this.decrement.tagName === "BUTTON" || this.decrement.tagName === "INPUT") && this.decrement.setAttribute("disabled", "disabled")) : e === "increment" ? (this.increment.tagName === "BUTTON" || this.increment.tagName === "INPUT") && this.increment.setAttribute("disabled", "disabled") : e === "decrement" && (this.decrement.tagName === "BUTTON" || this.decrement.tagName === "INPUT") && this.decrement.setAttribute("disabled", "disabled")
     }
-    enableButtons(e = "all") {
-        e === "all" ? ((this.increment.tagName === "BUTTON" || this.increment.tagName === "INPUT") && this.increment.removeAttribute("disabled"), (this.decrement.tagName === "BUTTON" || this.decrement.tagName === "INPUT") && this.decrement.removeAttribute("disabled")) : e === "increment" ? (this.increment.tagName === "BUTTON" || this.increment.tagName === "INPUT") && this.increment.removeAttribute("disabled") : e === "decrement" && (this.decrement.tagName === "BUTTON" || this.decrement.tagName === "INPUT") && this.decrement.removeAttribute("disabled")
+    enableButtons(e="all") {
+        e === "all" ? ((this.increment.tagName === "BUTTON" || this.increment.tagName === "INPUT") && this.increment.removeAttribute("disabled"),
+        (this.decrement.tagName === "BUTTON" || this.decrement.tagName === "INPUT") && this.decrement.removeAttribute("disabled")) : e === "increment" ? (this.increment.tagName === "BUTTON" || this.increment.tagName === "INPUT") && this.increment.removeAttribute("disabled") : e === "decrement" && (this.decrement.tagName === "BUTTON" || this.decrement.tagName === "INPUT") && this.decrement.removeAttribute("disabled")
     }
     destroy() {
-        this.el.classList.remove("disabled"), this.increment.removeAttribute("disabled"), this.decrement.removeAttribute("disabled"), this.input.removeEventListener("input", this.onInputInputListener), this.increment.removeEventListener("click", this.onIncrementClickListener), this.decrement.removeEventListener("click", this.onDecrementClickListener), window.$hsInputNumberCollection = window.$hsInputNumberCollection.filter(({
-            element: e
-        }) => e.el !== this.el)
+        this.el.classList.remove("disabled"),
+        this.increment.removeAttribute("disabled"),
+        this.decrement.removeAttribute("disabled"),
+        this.input.removeEventListener("input", this.onInputInputListener),
+        this.increment.removeEventListener("click", this.onIncrementClickListener),
+        this.decrement.removeEventListener("click", this.onDecrementClickListener),
+        window.$hsInputNumberCollection = window.$hsInputNumberCollection.filter( ({element: e}) => e.el !== this.el)
     }
     static getInstance(e, t) {
         const i = window.$hsInputNumberCollection.find(n => n.element.el === (typeof e == "string" ? document.querySelector(e) : e));
         return i ? t ? i : i.element : null
     }
     static autoInit() {
-        window.$hsInputNumberCollection || (window.$hsInputNumberCollection = []), window.$hsInputNumberCollection && (window.$hsInputNumberCollection = window.$hsInputNumberCollection.filter(({
-            element: e
-        }) => document.contains(e.el))), document.querySelectorAll("[data-hs-input-number]:not(.--prevent-on-load-init)").forEach(e => {
+        window.$hsInputNumberCollection || (window.$hsInputNumberCollection = []),
+        window.$hsInputNumberCollection && (window.$hsInputNumberCollection = window.$hsInputNumberCollection.filter( ({element: e}) => document.contains(e.el))),
+        document.querySelectorAll("[data-hs-input-number]:not(.--prevent-on-load-init)").forEach(e => {
             window.$hsInputNumberCollection.find(t => {
                 var i;
                 return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
-            }) || new Oe(e)
-        })
+            }
+            ) || new Oe(e)
+        }
+        )
     }
 }
 window.addEventListener("load", () => {
     Oe.autoInit()
-});
+}
+);
 typeof window < "u" && (window.HSInputNumber = Oe);
 /*
  * HSLayoutSplitter
@@ -2883,23 +3612,45 @@ typeof window < "u" && (window.HSInputNumber = Oe);
 const A = class A extends I {
     constructor(e, t) {
         super(e, t);
-        const i = e.getAttribute("data-hs-layout-splitter"),
-            s = { ...i ? JSON.parse(i) : {},
-                ...t
-            };
-        this.horizontalSplitterClasses = (s == null ? void 0 : s.horizontalSplitterClasses) || null, this.horizontalSplitterTemplate = (s == null ? void 0 : s.horizontalSplitterTemplate) || "<div></div>", this.verticalSplitterClasses = (s == null ? void 0 : s.verticalSplitterClasses) || null, this.verticalSplitterTemplate = (s == null ? void 0 : s.verticalSplitterTemplate) || "<div></div>", this.isSplittersAddedManually = (s == null ? void 0 : s.isSplittersAddedManually) ? ? !1, this.horizontalSplitters = [], this.horizontalControls = [], this.verticalSplitters = [], this.verticalControls = [], this.isDragging = !1, this.activeSplitter = null, this.onControlPointerDownListener = [], this.init()
+        const i = e.getAttribute("data-hs-layout-splitter")
+          , s = {
+            ...i ? JSON.parse(i) : {},
+            ...t
+        };
+        this.horizontalSplitterClasses = (s == null ? void 0 : s.horizontalSplitterClasses) || null,
+        this.horizontalSplitterTemplate = (s == null ? void 0 : s.horizontalSplitterTemplate) || "<div></div>",
+        this.verticalSplitterClasses = (s == null ? void 0 : s.verticalSplitterClasses) || null,
+        this.verticalSplitterTemplate = (s == null ? void 0 : s.verticalSplitterTemplate) || "<div></div>",
+        this.isSplittersAddedManually = (s == null ? void 0 : s.isSplittersAddedManually) ?? !1,
+        this.horizontalSplitters = [],
+        this.horizontalControls = [],
+        this.verticalSplitters = [],
+        this.verticalControls = [],
+        this.isDragging = !1,
+        this.activeSplitter = null,
+        this.onControlPointerDownListener = [],
+        this.init()
     }
     controlPointerDown(e) {
-        this.isDragging = !0, this.activeSplitter = e, this.onPointerDownHandler(e)
+        this.isDragging = !0,
+        this.activeSplitter = e,
+        this.onPointerDownHandler(e)
     }
     controlPointerUp() {
-        this.isDragging = !1, this.activeSplitter = null, this.onPointerUpHandler()
+        this.isDragging = !1,
+        this.activeSplitter = null,
+        this.onPointerUpHandler()
     }
     init() {
-        this.createCollection(window.$hsLayoutSplitterCollection, this), this.buildSplitters(), A.isListenersInitialized || (document.addEventListener("pointermove", A.onDocumentPointerMove), document.addEventListener("pointerup", A.onDocumentPointerUp), A.isListenersInitialized = !0)
+        this.createCollection(window.$hsLayoutSplitterCollection, this),
+        this.buildSplitters(),
+        A.isListenersInitialized || (document.addEventListener("pointermove", A.onDocumentPointerMove),
+        document.addEventListener("pointerup", A.onDocumentPointerUp),
+        A.isListenersInitialized = !0)
     }
     buildSplitters() {
-        this.buildHorizontalSplitters(), this.buildVerticalSplitters()
+        this.buildHorizontalSplitters(),
+        this.buildVerticalSplitters()
     }
     buildHorizontalSplitters() {
         const e = this.el.querySelectorAll("[data-hs-layout-splitter-horizontal-group]");
@@ -2908,7 +3659,9 @@ const A = class A extends I {
                 el: t,
                 items: Array.from(t.querySelectorAll(":scope > [data-hs-layout-splitter-item]"))
             })
-        }), this.updateHorizontalSplitter())
+        }
+        ),
+        this.updateHorizontalSplitter())
     }
     buildVerticalSplitters() {
         const e = this.el.querySelectorAll("[data-hs-layout-splitter-vertical-group]");
@@ -2917,21 +3670,30 @@ const A = class A extends I {
                 el: t,
                 items: Array.from(t.querySelectorAll(":scope > [data-hs-layout-splitter-item]"))
             })
-        }), this.updateVerticalSplitter())
+        }
+        ),
+        this.updateVerticalSplitter())
     }
-    buildControl(e, t, i = "horizontal") {
+    buildControl(e, t, i="horizontal") {
         let n;
         if (this.isSplittersAddedManually) {
-            if (n = t == null ? void 0 : t.previousElementSibling, !n) return !1;
+            if (n = t == null ? void 0 : t.previousElementSibling,
+            !n)
+                return !1;
             n.style.display = ""
-        } else n = y(i === "horizontal" ? this.horizontalSplitterTemplate : this.verticalSplitterTemplate), D(i === "horizontal" ? this.horizontalSplitterClasses : this.verticalSplitterClasses, n), n.classList.add("hs-layout-splitter-control");
+        } else
+            n = y(i === "horizontal" ? this.horizontalSplitterTemplate : this.verticalSplitterTemplate),
+            D(i === "horizontal" ? this.horizontalSplitterClasses : this.verticalSplitterClasses, n),
+            n.classList.add("hs-layout-splitter-control");
         const s = {
             el: n,
             direction: i,
             prev: e,
             next: t
         };
-        i === "horizontal" ? this.horizontalControls.push(s) : this.verticalControls.push(s), this.bindListeners(s), t && !this.isSplittersAddedManually && e.insertAdjacentElement("afterend", n)
+        i === "horizontal" ? this.horizontalControls.push(s) : this.verticalControls.push(s),
+        this.bindListeners(s),
+        t && !this.isSplittersAddedManually && e.insertAdjacentElement("afterend", n)
     }
     getSplitterItemParsedParam(e) {
         const t = e.getAttribute("data-hs-layout-splitter-item");
@@ -2945,97 +3707,104 @@ const A = class A extends I {
         return typeof n == "number" ? n / 100 * i : 0
     }
     updateHorizontalSplitter() {
-        this.horizontalSplitters.forEach(({
-            items: e
-        }) => {
+        this.horizontalSplitters.forEach( ({items: e}) => {
             e.forEach(t => {
                 this.updateSingleSplitter(t)
-            }), e.forEach((t, i) => {
+            }
+            ),
+            e.forEach( (t, i) => {
                 i >= e.length - 1 ? this.buildControl(t, null) : this.buildControl(t, e[i + 1])
-            })
-        })
+            }
+            )
+        }
+        )
     }
     updateSingleSplitter(e) {
-        const t = e.getAttribute("data-hs-layout-splitter-item"),
-            i = at(t) ? JSON.parse(t) : t,
-            n = at(t) ? i.dynamicSize : t;
+        const t = e.getAttribute("data-hs-layout-splitter-item")
+          , i = at(t) ? JSON.parse(t) : t
+          , n = at(t) ? i.dynamicSize : t;
         e.style.flex = `${n} 1 0`
     }
     updateVerticalSplitter() {
-        this.verticalSplitters.forEach(({
-            items: e
-        }) => {
+        this.verticalSplitters.forEach( ({items: e}) => {
             e.forEach(t => {
                 this.updateSingleSplitter(t)
-            }), e.forEach((t, i) => {
+            }
+            ),
+            e.forEach( (t, i) => {
                 i >= e.length - 1 ? this.buildControl(t, null, "vertical") : this.buildControl(t, e[i + 1], "vertical")
-            })
-        })
+            }
+            )
+        }
+        )
     }
     updateSplitterItemParam(e, t) {
-        const i = this.getSplitterItemParsedParam(e),
-            n = t.toFixed(1),
-            s = typeof i == "object" ? JSON.stringify({ ...i,
-                dynamicSize: +n
-            }) : n;
+        const i = this.getSplitterItemParsedParam(e)
+          , n = t.toFixed(1)
+          , s = typeof i == "object" ? JSON.stringify({
+            ...i,
+            dynamicSize: +n
+        }) : n;
         e.setAttribute("data-hs-layout-splitter-item", s)
     }
     onPointerDownHandler(e) {
-        const {
-            el: t,
-            prev: i,
-            next: n
-        } = e;
-        t.classList.add("dragging"), i.classList.add("dragging"), n.classList.add("dragging"), document.body.style.userSelect = "none"
+        const {el: t, prev: i, next: n} = e;
+        t.classList.add("dragging"),
+        i.classList.add("dragging"),
+        n.classList.add("dragging"),
+        document.body.style.userSelect = "none"
     }
     onPointerUpHandler() {
         document.body.style.userSelect = ""
     }
     onPointerMoveHandler(e, t, i) {
-        const {
-            prev: n,
-            next: s
-        } = t, o = t.el.closest(i === "horizontal" ? "[data-hs-layout-splitter-horizontal-group]" : "[data-hs-layout-splitter-vertical-group]"), r = i === "horizontal", a = this.getContainerSize(o, r), h = this.calculateAvailableSize(o, n, s, r, a), c = this.calculateResizedSizes(e, n, h, r), d = this.enforceLimits(c, n, s, a, h);
+        const {prev: n, next: s} = t
+          , o = t.el.closest(i === "horizontal" ? "[data-hs-layout-splitter-horizontal-group]" : "[data-hs-layout-splitter-vertical-group]")
+          , r = i === "horizontal"
+          , a = this.getContainerSize(o, r)
+          , h = this.calculateAvailableSize(o, n, s, r, a)
+          , c = this.calculateResizedSizes(e, n, h, r)
+          , d = this.enforceLimits(c, n, s, a, h);
         this.applySizes(n, s, d, a)
     }
     bindListeners(e) {
-        const {
-            el: t
-        } = e;
+        const {el: t} = e;
         this.onControlPointerDownListener.push({
             el: t,
             fn: () => this.controlPointerDown(e)
-        }), t.addEventListener("pointerdown", this.onControlPointerDownListener.find(i => i.el === t).fn)
+        }),
+        t.addEventListener("pointerdown", this.onControlPointerDownListener.find(i => i.el === t).fn)
     }
     calculateAvailableSize(e, t, i, n, s) {
-        const o = e.querySelectorAll(":scope > [data-hs-layout-splitter-item]"),
-            r = Array.from(o).reduce((a, h) => {
-                if (h === t || h === i) return a;
-                const c = h.getBoundingClientRect(),
-                    d = window.getComputedStyle(h);
-                return a + (d.position === "fixed" ? 0 : n ? c.width : c.height)
-            }, 0);
+        const o = e.querySelectorAll(":scope > [data-hs-layout-splitter-item]")
+          , r = Array.from(o).reduce( (a, h) => {
+            if (h === t || h === i)
+                return a;
+            const c = h.getBoundingClientRect()
+              , d = window.getComputedStyle(h);
+            return a + (d.position === "fixed" ? 0 : n ? c.width : c.height)
+        }
+        , 0);
         return s - r
     }
     calculateResizedSizes(e, t, i, n) {
         const s = n ? t.getBoundingClientRect().left : t.getBoundingClientRect().top;
-        let o = Math.max(0, Math.min((n ? e.clientX : e.clientY) - s, i)),
-            r = i - o;
+        let o = Math.max(0, Math.min((n ? e.clientX : e.clientY) - s, i))
+          , r = i - o;
         return {
             previousSize: o,
             nextSize: r
         }
     }
     enforceLimits(e, t, i, n, s) {
-        const o = this.getMaxFlexSize(t, "minSize", n),
-            r = this.getMaxFlexSize(i, "minSize", n),
-            a = this.getMaxFlexSize(t, "preLimitSize", n),
-            h = this.getMaxFlexSize(i, "preLimitSize", n);
-        let {
-            previousSize: c,
-            nextSize: d
-        } = e;
-        d < r ? (d = r, c = s - d) : c < o && (c = o, d = s - c);
+        const o = this.getMaxFlexSize(t, "minSize", n)
+          , r = this.getMaxFlexSize(i, "minSize", n)
+          , a = this.getMaxFlexSize(t, "preLimitSize", n)
+          , h = this.getMaxFlexSize(i, "preLimitSize", n);
+        let {previousSize: c, nextSize: d} = e;
+        d < r ? (d = r,
+        c = s - d) : c < o && (c = o,
+        d = s - c);
         const u = {
             prev: t,
             next: i,
@@ -3062,38 +3831,49 @@ const A = class A extends I {
                 }
             }
         };
-        return d < r ? (this.fireEvent("onNextLimit", u), g("onNextLimit.hs.layoutSplitter", this.el, u)) : c < o && (this.fireEvent("onPrevLimit", u), g("onPrevLimit.hs.layoutSplitter", this.el, u)), c <= a && (this.fireEvent("onPrevPreLimit", u), g("onPrevPreLimit.hs.layoutSplitter", this.el, u)), d <= h && (this.fireEvent("onNextPreLimit", u), g("onNextPreLimit.hs.layoutSplitter", this.el, u)), this.fireEvent("drag", u), g("drag.hs.layoutSplitter", this.el, u), {
+        return d < r ? (this.fireEvent("onNextLimit", u),
+        g("onNextLimit.hs.layoutSplitter", this.el, u)) : c < o && (this.fireEvent("onPrevLimit", u),
+        g("onPrevLimit.hs.layoutSplitter", this.el, u)),
+        c <= a && (this.fireEvent("onPrevPreLimit", u),
+        g("onPrevPreLimit.hs.layoutSplitter", this.el, u)),
+        d <= h && (this.fireEvent("onNextPreLimit", u),
+        g("onNextPreLimit.hs.layoutSplitter", this.el, u)),
+        this.fireEvent("drag", u),
+        g("drag.hs.layoutSplitter", this.el, u),
+        {
             previousSize: c,
             nextSize: d
         }
     }
     applySizes(e, t, i, n) {
-        const {
-            previousSize: s,
-            nextSize: o
-        } = i, r = s / n * 100;
-        this.updateSplitterItemParam(e, r), e.style.flex = `${r.toFixed(1)} 1 0`;
+        const {previousSize: s, nextSize: o} = i
+          , r = s / n * 100;
+        this.updateSplitterItemParam(e, r),
+        e.style.flex = `${r.toFixed(1)} 1 0`;
         const a = o / n * 100;
-        this.updateSplitterItemParam(t, a), t.style.flex = `${a.toFixed(1)} 1 0`
+        this.updateSplitterItemParam(t, a),
+        t.style.flex = `${a.toFixed(1)} 1 0`
     }
     getSplitterItemSingleParam(e, t) {
         try {
             return this.getSplitterItemParsedParam(e)[t]
         } catch {
-            return console.log("There is no parameter with this name in the object."), !1
+            return console.log("There is no parameter with this name in the object."),
+            !1
         }
     }
     getData(e) {
         const t = e.closest("[data-hs-layout-splitter-horizontal-group], [data-hs-layout-splitter-vertical-group]");
-        if (!t) throw new Error("Element is not inside a valid layout splitter container.");
-        const i = t.matches("[data-hs-layout-splitter-horizontal-group]"),
-            n = this.getContainerSize(t, i),
-            s = this.getSplitterItemSingleParam(e, "dynamicSize") || 0,
-            o = this.getMaxFlexSize(e, "minSize", n),
-            r = this.getMaxFlexSize(e, "preLimitSize", n),
-            a = s / 100 * n,
-            h = o / n * 100,
-            c = r / n * 100;
+        if (!t)
+            throw new Error("Element is not inside a valid layout splitter container.");
+        const i = t.matches("[data-hs-layout-splitter-horizontal-group]")
+          , n = this.getContainerSize(t, i)
+          , s = this.getSplitterItemSingleParam(e, "dynamicSize") || 0
+          , o = this.getMaxFlexSize(e, "minSize", n)
+          , r = this.getMaxFlexSize(e, "preLimitSize", n)
+          , a = s / 100 * n
+          , h = o / n * 100
+          , c = r / n * 100;
         return {
             el: e,
             dynamicSize: +a.toFixed(),
@@ -3103,94 +3883,111 @@ const A = class A extends I {
             preLimitSize: +r.toFixed(),
             preLimitFlexSize: c,
             static: {
-                minSize: this.getSplitterItemSingleParam(e, "minSize") ? ? null,
-                preLimitSize: this.getSplitterItemSingleParam(e, "preLimitSize") ? ? null
+                minSize: this.getSplitterItemSingleParam(e, "minSize") ?? null,
+                preLimitSize: this.getSplitterItemSingleParam(e, "preLimitSize") ?? null
             }
         }
     }
     setSplitterItemSize(e, t) {
-        this.updateSplitterItemParam(e, t), e.style.flex = `${t.toFixed(1)} 1 0`
+        this.updateSplitterItemParam(e, t),
+        e.style.flex = `${t.toFixed(1)} 1 0`
     }
     updateFlexValues(e) {
         let t = 0;
-        const i = window.innerWidth,
-            n = s => {
-                const o = Object.keys(s).map(Number).sort((r, a) => r - a);
-                for (let r = o.length - 1; r >= 0; r--)
-                    if (i >= o[r]) return s[o[r]];
-                return 0
-            };
-        if (e.forEach(({
-                id: s,
-                breakpoints: o
-            }) => {
-                const r = document.getElementById(s);
-                if (r) {
-                    const a = n(o);
-                    this.updateSplitterItemParam(r, a), r.style.flex = `${a.toFixed(1)} 1 0`, t += a
-                }
-            }), t !== 100) {
+        const i = window.innerWidth
+          , n = s => {
+            const o = Object.keys(s).map(Number).sort( (r, a) => r - a);
+            for (let r = o.length - 1; r >= 0; r--)
+                if (i >= o[r])
+                    return s[o[r]];
+            return 0
+        }
+        ;
+        if (e.forEach( ({id: s, breakpoints: o}) => {
+            const r = document.getElementById(s);
+            if (r) {
+                const a = n(o);
+                this.updateSplitterItemParam(r, a),
+                r.style.flex = `${a.toFixed(1)} 1 0`,
+                t += a
+            }
+        }
+        ),
+        t !== 100) {
             const s = 100 / t;
-            e.forEach(({
-                id: o
-            }) => {
+            e.forEach( ({id: o}) => {
                 const r = document.getElementById(o);
                 if (r) {
                     const h = parseFloat(r.style.flex.split(" ")[0]) * s;
-                    this.updateSplitterItemParam(r, h), r.style.flex = `${h.toFixed(1)} 1 0`
+                    this.updateSplitterItemParam(r, h),
+                    r.style.flex = `${h.toFixed(1)} 1 0`
                 }
-            })
+            }
+            )
         }
     }
     destroy() {
-        this.onControlPointerDownListener && (this.onControlPointerDownListener.forEach(({
-            el: e,
-            fn: t
-        }) => {
+        this.onControlPointerDownListener && (this.onControlPointerDownListener.forEach( ({el: e, fn: t}) => {
             e.removeEventListener("pointerdown", t)
-        }), this.onControlPointerDownListener = null), this.horizontalSplitters.forEach(({
-            items: e
-        }) => {
+        }
+        ),
+        this.onControlPointerDownListener = null),
+        this.horizontalSplitters.forEach( ({items: e}) => {
             e.forEach(t => {
                 t.style.flex = ""
-            })
-        }), this.verticalSplitters.forEach(({
-            items: e
-        }) => {
+            }
+            )
+        }
+        ),
+        this.verticalSplitters.forEach( ({items: e}) => {
             e.forEach(t => {
                 t.style.flex = ""
-            })
-        }), this.horizontalControls.forEach(({
-            el: e
-        }) => {
+            }
+            )
+        }
+        ),
+        this.horizontalControls.forEach( ({el: e}) => {
             this.isSplittersAddedManually ? e.style.display = "none" : e.remove()
-        }), this.verticalControls.forEach(({
-            el: e
-        }) => {
+        }
+        ),
+        this.verticalControls.forEach( ({el: e}) => {
             this.isSplittersAddedManually ? e.style.display = "none" : e.remove()
-        }), this.horizontalControls = [], this.verticalControls = [], window.$hsLayoutSplitterCollection = window.$hsLayoutSplitterCollection.filter(({
-            element: e
-        }) => e.el !== this.el), window.$hsLayoutSplitterCollection.length === 0 && A.isListenersInitialized && (document.removeEventListener("pointermove", A.onDocumentPointerMove), document.removeEventListener("pointerup", A.onDocumentPointerUp), A.isListenersInitialized = !1)
+        }
+        ),
+        this.horizontalControls = [],
+        this.verticalControls = [],
+        window.$hsLayoutSplitterCollection = window.$hsLayoutSplitterCollection.filter( ({element: e}) => e.el !== this.el),
+        window.$hsLayoutSplitterCollection.length === 0 && A.isListenersInitialized && (document.removeEventListener("pointermove", A.onDocumentPointerMove),
+        document.removeEventListener("pointerup", A.onDocumentPointerUp),
+        A.isListenersInitialized = !1)
     }
     static findInCollection(e) {
         return window.$hsLayoutSplitterCollection.find(t => e instanceof A ? t.element.el === e.el : typeof e == "string" ? t.element.el === document.querySelector(e) : t.element.el === e) || null
     }
     static autoInit() {
-        window.$hsLayoutSplitterCollection || (window.$hsLayoutSplitterCollection = [], window.addEventListener("pointerup", () => {
-            if (!window.$hsLayoutSplitterCollection) return !1;
-            const e = document.querySelector(".hs-layout-splitter-control.dragging"),
-                t = document.querySelectorAll("[data-hs-layout-splitter-item].dragging");
-            if (!e) return !1;
+        window.$hsLayoutSplitterCollection || (window.$hsLayoutSplitterCollection = [],
+        window.addEventListener("pointerup", () => {
+            if (!window.$hsLayoutSplitterCollection)
+                return !1;
+            const e = document.querySelector(".hs-layout-splitter-control.dragging")
+              , t = document.querySelectorAll("[data-hs-layout-splitter-item].dragging");
+            if (!e)
+                return !1;
             const i = A.getInstance(e.closest("[data-hs-layout-splitter]"), !0);
-            e.classList.remove("dragging"), t.forEach(n => n.classList.remove("dragging")), i.element.isDragging = !1
-        })), window.$hsLayoutSplitterCollection && (window.$hsLayoutSplitterCollection = window.$hsLayoutSplitterCollection.filter(({
-            element: e
-        }) => document.contains(e.el))), document.querySelectorAll("[data-hs-layout-splitter]:not(.--prevent-on-load-init)").forEach(e => {
+            e.classList.remove("dragging"),
+            t.forEach(n => n.classList.remove("dragging")),
+            i.element.isDragging = !1
+        }
+        )),
+        window.$hsLayoutSplitterCollection && (window.$hsLayoutSplitterCollection = window.$hsLayoutSplitterCollection.filter( ({element: e}) => document.contains(e.el))),
+        document.querySelectorAll("[data-hs-layout-splitter]:not(.--prevent-on-load-init)").forEach(e => {
             window.$hsLayoutSplitterCollection.find(t => {
                 var i;
                 return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
-            }) || new A(e)
-        })
+            }
+            ) || new A(e)
+        }
+        )
     }
     static getInstance(e, t) {
         const i = window.$hsLayoutSplitterCollection.find(n => n.element.el === (typeof e == "string" ? document.querySelector(e) : e));
@@ -3200,24 +3997,33 @@ const A = class A extends I {
         const n = A.findInCollection(t);
         n && (n.element.events[e] = i)
     }
-};
-A.isListenersInitialized = !1, A.onDocumentPointerMove = e => {
+}
+;
+A.isListenersInitialized = !1,
+A.onDocumentPointerMove = e => {
     const t = document.querySelector(".hs-layout-splitter-control.dragging");
-    if (!t) return;
+    if (!t)
+        return;
     const i = A.getInstance(t.closest("[data-hs-layout-splitter]"), !0);
-    if (!i || !i.element.isDragging) return;
+    if (!i || !i.element.isDragging)
+        return;
     const n = i.element.activeSplitter;
     n && (n.direction === "vertical" ? i.element.onPointerMoveHandler(e, n, "vertical") : i.element.onPointerMoveHandler(e, n, "horizontal"))
-}, A.onDocumentPointerUp = () => {
+}
+,
+A.onDocumentPointerUp = () => {
     const e = document.querySelector(".hs-layout-splitter-control.dragging");
-    if (!e) return;
+    if (!e)
+        return;
     const t = A.getInstance(e.closest("[data-hs-layout-splitter]"), !0);
     t && t.element.controlPointerUp()
-};
+}
+;
 let $e = A;
 window.addEventListener("load", () => {
     $e.autoInit()
-});
+}
+);
 typeof window < "u" && (window.HSLayoutSplitter = $e);
 /*
  * HSOverlay
@@ -3229,18 +4035,39 @@ typeof window < "u" && (window.HSLayoutSplitter = $e);
 class H extends I {
     constructor(e, t, i) {
         var d, u;
-        super(e, t, i), this.toggleButtons = Array.from(document.querySelectorAll(`[data-hs-overlay="#${this.el.id}"]`));
-        const n = this.collectToggleParameters(this.toggleButtons),
-            s = e.getAttribute("data-hs-overlay-options"),
-            r = { ...s ? JSON.parse(s) : {},
-                ...n,
-                ...t
-            };
-        this.hiddenClass = (r == null ? void 0 : r.hiddenClass) || "hidden", this.emulateScrollbarSpace = (r == null ? void 0 : r.emulateScrollbarSpace) || !1, this.isClosePrev = (r == null ? void 0 : r.isClosePrev) ? ? !0, this.backdropClasses = (r == null ? void 0 : r.backdropClasses) ? ? "hs-overlay-backdrop transition duration fixed inset-0 bg-gray-900 bg-opacity-50 dark:bg-opacity-80 dark:bg-neutral-900", this.backdropParent = typeof r.backdropParent == "string" ? document.querySelector(r.backdropParent) : document.body, this.backdropExtraClasses = (r == null ? void 0 : r.backdropExtraClasses) ? ? "", this.moveOverlayToBody = (r == null ? void 0 : r.moveOverlayToBody) || null, this.openNextOverlay = !1, this.autoHide = null, this.initContainer = ((d = this.el) == null ? void 0 : d.parentElement) || null, this.isCloseWhenClickInside = ce(L(this.el, "--close-when-click-inside", "false") || "false"), this.isTabAccessibilityLimited = ce(L(this.el, "--tab-accessibility-limited", "true") || "true"), this.isLayoutAffect = ce(L(this.el, "--is-layout-affect", "false") || "false"), this.hasAutofocus = ce(L(this.el, "--has-autofocus", "true") || "true"), this.hasAbilityToCloseOnBackdropClick = ce(this.el.getAttribute("data-hs-overlay-keyboard") || "true");
-        const a = L(this.el, "--auto-close"),
-            h = L(this.el, "--auto-close-equality-type"),
-            c = L(this.el, "--opened");
-        this.autoClose = !isNaN(+a) && isFinite(+a) ? +a : ht[a] || null, this.autoCloseEqualityType = h ? ? null, this.openedBreakpoint = (!isNaN(+c) && isFinite(+c) ? +c : ht[c]) || null, this.animationTarget = ((u = this == null ? void 0 : this.el) == null ? void 0 : u.querySelector(".hs-overlay-animation-target")) || this.el, this.onElementClickListener = [], this.init()
+        super(e, t, i),
+        this.toggleButtons = Array.from(document.querySelectorAll(`[data-hs-overlay="#${this.el.id}"]`));
+        const n = this.collectToggleParameters(this.toggleButtons)
+          , s = e.getAttribute("data-hs-overlay-options")
+          , r = {
+            ...s ? JSON.parse(s) : {},
+            ...n,
+            ...t
+        };
+        this.hiddenClass = (r == null ? void 0 : r.hiddenClass) || "hidden",
+        this.emulateScrollbarSpace = (r == null ? void 0 : r.emulateScrollbarSpace) || !1,
+        this.isClosePrev = (r == null ? void 0 : r.isClosePrev) ?? !0,
+        this.backdropClasses = (r == null ? void 0 : r.backdropClasses) ?? "hs-overlay-backdrop transition duration fixed inset-0 bg-gray-900 bg-opacity-50 dark:bg-opacity-80 dark:bg-neutral-900",
+        this.backdropParent = typeof r.backdropParent == "string" ? document.querySelector(r.backdropParent) : document.body,
+        this.backdropExtraClasses = (r == null ? void 0 : r.backdropExtraClasses) ?? "",
+        this.moveOverlayToBody = (r == null ? void 0 : r.moveOverlayToBody) || null,
+        this.openNextOverlay = !1,
+        this.autoHide = null,
+        this.initContainer = ((d = this.el) == null ? void 0 : d.parentElement) || null,
+        this.isCloseWhenClickInside = ce(L(this.el, "--close-when-click-inside", "false") || "false"),
+        this.isTabAccessibilityLimited = ce(L(this.el, "--tab-accessibility-limited", "true") || "true"),
+        this.isLayoutAffect = ce(L(this.el, "--is-layout-affect", "false") || "false"),
+        this.hasAutofocus = ce(L(this.el, "--has-autofocus", "true") || "true"),
+        this.hasAbilityToCloseOnBackdropClick = ce(this.el.getAttribute("data-hs-overlay-keyboard") || "true");
+        const a = L(this.el, "--auto-close")
+          , h = L(this.el, "--auto-close-equality-type")
+          , c = L(this.el, "--opened");
+        this.autoClose = !isNaN(+a) && isFinite(+a) ? +a : ht[a] || null,
+        this.autoCloseEqualityType = h ?? null,
+        this.openedBreakpoint = (!isNaN(+c) && isFinite(+c) ? +c : ht[c]) || null,
+        this.animationTarget = ((u = this == null ? void 0 : this.el) == null ? void 0 : u.querySelector(".hs-overlay-animation-target")) || this.el,
+        this.onElementClickListener = [],
+        this.init()
     }
     elementClick() {
         this.el.classList.contains("opened") ? this.close() : this.open()
@@ -3252,125 +4079,197 @@ class H extends I {
         this.close()
     }
     init() {
-        if (this.createCollection(window.$hsOverlayCollection, this), this.isLayoutAffect && this.openedBreakpoint) {
+        if (this.createCollection(window.$hsOverlayCollection, this),
+        this.isLayoutAffect && this.openedBreakpoint) {
             const e = H.getInstance(this.el, !0);
             H.setOpened(this.openedBreakpoint, e)
         }
-        this.onOverlayClickListener = e => this.overlayClick(e), this.el.addEventListener("click", this.onOverlayClickListener), this.toggleButtons.length && this.buildToggleButtons()
+        this.onOverlayClickListener = e => this.overlayClick(e),
+        this.el.addEventListener("click", this.onOverlayClickListener),
+        this.toggleButtons.length && this.buildToggleButtons()
     }
     buildToggleButtons() {
         this.toggleButtons.forEach(e => {
-            this.el.classList.contains("opened") ? e.ariaExpanded = "true" : e.ariaExpanded = "false", this.onElementClickListener.push({
+            this.el.classList.contains("opened") ? e.ariaExpanded = "true" : e.ariaExpanded = "false",
+            this.onElementClickListener.push({
                 el: e,
                 fn: () => this.elementClick()
-            }), e.addEventListener("click", this.onElementClickListener.find(t => t.el === e).fn)
-        })
+            }),
+            e.addEventListener("click", this.onElementClickListener.find(t => t.el === e).fn)
+        }
+        )
     }
     hideAuto() {
         const e = parseInt(L(this.el, "--auto-hide", "0"));
-        e && (this.autoHide = setTimeout(() => {
+        e && (this.autoHide = setTimeout( () => {
             this.close()
-        }, e))
+        }
+        , e))
     }
     checkTimer() {
-        this.autoHide && (clearTimeout(this.autoHide), this.autoHide = null)
+        this.autoHide && (clearTimeout(this.autoHide),
+        this.autoHide = null)
     }
     buildBackdrop() {
-        const e = this.el.classList.value.split(" "),
-            t = parseInt(window.getComputedStyle(this.el).getPropertyValue("z-index")),
-            i = this.el.getAttribute("data-hs-overlay-backdrop-container") || !1;
+        const e = this.el.classList.value.split(" ")
+          , t = parseInt(window.getComputedStyle(this.el).getPropertyValue("z-index"))
+          , i = this.el.getAttribute("data-hs-overlay-backdrop-container") || !1;
         this.backdrop = document.createElement("div");
         let n = `${this.backdropClasses} ${this.backdropExtraClasses}`;
-        const s = L(this.el, "--overlay-backdrop", "true") !== "static",
-            o = L(this.el, "--overlay-backdrop", "true") === "false";
-        this.backdrop.id = `${this.el.id}-backdrop`, "style" in this.backdrop && (this.backdrop.style.zIndex = `${t-1}`);
-        for (const r of e)(r.startsWith("hs-overlay-backdrop-open:") || r.includes(":hs-overlay-backdrop-open:")) && (n += ` ${r}`);
-        o || (i && (this.backdrop = document.querySelector(i).cloneNode(!0), this.backdrop.classList.remove("hidden"), n = `${this.backdrop.classList.toString()}`, this.backdrop.classList.value = ""), s && (this.onBackdropClickListener = () => this.backdropClick(), this.backdrop.addEventListener("click", this.onBackdropClickListener, !0)), this.backdrop.setAttribute("data-hs-overlay-backdrop-template", ""), this.backdropParent.appendChild(this.backdrop), setTimeout(() => {
+        const s = L(this.el, "--overlay-backdrop", "true") !== "static"
+          , o = L(this.el, "--overlay-backdrop", "true") === "false";
+        this.backdrop.id = `${this.el.id}-backdrop`,
+        "style"in this.backdrop && (this.backdrop.style.zIndex = `${t - 1}`);
+        for (const r of e)
+            (r.startsWith("hs-overlay-backdrop-open:") || r.includes(":hs-overlay-backdrop-open:")) && (n += ` ${r}`);
+        o || (i && (this.backdrop = document.querySelector(i).cloneNode(!0),
+        this.backdrop.classList.remove("hidden"),
+        n = `${this.backdrop.classList.toString()}`,
+        this.backdrop.classList.value = ""),
+        s && (this.onBackdropClickListener = () => this.backdropClick(),
+        this.backdrop.addEventListener("click", this.onBackdropClickListener, !0)),
+        this.backdrop.setAttribute("data-hs-overlay-backdrop-template", ""),
+        this.backdropParent.appendChild(this.backdrop),
+        setTimeout( () => {
             this.backdrop.classList.value = n
-        }))
+        }
+        ))
     }
     destroyBackdrop() {
         const e = document.querySelector(`#${this.el.id}-backdrop`);
-        e && (this.openNextOverlay && (e.style.transitionDuration = `${parseFloat(window.getComputedStyle(e).transitionDuration.replace(/[^\d.-]/g,""))*1.8}s`), e.classList.add("opacity-0"), z(e, () => {
+        e && (this.openNextOverlay && (e.style.transitionDuration = `${parseFloat(window.getComputedStyle(e).transitionDuration.replace(/[^\d.-]/g, "")) * 1.8}s`),
+        e.classList.add("opacity-0"),
+        z(e, () => {
             e.remove()
-        }))
+        }
+        ))
     }
     focusElement() {
         const e = this.el.querySelector("[autofocus]");
-        if (e) e.focus();
-        else return !1
+        if (e)
+            e.focus();
+        else
+            return !1
     }
     getScrollbarSize() {
         let e = document.createElement("div");
-        e.style.overflow = "scroll", e.style.width = "100px", e.style.height = "100px", document.body.appendChild(e);
+        e.style.overflow = "scroll",
+        e.style.width = "100px",
+        e.style.height = "100px",
+        document.body.appendChild(e);
         let t = e.offsetWidth - e.clientWidth;
-        return document.body.removeChild(e), t
+        return document.body.removeChild(e),
+        t
     }
     collectToggleParameters(e) {
         let t = {};
         return e.forEach(i => {
-            const n = i.getAttribute("data-hs-overlay-options"),
-                s = n ? JSON.parse(n) : {};
-            t = { ...t,
+            const n = i.getAttribute("data-hs-overlay-options")
+              , s = n ? JSON.parse(n) : {};
+            t = {
+                ...t,
                 ...s
             }
-        }), t
+        }
+        ),
+        t
     }
     open() {
-        const e = document.querySelectorAll(".hs-overlay.open"),
-            t = window.$hsOverlayCollection.find(s => Array.from(e).includes(s.element.el) && !s.element.isLayoutAffect),
-            i = document.querySelectorAll(`[data-hs-overlay="#${this.el.id}"]`),
-            n = L(this.el, "--body-scroll", "false") !== "true";
-        if (this.isClosePrev && t) return this.openNextOverlay = !0, t.element.close().then(() => {
-            this.open(), this.openNextOverlay = !1
-        });
-        n && (document.body.style.overflow = "hidden", this.emulateScrollbarSpace && (document.body.style.paddingRight = `${this.getScrollbarSize()}px`)), this.buildBackdrop(), this.checkTimer(), this.hideAuto(), i.forEach(s => {
+        const e = document.querySelectorAll(".hs-overlay.open")
+          , t = window.$hsOverlayCollection.find(s => Array.from(e).includes(s.element.el) && !s.element.isLayoutAffect)
+          , i = document.querySelectorAll(`[data-hs-overlay="#${this.el.id}"]`)
+          , n = L(this.el, "--body-scroll", "false") !== "true";
+        if (this.isClosePrev && t)
+            return this.openNextOverlay = !0,
+            t.element.close().then( () => {
+                this.open(),
+                this.openNextOverlay = !1
+            }
+            );
+        n && (document.body.style.overflow = "hidden",
+        this.emulateScrollbarSpace && (document.body.style.paddingRight = `${this.getScrollbarSize()}px`)),
+        this.buildBackdrop(),
+        this.checkTimer(),
+        this.hideAuto(),
+        i.forEach(s => {
             s.ariaExpanded && (s.ariaExpanded = "true")
-        }), this.el.classList.remove(this.hiddenClass), this.el.setAttribute("aria-overlay", "true"), this.el.setAttribute("tabindex", "-1"), setTimeout(() => {
-            if (this.el.classList.contains("opened")) return !1;
-            this.el.classList.add("open", "opened"), this.isLayoutAffect && document.body.classList.add("hs-overlay-body-open"), this.fireEvent("open", this.el), g("open.hs.overlay", this.el, this.el), this.hasAutofocus && this.focusElement()
-        }, 50)
+        }
+        ),
+        this.el.classList.remove(this.hiddenClass),
+        this.el.setAttribute("aria-overlay", "true"),
+        this.el.setAttribute("tabindex", "-1"),
+        setTimeout( () => {
+            if (this.el.classList.contains("opened"))
+                return !1;
+            this.el.classList.add("open", "opened"),
+            this.isLayoutAffect && document.body.classList.add("hs-overlay-body-open"),
+            this.fireEvent("open", this.el),
+            g("open.hs.overlay", this.el, this.el),
+            this.hasAutofocus && this.focusElement()
+        }
+        , 50)
     }
-    close(e = !1) {
+    close(e=!1) {
         this.isLayoutAffect && document.body.classList.remove("hs-overlay-body-open");
         const t = i => {
-            if (this.el.classList.contains("open")) return !1;
+            if (this.el.classList.contains("open"))
+                return !1;
             document.querySelectorAll(`[data-hs-overlay="#${this.el.id}"]`).forEach(s => {
                 s.ariaExpanded && (s.ariaExpanded = "false")
-            }), this.el.classList.add(this.hiddenClass), this.destroyBackdrop(), this.fireEvent("close", this.el), g("close.hs.overlay", this.el, this.el), document.querySelector(".hs-overlay.opened") || (document.body.style.overflow = "", this.emulateScrollbarSpace && (document.body.style.paddingRight = "")), i(this.el)
-        };
+            }
+            ),
+            this.el.classList.add(this.hiddenClass),
+            this.destroyBackdrop(),
+            this.fireEvent("close", this.el),
+            g("close.hs.overlay", this.el, this.el),
+            document.querySelector(".hs-overlay.opened") || (document.body.style.overflow = "",
+            this.emulateScrollbarSpace && (document.body.style.paddingRight = "")),
+            i(this.el)
+        }
+        ;
         return new Promise(i => {
-            this.el.classList.remove("open", "opened"), this.el.removeAttribute("aria-overlay"), this.el.removeAttribute("tabindex"), e ? t(i) : z(this.animationTarget, () => t(i))
-        })
+            this.el.classList.remove("open", "opened"),
+            this.el.removeAttribute("aria-overlay"),
+            this.el.removeAttribute("tabindex"),
+            e ? t(i) : z(this.animationTarget, () => t(i))
+        }
+        )
     }
     destroy() {
-        this.el.classList.remove("open", "opened", this.hiddenClass), this.isLayoutAffect && document.body.classList.remove("hs-overlay-body-open"), this.el.removeEventListener("click", this.onOverlayClickListener), this.onElementClickListener.length && (this.onElementClickListener.forEach(({
-            el: e,
-            fn: t
-        }) => {
+        this.el.classList.remove("open", "opened", this.hiddenClass),
+        this.isLayoutAffect && document.body.classList.remove("hs-overlay-body-open"),
+        this.el.removeEventListener("click", this.onOverlayClickListener),
+        this.onElementClickListener.length && (this.onElementClickListener.forEach( ({el: e, fn: t}) => {
             e.removeEventListener("click", t)
-        }), this.onElementClickListener = null), this.backdrop && this.backdrop.removeEventListener("click", this.onBackdropClickListener), this.backdrop && (this.backdrop.remove(), this.backdrop = null), window.$hsOverlayCollection = window.$hsOverlayCollection.filter(({
-            element: e
-        }) => e.el !== this.el)
+        }
+        ),
+        this.onElementClickListener = null),
+        this.backdrop && this.backdrop.removeEventListener("click", this.onBackdropClickListener),
+        this.backdrop && (this.backdrop.remove(),
+        this.backdrop = null),
+        window.$hsOverlayCollection = window.$hsOverlayCollection.filter( ({element: e}) => e.el !== this.el)
     }
     static findInCollection(e) {
         return window.$hsOverlayCollection.find(t => e instanceof H ? t.element.el === e.el : typeof e == "string" ? t.element.el === document.querySelector(e) : t.element.el === e) || null
     }
     static getInstance(e, t) {
-        const i = typeof e == "string" ? document.querySelector(e) : e,
-            n = i != null && i.getAttribute("data-hs-overlay") ? i.getAttribute("data-hs-overlay") : e,
-            s = window.$hsOverlayCollection.find(o => o.element.el === (typeof n == "string" ? document.querySelector(n) : n) || o.element.el === (typeof n == "string" ? document.querySelector(n) : n));
+        const i = typeof e == "string" ? document.querySelector(e) : e
+          , n = i != null && i.getAttribute("data-hs-overlay") ? i.getAttribute("data-hs-overlay") : e
+          , s = window.$hsOverlayCollection.find(o => o.element.el === (typeof n == "string" ? document.querySelector(n) : n) || o.element.el === (typeof n == "string" ? document.querySelector(n) : n));
         return s ? t ? s : s.element.el : null
     }
     static autoInit() {
-        window.$hsOverlayCollection || (window.$hsOverlayCollection = [], document.addEventListener("keydown", e => H.accessibility(e))), window.$hsOverlayCollection && (window.$hsOverlayCollection = window.$hsOverlayCollection.filter(({
-            element: e
-        }) => document.contains(e.el))), document.querySelectorAll(".hs-overlay:not(.--prevent-on-load-init)").forEach(e => {
+        window.$hsOverlayCollection || (window.$hsOverlayCollection = [],
+        document.addEventListener("keydown", e => H.accessibility(e))),
+        window.$hsOverlayCollection && (window.$hsOverlayCollection = window.$hsOverlayCollection.filter( ({element: e}) => document.contains(e.el))),
+        document.querySelectorAll(".hs-overlay:not(.--prevent-on-load-init)").forEach(e => {
             window.$hsOverlayCollection.find(t => {
                 var i;
                 return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
-            }) || new H(e)
-        })
+            }
+            ) || new H(e)
+        }
+        )
     }
     static open(e) {
         const t = H.findInCollection(e);
@@ -3381,28 +4280,35 @@ class H extends I {
         t && !t.element.el.classList.contains(t.element.hiddenClass) && t.element.close()
     }
     static setOpened(e, t) {
-        document.body.clientWidth >= e ? (document.body.classList.add("hs-overlay-body-open"), t.element.open()) : t.element.close(!0)
+        document.body.clientWidth >= e ? (document.body.classList.add("hs-overlay-body-open"),
+        t.element.open()) : t.element.close(!0)
     }
     static accessibility(e) {
         var r, a;
-        const t = window.$hsOverlayCollection.filter(h => h.element.el.classList.contains("open")),
-            i = t[t.length - 1],
-            n = (a = (r = i == null ? void 0 : i.element) == null ? void 0 : r.el) == null ? void 0 : a.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'),
-            s = [];
+        const t = window.$hsOverlayCollection.filter(h => h.element.el.classList.contains("open"))
+          , i = t[t.length - 1]
+          , n = (a = (r = i == null ? void 0 : i.element) == null ? void 0 : r.el) == null ? void 0 : a.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
+          , s = [];
         n != null && n.length && n.forEach(h => {
             ft(h) || s.push(h)
-        });
+        }
+        );
         const o = i && !e.metaKey;
-        if (o && !i.element.isTabAccessibilityLimited && e.code === "Tab") return !1;
-        o && s.length && e.code === "Tab" && (e.preventDefault(), this.onTab(i)), o && e.code === "Escape" && (e.preventDefault(), this.onEscape(i))
+        if (o && !i.element.isTabAccessibilityLimited && e.code === "Tab")
+            return !1;
+        o && s.length && e.code === "Tab" && (e.preventDefault(),
+        this.onTab(i)),
+        o && e.code === "Escape" && (e.preventDefault(),
+        this.onEscape(i))
     }
     static onEscape(e) {
         e && e.element.hasAbilityToCloseOnBackdropClick && e.element.close()
     }
     static onTab(e) {
-        const t = e.element.el,
-            i = Array.from(t.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'));
-        if (i.length === 0) return !1;
+        const t = e.element.el
+          , i = Array.from(t.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'));
+        if (i.length === 0)
+            return !1;
         const n = t.querySelector(":focus");
         if (n) {
             let s = !1;
@@ -3414,7 +4320,8 @@ class H extends I {
                 o === n && (s = !0)
             }
             i[0].focus()
-        } else i[0].focus()
+        } else
+            i[0].focus()
     }
     static on(e, t, i) {
         const n = H.findInCollection(t);
@@ -3422,53 +4329,66 @@ class H extends I {
     }
 }
 const bs = () => {
-        if (!window.$hsOverlayCollection.length || !window.$hsOverlayCollection.find(e => e.element.autoClose)) return !1;
-        window.$hsOverlayCollection.filter(e => e.element.autoClose).forEach(e => {
-            const {
-                autoCloseEqualityType: t,
-                autoClose: i
-            } = e.element;
-            (t === "less-than" ? document.body.clientWidth <= i : document.body.clientWidth >= i) && e.element.close(!0)
-        })
-    },
-    ti = () => {
-        if (!window.$hsOverlayCollection.length || !window.$hsOverlayCollection.find(e => e.element.moveOverlayToBody)) return !1;
-        window.$hsOverlayCollection.filter(e => e.element.moveOverlayToBody).forEach(e => {
-            const t = e.element.moveOverlayToBody,
-                i = e.element.initContainer,
-                n = document.querySelector("body"),
-                s = e.element.el;
-            if (!i && s) return !1;
-            document.body.clientWidth <= t && !ai(n, s) ? n.appendChild(s) : document.body.clientWidth > t && !i.contains(s) && i.appendChild(s)
-        })
-    },
-    Cs = () => {
-        if (!window.$hsOverlayCollection.length || !window.$hsOverlayCollection.find(e => e.element.autoClose)) return !1;
-        window.$hsOverlayCollection.filter(e => e.element.autoClose).forEach(e => {
-            const {
-                autoCloseEqualityType: t,
-                autoClose: i
-            } = e.element;
-            (t === "less-than" ? document.body.clientWidth <= i : document.body.clientWidth >= i) && e.element.close(!0)
-        })
-    },
-    Ss = () => {
-        if (!window.$hsOverlayCollection.length || !window.$hsOverlayCollection.find(e => e.element.el.classList.contains("opened"))) return !1;
-        window.$hsOverlayCollection.filter(e => e.element.el.classList.contains("opened")).forEach(e => {
-            const t = parseInt(window.getComputedStyle(e.element.el).getPropertyValue("z-index")),
-                i = document.querySelector(`#${e.element.el.id}-backdrop`);
-            if (!i) return !1;
-            const n = parseInt(window.getComputedStyle(i).getPropertyValue("z-index"));
-            if (t === n + 1) return !1;
-            "style" in i && (i.style.zIndex = `${t-1}`), document.body.classList.add("hs-overlay-body-open")
-        })
-    };
+    if (!window.$hsOverlayCollection.length || !window.$hsOverlayCollection.find(e => e.element.autoClose))
+        return !1;
+    window.$hsOverlayCollection.filter(e => e.element.autoClose).forEach(e => {
+        const {autoCloseEqualityType: t, autoClose: i} = e.element;
+        (t === "less-than" ? document.body.clientWidth <= i : document.body.clientWidth >= i) && e.element.close(!0)
+    }
+    )
+}
+  , ti = () => {
+    if (!window.$hsOverlayCollection.length || !window.$hsOverlayCollection.find(e => e.element.moveOverlayToBody))
+        return !1;
+    window.$hsOverlayCollection.filter(e => e.element.moveOverlayToBody).forEach(e => {
+        const t = e.element.moveOverlayToBody
+          , i = e.element.initContainer
+          , n = document.querySelector("body")
+          , s = e.element.el;
+        if (!i && s)
+            return !1;
+        document.body.clientWidth <= t && !ai(n, s) ? n.appendChild(s) : document.body.clientWidth > t && !i.contains(s) && i.appendChild(s)
+    }
+    )
+}
+  , Cs = () => {
+    if (!window.$hsOverlayCollection.length || !window.$hsOverlayCollection.find(e => e.element.autoClose))
+        return !1;
+    window.$hsOverlayCollection.filter(e => e.element.autoClose).forEach(e => {
+        const {autoCloseEqualityType: t, autoClose: i} = e.element;
+        (t === "less-than" ? document.body.clientWidth <= i : document.body.clientWidth >= i) && e.element.close(!0)
+    }
+    )
+}
+  , Ss = () => {
+    if (!window.$hsOverlayCollection.length || !window.$hsOverlayCollection.find(e => e.element.el.classList.contains("opened")))
+        return !1;
+    window.$hsOverlayCollection.filter(e => e.element.el.classList.contains("opened")).forEach(e => {
+        const t = parseInt(window.getComputedStyle(e.element.el).getPropertyValue("z-index"))
+          , i = document.querySelector(`#${e.element.el.id}-backdrop`);
+        if (!i)
+            return !1;
+        const n = parseInt(window.getComputedStyle(i).getPropertyValue("z-index"));
+        if (t === n + 1)
+            return !1;
+        "style"in i && (i.style.zIndex = `${t - 1}`),
+        document.body.classList.add("hs-overlay-body-open")
+    }
+    )
+}
+;
 window.addEventListener("load", () => {
-    H.autoInit(), ti()
-});
+    H.autoInit(),
+    ti()
+}
+);
 window.addEventListener("resize", () => {
-    bs(), ti(), Cs(), Ss()
-});
+    bs(),
+    ti(),
+    Cs(),
+    Ss()
+}
+);
 typeof window < "u" && (window.HSOverlay = H);
 /*
  * HSPinInput
@@ -3495,48 +4415,75 @@ class Ne extends I {
     }
     constructor(e, t) {
         super(e, t);
-        const i = e.getAttribute("data-hs-pin-input"),
-            s = { ...i ? JSON.parse(i) : {},
-                ...t
-            };
-        this.items = this.el.querySelectorAll("[data-hs-pin-input-item]"), this.currentItem = null, this.currentValue = new Array(this.items.length).fill(""), this.placeholders = [], this.availableCharsRE = new RegExp((s == null ? void 0 : s.availableCharsRE) || "^[a-zA-Z0-9]+$"), this.onElementInputListener = [], this.onElementPasteListener = [], this.onElementKeydownListener = [], this.onElementFocusinListener = [], this.onElementFocusoutListener = [], this.init()
+        const i = e.getAttribute("data-hs-pin-input")
+          , s = {
+            ...i ? JSON.parse(i) : {},
+            ...t
+        };
+        this.items = this.el.querySelectorAll("[data-hs-pin-input-item]"),
+        this.currentItem = null,
+        this.currentValue = new Array(this.items.length).fill(""),
+        this.placeholders = [],
+        this.availableCharsRE = new RegExp((s == null ? void 0 : s.availableCharsRE) || "^[a-zA-Z0-9]+$"),
+        this.onElementInputListener = [],
+        this.onElementPasteListener = [],
+        this.onElementKeydownListener = [],
+        this.onElementFocusinListener = [],
+        this.onElementFocusoutListener = [],
+        this.init()
     }
     init() {
-        this.createCollection(window.$hsPinInputCollection, this), this.items.length && this.build()
+        this.createCollection(window.$hsPinInputCollection, this),
+        this.items.length && this.build()
     }
     build() {
         this.buildInputItems()
     }
     buildInputItems() {
-        this.items.forEach((e, t) => {
-            this.placeholders.push(e.getAttribute("placeholder") || ""), e.hasAttribute("autofocus") && this.onFocusIn(t), this.onElementInputListener.push({
+        this.items.forEach( (e, t) => {
+            this.placeholders.push(e.getAttribute("placeholder") || ""),
+            e.hasAttribute("autofocus") && this.onFocusIn(t),
+            this.onElementInputListener.push({
                 el: e,
                 fn: i => this.elementInput(i, t)
-            }), this.onElementPasteListener.push({
+            }),
+            this.onElementPasteListener.push({
                 el: e,
                 fn: i => this.elementPaste(i)
-            }), this.onElementKeydownListener.push({
+            }),
+            this.onElementKeydownListener.push({
                 el: e,
                 fn: i => this.elementKeydown(i, t)
-            }), this.onElementFocusinListener.push({
+            }),
+            this.onElementFocusinListener.push({
                 el: e,
                 fn: () => this.elementFocusin(t)
-            }), this.onElementFocusoutListener.push({
+            }),
+            this.onElementFocusoutListener.push({
                 el: e,
                 fn: () => this.elementFocusout(t)
-            }), e.addEventListener("input", this.onElementInputListener.find(i => i.el === e).fn), e.addEventListener("paste", this.onElementPasteListener.find(i => i.el === e).fn), e.addEventListener("keydown", this.onElementKeydownListener.find(i => i.el === e).fn), e.addEventListener("focusin", this.onElementFocusinListener.find(i => i.el === e).fn), e.addEventListener("focusout", this.onElementFocusoutListener.find(i => i.el === e).fn)
-        })
+            }),
+            e.addEventListener("input", this.onElementInputListener.find(i => i.el === e).fn),
+            e.addEventListener("paste", this.onElementPasteListener.find(i => i.el === e).fn),
+            e.addEventListener("keydown", this.onElementKeydownListener.find(i => i.el === e).fn),
+            e.addEventListener("focusin", this.onElementFocusinListener.find(i => i.el === e).fn),
+            e.addEventListener("focusout", this.onElementFocusoutListener.find(i => i.el === e).fn)
+        }
+        )
     }
     checkIfNumber(e) {
         return e.match(this.availableCharsRE)
     }
     autoFillAll(e) {
-        Array.from(e).forEach((t, i) => {
-            if (!(this != null && this.items[i])) return !1;
-            this.items[i].value = t, this.items[i].dispatchEvent(new Event("input", {
+        Array.from(e).forEach( (t, i) => {
+            if (!(this != null && this.items[i]))
+                return !1;
+            this.items[i].value = t,
+            this.items[i].dispatchEvent(new Event("input",{
                 bubbles: !0
             }))
-        })
+        }
+        )
     }
     setCurrentValue() {
         this.currentValue = Array.from(this.items).map(e => e.value)
@@ -3546,19 +4493,31 @@ class Ne extends I {
     }
     onInput(e, t) {
         const i = e.target.value;
-        if (this.currentItem = e.target, this.currentItem.value = "", this.currentItem.value = i[i.length - 1], !this.checkIfNumber(this.currentItem.value)) return this.currentItem.value = this.currentValue[t] || "", !1;
-        if (this.setCurrentValue(), this.currentItem.value) {
-            if (t < this.items.length - 1 && this.items[t + 1].focus(), !this.currentValue.includes("")) {
+        if (this.currentItem = e.target,
+        this.currentItem.value = "",
+        this.currentItem.value = i[i.length - 1],
+        !this.checkIfNumber(this.currentItem.value))
+            return this.currentItem.value = this.currentValue[t] || "",
+            !1;
+        if (this.setCurrentValue(),
+        this.currentItem.value) {
+            if (t < this.items.length - 1 && this.items[t + 1].focus(),
+            !this.currentValue.includes("")) {
                 const n = {
                     currentValue: this.currentValue
                 };
-                this.fireEvent("completed", n), g("completed.hs.pinInput", this.el, n)
+                this.fireEvent("completed", n),
+                g("completed.hs.pinInput", this.el, n)
             }
             this.toggleCompleted()
-        } else t > 0 && this.items[t - 1].focus()
+        } else
+            t > 0 && this.items[t - 1].focus()
     }
     onKeydown(e, t) {
-        e.key === "Backspace" && t > 0 && (this.items[t].value === "" ? (this.items[t - 1].value = "", this.items[t - 1].focus()) : this.items[t].value = ""), this.setCurrentValue(), this.toggleCompleted()
+        e.key === "Backspace" && t > 0 && (this.items[t].value === "" ? (this.items[t - 1].value = "",
+        this.items[t - 1].focus()) : this.items[t].value = ""),
+        this.setCurrentValue(),
+        this.toggleCompleted()
     }
     onFocusIn(e) {
         this.items[e].setAttribute("placeholder", "")
@@ -3567,35 +4526,48 @@ class Ne extends I {
         this.items[e].setAttribute("placeholder", this.placeholders[e])
     }
     onPaste(e) {
-        e.preventDefault(), this.items.forEach(t => {
+        e.preventDefault(),
+        this.items.forEach(t => {
             document.activeElement === t && this.autoFillAll(e.clipboardData.getData("text"))
-        })
+        }
+        )
     }
     destroy() {
-        this.el.classList.remove("active"), this.items.length && this.items.forEach(e => {
-            e.removeEventListener("input", this.onElementInputListener.find(t => t.el === e).fn), e.removeEventListener("paste", this.onElementPasteListener.find(t => t.el === e).fn), e.removeEventListener("keydown", this.onElementKeydownListener.find(t => t.el === e).fn), e.removeEventListener("focusin", this.onElementFocusinListener.find(t => t.el === e).fn), e.removeEventListener("focusout", this.onElementFocusoutListener.find(t => t.el === e).fn)
-        }), this.items = null, this.currentItem = null, this.currentValue = null, window.$hsPinInputCollection = window.$hsPinInputCollection.filter(({
-            element: e
-        }) => e.el !== this.el)
+        this.el.classList.remove("active"),
+        this.items.length && this.items.forEach(e => {
+            e.removeEventListener("input", this.onElementInputListener.find(t => t.el === e).fn),
+            e.removeEventListener("paste", this.onElementPasteListener.find(t => t.el === e).fn),
+            e.removeEventListener("keydown", this.onElementKeydownListener.find(t => t.el === e).fn),
+            e.removeEventListener("focusin", this.onElementFocusinListener.find(t => t.el === e).fn),
+            e.removeEventListener("focusout", this.onElementFocusoutListener.find(t => t.el === e).fn)
+        }
+        ),
+        this.items = null,
+        this.currentItem = null,
+        this.currentValue = null,
+        window.$hsPinInputCollection = window.$hsPinInputCollection.filter( ({element: e}) => e.el !== this.el)
     }
     static getInstance(e, t) {
         const i = window.$hsPinInputCollection.find(n => n.element.el === (typeof e == "string" ? document.querySelector(e) : e));
         return i ? t ? i : i.element : null
     }
     static autoInit() {
-        window.$hsPinInputCollection || (window.$hsPinInputCollection = []), window.$hsPinInputCollection && (window.$hsPinInputCollection = window.$hsPinInputCollection.filter(({
-            element: e
-        }) => document.contains(e.el))), document.querySelectorAll("[data-hs-pin-input]:not(.--prevent-on-load-init)").forEach(e => {
+        window.$hsPinInputCollection || (window.$hsPinInputCollection = []),
+        window.$hsPinInputCollection && (window.$hsPinInputCollection = window.$hsPinInputCollection.filter( ({element: e}) => document.contains(e.el))),
+        document.querySelectorAll("[data-hs-pin-input]:not(.--prevent-on-load-init)").forEach(e => {
             window.$hsPinInputCollection.find(t => {
                 var i;
                 return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
-            }) || new Ne(e)
-        })
+            }
+            ) || new Ne(e)
+        }
+        )
     }
 }
 window.addEventListener("load", () => {
     Ne.autoInit()
-});
+}
+);
 typeof window < "u" && (window.HSPinInput = Ne);
 /*
  * HSRemoveElement
@@ -3607,45 +4579,56 @@ typeof window < "u" && (window.HSPinInput = Ne);
 class Fe extends I {
     constructor(e, t) {
         super(e, t);
-        const i = e.getAttribute("data-hs-remove-element-options"),
-            s = { ...i ? JSON.parse(i) : {},
-                ...t
-            };
-        this.removeTargetId = this.el.getAttribute("data-hs-remove-element"), this.removeTarget = document.querySelector(this.removeTargetId), this.removeTargetAnimationClass = (s == null ? void 0 : s.removeTargetAnimationClass) || "hs-removing", this.removeTarget && this.init()
+        const i = e.getAttribute("data-hs-remove-element-options")
+          , s = {
+            ...i ? JSON.parse(i) : {},
+            ...t
+        };
+        this.removeTargetId = this.el.getAttribute("data-hs-remove-element"),
+        this.removeTarget = document.querySelector(this.removeTargetId),
+        this.removeTargetAnimationClass = (s == null ? void 0 : s.removeTargetAnimationClass) || "hs-removing",
+        this.removeTarget && this.init()
     }
     elementClick() {
         this.remove()
     }
     init() {
-        this.createCollection(window.$hsRemoveElementCollection, this), this.onElementClickListener = () => this.elementClick(), this.el.addEventListener("click", this.onElementClickListener)
+        this.createCollection(window.$hsRemoveElementCollection, this),
+        this.onElementClickListener = () => this.elementClick(),
+        this.el.addEventListener("click", this.onElementClickListener)
     }
     remove() {
-        if (!this.removeTarget) return !1;
-        this.removeTarget.classList.add(this.removeTargetAnimationClass), z(this.removeTarget, () => setTimeout(() => this.removeTarget.remove()))
+        if (!this.removeTarget)
+            return !1;
+        this.removeTarget.classList.add(this.removeTargetAnimationClass),
+        z(this.removeTarget, () => setTimeout( () => this.removeTarget.remove()))
     }
     destroy() {
-        this.removeTarget.classList.remove(this.removeTargetAnimationClass), this.el.removeEventListener("click", this.onElementClickListener), window.$hsRemoveElementCollection = window.$hsRemoveElementCollection.filter(({
-            element: e
-        }) => e.el !== this.el)
+        this.removeTarget.classList.remove(this.removeTargetAnimationClass),
+        this.el.removeEventListener("click", this.onElementClickListener),
+        window.$hsRemoveElementCollection = window.$hsRemoveElementCollection.filter( ({element: e}) => e.el !== this.el)
     }
     static getInstance(e, t) {
         const i = window.$hsRemoveElementCollection.find(n => n.element.el === (typeof e == "string" ? document.querySelector(e) : e) || n.element.el === (typeof e == "string" ? document.querySelector(e) : e));
         return i ? t ? i : i.element.el : null
     }
     static autoInit() {
-        window.$hsRemoveElementCollection || (window.$hsRemoveElementCollection = []), window.$hsRemoveElementCollection && (window.$hsRemoveElementCollection = window.$hsRemoveElementCollection.filter(({
-            element: e
-        }) => document.contains(e.el))), document.querySelectorAll("[data-hs-remove-element]:not(.--prevent-on-load-init)").forEach(e => {
+        window.$hsRemoveElementCollection || (window.$hsRemoveElementCollection = []),
+        window.$hsRemoveElementCollection && (window.$hsRemoveElementCollection = window.$hsRemoveElementCollection.filter( ({element: e}) => document.contains(e.el))),
+        document.querySelectorAll("[data-hs-remove-element]:not(.--prevent-on-load-init)").forEach(e => {
             window.$hsRemoveElementCollection.find(t => {
                 var i;
                 return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
-            }) || new Fe(e)
-        })
+            }
+            ) || new Fe(e)
+        }
+        )
     }
 }
 window.addEventListener("load", () => {
     Fe.autoInit()
-});
+}
+);
 typeof window < "u" && (window.HSRemoveElement = Fe);
 /*
  * HSScrollspy
@@ -3655,40 +4638,62 @@ typeof window < "u" && (window.HSRemoveElement = Fe);
  * Copyright 2024 Preline Labs Ltd.
  */
 class Re extends I {
-    constructor(e, t = {}) {
-        super(e, t), this.activeSection = null, this.contentId = this.el.getAttribute("data-hs-scrollspy"), this.content = document.querySelector(this.contentId), this.links = this.el.querySelectorAll("[href]"), this.sections = [], this.scrollableId = this.el.getAttribute("data-hs-scrollspy-scrollable-parent"), this.scrollable = this.scrollableId ? document.querySelector(this.scrollableId) : document, this.onLinkClickListener = [], this.init()
+    constructor(e, t={}) {
+        super(e, t),
+        this.activeSection = null,
+        this.contentId = this.el.getAttribute("data-hs-scrollspy"),
+        this.content = document.querySelector(this.contentId),
+        this.links = this.el.querySelectorAll("[href]"),
+        this.sections = [],
+        this.scrollableId = this.el.getAttribute("data-hs-scrollspy-scrollable-parent"),
+        this.scrollable = this.scrollableId ? document.querySelector(this.scrollableId) : document,
+        this.onLinkClickListener = [],
+        this.init()
     }
     scrollableScroll(e) {
         Array.from(this.sections).forEach(t => {
-            if (!t.getAttribute("id")) return !1;
+            if (!t.getAttribute("id"))
+                return !1;
             this.update(e, t)
-        })
+        }
+        )
     }
     linkClick(e, t) {
-        if (e.preventDefault(), t.getAttribute("href") === "javascript:;") return !1;
+        if (e.preventDefault(),
+        t.getAttribute("href") === "javascript:;")
+            return !1;
         this.scrollTo(t)
     }
     init() {
-        this.createCollection(window.$hsScrollspyCollection, this), this.links.forEach(e => {
+        this.createCollection(window.$hsScrollspyCollection, this),
+        this.links.forEach(e => {
             this.sections.push(this.scrollable.querySelector(e.getAttribute("href")))
-        }), this.onScrollableScrollListener = e => this.scrollableScroll(e), this.scrollable.addEventListener("scroll", this.onScrollableScrollListener), this.links.forEach(e => {
+        }
+        ),
+        this.onScrollableScrollListener = e => this.scrollableScroll(e),
+        this.scrollable.addEventListener("scroll", this.onScrollableScrollListener),
+        this.links.forEach(e => {
             this.onLinkClickListener.push({
                 el: e,
                 fn: t => this.linkClick(t, e)
-            }), e.addEventListener("click", this.onLinkClickListener.find(t => t.el === e).fn)
-        })
+            }),
+            e.addEventListener("click", this.onLinkClickListener.find(t => t.el === e).fn)
+        }
+        )
     }
     update(e, t) {
-        const i = parseInt(L(this.el, "--scrollspy-offset", "0")),
-            n = parseInt(L(t, "--scrollspy-offset")) || i,
-            s = e.target === document ? 0 : parseInt(String(e.target.getBoundingClientRect().top)),
-            o = parseInt(String(t.getBoundingClientRect().top)) - n - s,
-            r = t.offsetHeight;
+        const i = parseInt(L(this.el, "--scrollspy-offset", "0"))
+          , n = parseInt(L(t, "--scrollspy-offset")) || i
+          , s = e.target === document ? 0 : parseInt(String(e.target.getBoundingClientRect().top))
+          , o = parseInt(String(t.getBoundingClientRect().top)) - n - s
+          , r = t.offsetHeight;
         if (o <= 0 && o + r > 0) {
-            if (this.activeSection === t) return !1;
+            if (this.activeSection === t)
+                return !1;
             this.links.forEach(h => {
                 h.classList.remove("active")
-            });
+            }
+            );
             const a = this.el.querySelector(`[href="#${t.getAttribute("id")}"]`);
             if (a) {
                 a.classList.add("active");
@@ -3702,51 +4707,55 @@ class Re extends I {
         }
     }
     scrollTo(e) {
-        const t = e.getAttribute("href"),
-            i = document.querySelector(t),
-            n = parseInt(L(this.el, "--scrollspy-offset", "0")),
-            s = parseInt(L(i, "--scrollspy-offset")) || n,
-            o = this.scrollable === document ? 0 : this.scrollable.offsetTop,
-            r = i.offsetTop - s - o,
-            a = this.scrollable === document ? window : this.scrollable,
-            h = () => {
-                window.history.replaceState(null, null, e.getAttribute("href")), "scrollTo" in a && a.scrollTo({
-                    top: r,
-                    left: 0,
-                    behavior: "smooth"
-                })
-            },
-            c = this.fireEvent("beforeScroll", this.el);
-        g("beforeScroll.hs.scrollspy", this.el, this.el), c instanceof Promise ? c.then(() => h()) : h()
+        const t = e.getAttribute("href")
+          , i = document.querySelector(t)
+          , n = parseInt(L(this.el, "--scrollspy-offset", "0"))
+          , s = parseInt(L(i, "--scrollspy-offset")) || n
+          , o = this.scrollable === document ? 0 : this.scrollable.offsetTop
+          , r = i.offsetTop - s - o
+          , a = this.scrollable === document ? window : this.scrollable
+          , h = () => {
+            window.history.replaceState(null, null, e.getAttribute("href")),
+            "scrollTo"in a && a.scrollTo({
+                top: r,
+                left: 0,
+                behavior: "smooth"
+            })
+        }
+          , c = this.fireEvent("beforeScroll", this.el);
+        g("beforeScroll.hs.scrollspy", this.el, this.el),
+        c instanceof Promise ? c.then( () => h()) : h()
     }
     destroy() {
-        this.el.querySelector("[href].active").classList.remove("active"), this.scrollable.removeEventListener("scroll", this.onScrollableScrollListener), this.onLinkClickListener.length && this.onLinkClickListener.forEach(({
-            el: t,
-            fn: i
-        }) => {
+        this.el.querySelector("[href].active").classList.remove("active"),
+        this.scrollable.removeEventListener("scroll", this.onScrollableScrollListener),
+        this.onLinkClickListener.length && this.onLinkClickListener.forEach( ({el: t, fn: i}) => {
             t.removeEventListener("click", i)
-        }), window.$hsScrollspyCollection = window.$hsScrollspyCollection.filter(({
-            element: t
-        }) => t.el !== this.el)
+        }
+        ),
+        window.$hsScrollspyCollection = window.$hsScrollspyCollection.filter( ({element: t}) => t.el !== this.el)
     }
-    static getInstance(e, t = !1) {
+    static getInstance(e, t=!1) {
         const i = window.$hsScrollspyCollection.find(n => n.element.el === (typeof e == "string" ? document.querySelector(e) : e));
         return i ? t ? i : i.element.el : null
     }
     static autoInit() {
-        window.$hsScrollspyCollection || (window.$hsScrollspyCollection = []), window.$hsScrollspyCollection && (window.$hsScrollspyCollection = window.$hsScrollspyCollection.filter(({
-            element: e
-        }) => document.contains(e.el))), document.querySelectorAll("[data-hs-scrollspy]:not(.--prevent-on-load-init)").forEach(e => {
+        window.$hsScrollspyCollection || (window.$hsScrollspyCollection = []),
+        window.$hsScrollspyCollection && (window.$hsScrollspyCollection = window.$hsScrollspyCollection.filter( ({element: e}) => document.contains(e.el))),
+        document.querySelectorAll("[data-hs-scrollspy]:not(.--prevent-on-load-init)").forEach(e => {
             window.$hsScrollspyCollection.find(t => {
                 var i;
                 return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
-            }) || new Re(e)
-        })
+            }
+            ) || new Re(e)
+        }
+        )
     }
 }
 window.addEventListener("load", () => {
     Re.autoInit()
-});
+}
+);
 typeof window < "u" && (window.HSScrollspy = Re);
 /*
  * HSSelect
@@ -3758,21 +4767,84 @@ typeof window < "u" && (window.HSScrollspy = Re);
 class K extends I {
     constructor(e, t) {
         var o, r;
-        super(e, t), this.optionId = 0;
-        const i = e.getAttribute("data-hs-select"),
-            s = { ...i ? JSON.parse(i) : {},
-                ...t
-            };
-        this.value = (s == null ? void 0 : s.value) || this.el.value || null, this.placeholder = (s == null ? void 0 : s.placeholder) || "Select...", this.hasSearch = (s == null ? void 0 : s.hasSearch) || !1, this.minSearchLength = (s == null ? void 0 : s.minSearchLength) ? ? 0, this.preventSearchFocus = (s == null ? void 0 : s.preventSearchFocus) || !1, this.mode = (s == null ? void 0 : s.mode) || "default", this.viewport = typeof(s == null ? void 0 : s.viewport) < "u" ? document.querySelector(s == null ? void 0 : s.viewport) : null, this.isOpened = !!(s != null && s.isOpened) || !1, this.isMultiple = this.el.hasAttribute("multiple") || !1, this.isDisabled = this.el.hasAttribute("disabled") || !1, this.selectedItems = [], this.apiUrl = (s == null ? void 0 : s.apiUrl) || null, this.apiQuery = (s == null ? void 0 : s.apiQuery) || null, this.apiOptions = (s == null ? void 0 : s.apiOptions) || null, this.apiSearchQueryKey = (s == null ? void 0 : s.apiSearchQueryKey) || null, this.apiDataPart = (s == null ? void 0 : s.apiDataPart) || null, this.apiFieldsMap = (s == null ? void 0 : s.apiFieldsMap) || null, this.apiIconTag = (s == null ? void 0 : s.apiIconTag) || null, this.wrapperClasses = (s == null ? void 0 : s.wrapperClasses) || null, this.toggleTag = (s == null ? void 0 : s.toggleTag) || null, this.toggleClasses = (s == null ? void 0 : s.toggleClasses) || null, this.toggleCountText = typeof(s == null ? void 0 : s.toggleCountText) === void 0 ? null : s.toggleCountText, this.toggleCountTextPlacement = (s == null ? void 0 : s.toggleCountTextPlacement) || "postfix", this.toggleCountTextMinItems = (s == null ? void 0 : s.toggleCountTextMinItems) || 1, this.toggleCountTextMode = (s == null ? void 0 : s.toggleCountTextMode) || "countAfterLimit", this.toggleSeparators = {
+        super(e, t),
+        this.optionId = 0;
+        const i = e.getAttribute("data-hs-select")
+          , s = {
+            ...i ? JSON.parse(i) : {},
+            ...t
+        };
+        this.value = (s == null ? void 0 : s.value) || this.el.value || null,
+        this.placeholder = (s == null ? void 0 : s.placeholder) || "Select...",
+        this.hasSearch = (s == null ? void 0 : s.hasSearch) || !1,
+        this.minSearchLength = (s == null ? void 0 : s.minSearchLength) ?? 0,
+        this.preventSearchFocus = (s == null ? void 0 : s.preventSearchFocus) || !1,
+        this.mode = (s == null ? void 0 : s.mode) || "default",
+        this.viewport = typeof (s == null ? void 0 : s.viewport) < "u" ? document.querySelector(s == null ? void 0 : s.viewport) : null,
+        this.isOpened = !!(s != null && s.isOpened) || !1,
+        this.isMultiple = this.el.hasAttribute("multiple") || !1,
+        this.isDisabled = this.el.hasAttribute("disabled") || !1,
+        this.selectedItems = [],
+        this.apiUrl = (s == null ? void 0 : s.apiUrl) || null,
+        this.apiQuery = (s == null ? void 0 : s.apiQuery) || null,
+        this.apiOptions = (s == null ? void 0 : s.apiOptions) || null,
+        this.apiSearchQueryKey = (s == null ? void 0 : s.apiSearchQueryKey) || null,
+        this.apiDataPart = (s == null ? void 0 : s.apiDataPart) || null,
+        this.apiFieldsMap = (s == null ? void 0 : s.apiFieldsMap) || null,
+        this.apiIconTag = (s == null ? void 0 : s.apiIconTag) || null,
+        this.wrapperClasses = (s == null ? void 0 : s.wrapperClasses) || null,
+        this.toggleTag = (s == null ? void 0 : s.toggleTag) || null,
+        this.toggleClasses = (s == null ? void 0 : s.toggleClasses) || null,
+        this.toggleCountText = typeof (s == null ? void 0 : s.toggleCountText) === void 0 ? null : s.toggleCountText,
+        this.toggleCountTextPlacement = (s == null ? void 0 : s.toggleCountTextPlacement) || "postfix",
+        this.toggleCountTextMinItems = (s == null ? void 0 : s.toggleCountTextMinItems) || 1,
+        this.toggleCountTextMode = (s == null ? void 0 : s.toggleCountTextMode) || "countAfterLimit",
+        this.toggleSeparators = {
             items: ((o = s == null ? void 0 : s.toggleSeparators) == null ? void 0 : o.items) || ", ",
             betweenItemsAndCounter: ((r = s == null ? void 0 : s.toggleSeparators) == null ? void 0 : r.betweenItemsAndCounter) || "and"
-        }, this.tagsItemTemplate = (s == null ? void 0 : s.tagsItemTemplate) || null, this.tagsItemClasses = (s == null ? void 0 : s.tagsItemClasses) || null, this.tagsInputId = (s == null ? void 0 : s.tagsInputId) || null, this.tagsInputClasses = (s == null ? void 0 : s.tagsInputClasses) || null, this.dropdownTag = (s == null ? void 0 : s.dropdownTag) || null, this.dropdownClasses = (s == null ? void 0 : s.dropdownClasses) || null, this.dropdownDirectionClasses = (s == null ? void 0 : s.dropdownDirectionClasses) || null, this.dropdownSpace = (s == null ? void 0 : s.dropdownSpace) || 10, this.dropdownPlacement = (s == null ? void 0 : s.dropdownPlacement) || null, this.dropdownVerticalFixedPlacement = (s == null ? void 0 : s.dropdownVerticalFixedPlacement) || null, this.dropdownScope = (s == null ? void 0 : s.dropdownScope) || "parent", this.searchTemplate = (s == null ? void 0 : s.searchTemplate) || null, this.searchWrapperTemplate = (s == null ? void 0 : s.searchWrapperTemplate) || null, this.searchWrapperClasses = (s == null ? void 0 : s.searchWrapperClasses) || "bg-white p-2 sticky top-0", this.searchId = (s == null ? void 0 : s.searchId) || null, this.searchLimit = (s == null ? void 0 : s.searchLimit) || 1 / 0, this.isSearchDirectMatch = typeof(s == null ? void 0 : s.isSearchDirectMatch) < "u" ? s == null ? void 0 : s.isSearchDirectMatch : !0, this.searchClasses = (s == null ? void 0 : s.searchClasses) || "block w-[calc(100%-2rem)] text-sm border-gray-200 rounded-md focus:border-blue-500 focus:ring-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 py-2 px-3 my-2 mx-4", this.searchPlaceholder = (s == null ? void 0 : s.searchPlaceholder) || "Search...", this.searchNoResultTemplate = (s == null ? void 0 : s.searchNoResultTemplate) || "<span></span>", this.searchNoResultText = (s == null ? void 0 : s.searchNoResultText) || "No results found", this.searchNoResultClasses = (s == null ? void 0 : s.searchNoResultClasses) || "px-4 text-sm text-gray-800 dark:text-neutral-200", this.optionAllowEmptyOption = typeof(s == null ? void 0 : s.optionAllowEmptyOption) < "u" ? s == null ? void 0 : s.optionAllowEmptyOption : !1, this.optionTemplate = (s == null ? void 0 : s.optionTemplate) || null, this.optionTag = (s == null ? void 0 : s.optionTag) || null, this.optionClasses = (s == null ? void 0 : s.optionClasses) || null, this.extraMarkup = (s == null ? void 0 : s.extraMarkup) || null, this.descriptionClasses = (s == null ? void 0 : s.descriptionClasses) || null, this.iconClasses = (s == null ? void 0 : s.iconClasses) || null, this.isAddTagOnEnter = (s == null ? void 0 : s.isAddTagOnEnter) ? ? !0, this.animationInProcess = !1, this.selectOptions = [], this.remoteOptions = [], this.tagsInputHelper = null, this.init()
+        },
+        this.tagsItemTemplate = (s == null ? void 0 : s.tagsItemTemplate) || null,
+        this.tagsItemClasses = (s == null ? void 0 : s.tagsItemClasses) || null,
+        this.tagsInputId = (s == null ? void 0 : s.tagsInputId) || null,
+        this.tagsInputClasses = (s == null ? void 0 : s.tagsInputClasses) || null,
+        this.dropdownTag = (s == null ? void 0 : s.dropdownTag) || null,
+        this.dropdownClasses = (s == null ? void 0 : s.dropdownClasses) || null,
+        this.dropdownDirectionClasses = (s == null ? void 0 : s.dropdownDirectionClasses) || null,
+        this.dropdownSpace = (s == null ? void 0 : s.dropdownSpace) || 10,
+        this.dropdownPlacement = (s == null ? void 0 : s.dropdownPlacement) || null,
+        this.dropdownVerticalFixedPlacement = (s == null ? void 0 : s.dropdownVerticalFixedPlacement) || null,
+        this.dropdownScope = (s == null ? void 0 : s.dropdownScope) || "parent",
+        this.searchTemplate = (s == null ? void 0 : s.searchTemplate) || null,
+        this.searchWrapperTemplate = (s == null ? void 0 : s.searchWrapperTemplate) || null,
+        this.searchWrapperClasses = (s == null ? void 0 : s.searchWrapperClasses) || "bg-white p-2 sticky top-0",
+        this.searchId = (s == null ? void 0 : s.searchId) || null,
+        this.searchLimit = (s == null ? void 0 : s.searchLimit) || 1 / 0,
+        this.isSearchDirectMatch = typeof (s == null ? void 0 : s.isSearchDirectMatch) < "u" ? s == null ? void 0 : s.isSearchDirectMatch : !0,
+        this.searchClasses = (s == null ? void 0 : s.searchClasses) || "block w-[calc(100%-2rem)] text-sm border-gray-200 rounded-md focus:border-blue-500 focus:ring-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 py-2 px-3 my-2 mx-4",
+        this.searchPlaceholder = (s == null ? void 0 : s.searchPlaceholder) || "Search...",
+        this.searchNoResultTemplate = (s == null ? void 0 : s.searchNoResultTemplate) || "<span></span>",
+        this.searchNoResultText = (s == null ? void 0 : s.searchNoResultText) || "No results found",
+        this.searchNoResultClasses = (s == null ? void 0 : s.searchNoResultClasses) || "px-4 text-sm text-gray-800 dark:text-neutral-200",
+        this.optionAllowEmptyOption = typeof (s == null ? void 0 : s.optionAllowEmptyOption) < "u" ? s == null ? void 0 : s.optionAllowEmptyOption : !1,
+        this.optionTemplate = (s == null ? void 0 : s.optionTemplate) || null,
+        this.optionTag = (s == null ? void 0 : s.optionTag) || null,
+        this.optionClasses = (s == null ? void 0 : s.optionClasses) || null,
+        this.extraMarkup = (s == null ? void 0 : s.extraMarkup) || null,
+        this.descriptionClasses = (s == null ? void 0 : s.descriptionClasses) || null,
+        this.iconClasses = (s == null ? void 0 : s.iconClasses) || null,
+        this.isAddTagOnEnter = (s == null ? void 0 : s.isAddTagOnEnter) ?? !0,
+        this.animationInProcess = !1,
+        this.selectOptions = [],
+        this.remoteOptions = [],
+        this.tagsInputHelper = null,
+        this.init()
     }
     wrapperClick(e) {
         !e.target.closest("[data-hs-select-dropdown]") && !e.target.closest("[data-tag-value]") && this.tagsInput.focus()
     }
     toggleClick() {
-        if (this.isDisabled) return !1;
+        if (this.isDisabled)
+            return !1;
         this.toggleFn()
     }
     tagsInputFocus() {
@@ -3787,8 +4859,12 @@ class K extends I {
     tagsInputKeydown(e) {
         if (e.key === "Enter" && this.isAddTagOnEnter) {
             const t = e.target.value;
-            if (this.selectOptions.find(i => i.val === t)) return !1;
-            this.addSelectOption(t, t), this.buildOption(t, t), this.dropdown.querySelector(`[data-value="${t}"]`).click(), this.resetTagsInputField()
+            if (this.selectOptions.find(i => i.val === t))
+                return !1;
+            this.addSelectOption(t, t),
+            this.buildOption(t, t),
+            this.dropdown.querySelector(`[data-value="${t}"]`).click(),
+            this.resetTagsInputField()
         }
     }
     searchInput(e) {
@@ -3796,48 +4872,81 @@ class K extends I {
         this.apiUrl ? this.remoteSearch(t) : this.searchOptions(t)
     }
     setValue(e) {
-        this.value = e, this.clearSelections(), Array.isArray(e) ? this.mode === "tags" ? (this.unselectMultipleItems(), this.selectMultipleItems(), this.selectedItems = [], this.wrapper.querySelectorAll("[data-tag-value]").forEach(i => i.remove()), this.setTagsItems(), this.reassignTagsInputPlaceholder(this.value.length ? "" : this.placeholder)) : (this.toggleTextWrapper.innerHTML = this.value.length ? this.stringFromValue() : this.placeholder, this.unselectMultipleItems(), this.selectMultipleItems()) : (this.setToggleTitle(), this.toggle.querySelector("[data-icon]") && this.setToggleIcon(), this.toggle.querySelector("[data-title]") && this.setToggleTitle(), this.selectSingleItem())
+        this.value = e,
+        this.clearSelections(),
+        Array.isArray(e) ? this.mode === "tags" ? (this.unselectMultipleItems(),
+        this.selectMultipleItems(),
+        this.selectedItems = [],
+        this.wrapper.querySelectorAll("[data-tag-value]").forEach(i => i.remove()),
+        this.setTagsItems(),
+        this.reassignTagsInputPlaceholder(this.value.length ? "" : this.placeholder)) : (this.toggleTextWrapper.innerHTML = this.value.length ? this.stringFromValue() : this.placeholder,
+        this.unselectMultipleItems(),
+        this.selectMultipleItems()) : (this.setToggleTitle(),
+        this.toggle.querySelector("[data-icon]") && this.setToggleIcon(),
+        this.toggle.querySelector("[data-title]") && this.setToggleTitle(),
+        this.selectSingleItem())
     }
     init() {
-        this.createCollection(window.$hsSelectCollection, this), this.build()
+        this.createCollection(window.$hsSelectCollection, this),
+        this.build()
     }
     build() {
-        if (this.el.style.display = "none", this.el.children && Array.from(this.el.children).filter(e => this.optionAllowEmptyOption || !this.optionAllowEmptyOption && e.value && e.value !== "").forEach(e => {
-                const t = e.getAttribute("data-hs-select-option");
-                this.selectOptions = [...this.selectOptions, {
-                    title: e.textContent,
-                    val: e.value,
-                    disabled: e.disabled,
-                    options: t !== "undefined" ? JSON.parse(t) : null
-                }]
-            }), this.isMultiple) {
+        if (this.el.style.display = "none",
+        this.el.children && Array.from(this.el.children).filter(e => this.optionAllowEmptyOption || !this.optionAllowEmptyOption && e.value && e.value !== "").forEach(e => {
+            const t = e.getAttribute("data-hs-select-option");
+            this.selectOptions = [...this.selectOptions, {
+                title: e.textContent,
+                val: e.value,
+                disabled: e.disabled,
+                options: t !== "undefined" ? JSON.parse(t) : null
+            }]
+        }
+        ),
+        this.isMultiple) {
             const e = Array.from(this.el.children).filter(t => t.selected);
             if (e) {
                 const t = [];
                 e.forEach(i => {
                     t.push(i.value)
-                }), this.value = t
+                }
+                ),
+                this.value = t
             }
         }
-        this.buildWrapper(), this.mode === "tags" ? this.buildTags() : this.buildToggle(), this.buildDropdown(), this.extraMarkup && this.buildExtraMarkup()
+        this.buildWrapper(),
+        this.mode === "tags" ? this.buildTags() : this.buildToggle(),
+        this.buildDropdown(),
+        this.extraMarkup && this.buildExtraMarkup()
     }
     buildWrapper() {
-        this.wrapper = document.createElement("div"), this.wrapper.classList.add("hs-select", "relative"), this.mode === "tags" && (this.onWrapperClickListener = e => this.wrapperClick(e), this.wrapper.addEventListener("click", this.onWrapperClickListener)), this.wrapperClasses && D(this.wrapperClasses, this.wrapper), this.el.before(this.wrapper), this.wrapper.append(this.el)
+        this.wrapper = document.createElement("div"),
+        this.wrapper.classList.add("hs-select", "relative"),
+        this.mode === "tags" && (this.onWrapperClickListener = e => this.wrapperClick(e),
+        this.wrapper.addEventListener("click", this.onWrapperClickListener)),
+        this.wrapperClasses && D(this.wrapperClasses, this.wrapper),
+        this.el.before(this.wrapper),
+        this.wrapper.append(this.el)
     }
     buildExtraMarkup() {
         const e = i => {
-                const n = y(i);
-                return this.wrapper.append(n), n
-            },
-            t = i => {
-                i.classList.contains("--prevent-click") || i.addEventListener("click", n => {
-                    n.stopPropagation(), this.toggleFn()
-                })
-            };
-        if (Array.isArray(this.extraMarkup)) this.extraMarkup.forEach(i => {
-            const n = e(i);
-            t(n)
-        });
+            const n = y(i);
+            return this.wrapper.append(n),
+            n
+        }
+          , t = i => {
+            i.classList.contains("--prevent-click") || i.addEventListener("click", n => {
+                n.stopPropagation(),
+                this.toggleFn()
+            }
+            )
+        }
+        ;
+        if (Array.isArray(this.extraMarkup))
+            this.extraMarkup.forEach(i => {
+                const n = e(i);
+                t(n)
+            }
+            );
         else {
             const i = e(this.extraMarkup);
             t(i)
@@ -3846,60 +4955,134 @@ class K extends I {
     buildToggle() {
         var i, n;
         let e, t;
-        this.toggleTextWrapper = document.createElement("span"), this.toggleTextWrapper.classList.add("truncate"), this.toggle = y(this.toggleTag || "<div></div>"), e = this.toggle.querySelector("[data-icon]"), t = this.toggle.querySelector("[data-title]"), !this.isMultiple && e && this.setToggleIcon(), !this.isMultiple && t && this.setToggleTitle(), this.isMultiple ? this.toggleTextWrapper.innerHTML = this.value.length ? this.stringFromValue() : this.placeholder : this.toggleTextWrapper.innerHTML = ((i = this.getItemByValue(this.value)) == null ? void 0 : i.title) || this.placeholder, t || this.toggle.append(this.toggleTextWrapper), this.toggleClasses && D(this.toggleClasses, this.toggle), this.isDisabled && this.toggle.classList.add("disabled"), this.wrapper && this.wrapper.append(this.toggle), (n = this.toggle) != null && n.ariaExpanded && (this.isOpened ? this.toggle.ariaExpanded = "true" : this.toggle.ariaExpanded = "false"), this.onToggleClickListener = () => this.toggleClick(), this.toggle.addEventListener("click", this.onToggleClickListener)
+        this.toggleTextWrapper = document.createElement("span"),
+        this.toggleTextWrapper.classList.add("truncate"),
+        this.toggle = y(this.toggleTag || "<div></div>"),
+        e = this.toggle.querySelector("[data-icon]"),
+        t = this.toggle.querySelector("[data-title]"),
+        !this.isMultiple && e && this.setToggleIcon(),
+        !this.isMultiple && t && this.setToggleTitle(),
+        this.isMultiple ? this.toggleTextWrapper.innerHTML = this.value.length ? this.stringFromValue() : this.placeholder : this.toggleTextWrapper.innerHTML = ((i = this.getItemByValue(this.value)) == null ? void 0 : i.title) || this.placeholder,
+        t || this.toggle.append(this.toggleTextWrapper),
+        this.toggleClasses && D(this.toggleClasses, this.toggle),
+        this.isDisabled && this.toggle.classList.add("disabled"),
+        this.wrapper && this.wrapper.append(this.toggle),
+        (n = this.toggle) != null && n.ariaExpanded && (this.isOpened ? this.toggle.ariaExpanded = "true" : this.toggle.ariaExpanded = "false"),
+        this.onToggleClickListener = () => this.toggleClick(),
+        this.toggle.addEventListener("click", this.onToggleClickListener)
     }
     setToggleIcon() {
         var i;
-        const e = this.getItemByValue(this.value),
-            t = this.toggle.querySelector("[data-icon]");
+        const e = this.getItemByValue(this.value)
+          , t = this.toggle.querySelector("[data-icon]");
         if (t) {
             t.innerHTML = "";
             const n = y(this.apiUrl && this.apiIconTag ? this.apiIconTag || "" : ((i = e == null ? void 0 : e.options) == null ? void 0 : i.icon) || "");
-            this.value && this.apiUrl && this.apiIconTag && e[this.apiFieldsMap.icon] && (n.src = e[this.apiFieldsMap.icon] || ""), t.append(n), n ? t.classList.remove("hidden") : t.classList.add("hidden")
+            this.value && this.apiUrl && this.apiIconTag && e[this.apiFieldsMap.icon] && (n.src = e[this.apiFieldsMap.icon] || ""),
+            t.append(n),
+            n ? t.classList.remove("hidden") : t.classList.add("hidden")
         }
     }
     setToggleTitle() {
         var t;
         const e = this.toggle.querySelector("[data-title]");
-        e && (e.innerHTML = ((t = this.getItemByValue(this.value)) == null ? void 0 : t.title) || this.placeholder, e.classList.add("truncate"), this.toggle.append(e))
+        e && (e.innerHTML = ((t = this.getItemByValue(this.value)) == null ? void 0 : t.title) || this.placeholder,
+        e.classList.add("truncate"),
+        this.toggle.append(e))
     }
     buildTags() {
-        this.isDisabled && this.wrapper.classList.add("disabled"), this.buildTagsInput(), this.setTagsItems()
+        this.isDisabled && this.wrapper.classList.add("disabled"),
+        this.buildTagsInput(),
+        this.setTagsItems()
     }
     reassignTagsInputPlaceholder(e) {
-        this.tagsInput.placeholder = e, this.tagsInputHelper.innerHTML = e, this.calculateInputWidth()
+        this.tagsInput.placeholder = e,
+        this.tagsInputHelper.innerHTML = e,
+        this.calculateInputWidth()
     }
     buildTagsItem(e) {
         var a, h, c, d;
         const t = this.getItemByValue(e);
         let i, n, s, o;
         const r = document.createElement("div");
-        if (r.setAttribute("data-tag-value", e), this.tagsItemClasses && D(this.tagsItemClasses, r), this.tagsItemTemplate && (i = y(this.tagsItemTemplate), r.append(i)), (a = t == null ? void 0 : t.options) != null && a.icon || this.apiIconTag) {
+        if (r.setAttribute("data-tag-value", e),
+        this.tagsItemClasses && D(this.tagsItemClasses, r),
+        this.tagsItemTemplate && (i = y(this.tagsItemTemplate),
+        r.append(i)),
+        (a = t == null ? void 0 : t.options) != null && a.icon || this.apiIconTag) {
             const u = y(this.apiUrl && this.apiIconTag ? this.apiIconTag : (h = t == null ? void 0 : t.options) == null ? void 0 : h.icon);
-            this.apiUrl && this.apiIconTag && t[this.apiFieldsMap.icon] && (u.src = t[this.apiFieldsMap.icon] || ""), o = i ? i.querySelector("[data-icon]") : document.createElement("span"), o.append(u), i || r.append(o)
+            this.apiUrl && this.apiIconTag && t[this.apiFieldsMap.icon] && (u.src = t[this.apiFieldsMap.icon] || ""),
+            o = i ? i.querySelector("[data-icon]") : document.createElement("span"),
+            o.append(u),
+            i || r.append(o)
         }
-        i && i.querySelector("[data-icon]") && !((c = t == null ? void 0 : t.options) != null && c.icon) && !this.apiUrl && !this.apiIconTag && !t[(d = this.apiFieldsMap) == null ? void 0 : d.icon] && i.querySelector("[data-icon]").classList.add("hidden"), n = i ? i.querySelector("[data-title]") : document.createElement("span"), n.textContent = t.title || "", i || r.append(n), i ? s = i.querySelector("[data-remove]") : (s = document.createElement("span"), s.textContent = "X", r.append(s)), s.addEventListener("click", () => {
-            this.value = this.value.filter(u => u !== e), this.selectedItems = this.selectedItems.filter(u => u !== e), this.value.length || this.reassignTagsInputPlaceholder(this.placeholder), this.unselectMultipleItems(), this.selectMultipleItems(), r.remove(), this.triggerChangeEventForNativeSelect()
-        }), this.wrapper.append(r)
+        i && i.querySelector("[data-icon]") && !((c = t == null ? void 0 : t.options) != null && c.icon) && !this.apiUrl && !this.apiIconTag && !t[(d = this.apiFieldsMap) == null ? void 0 : d.icon] && i.querySelector("[data-icon]").classList.add("hidden"),
+        n = i ? i.querySelector("[data-title]") : document.createElement("span"),
+        n.textContent = t.title || "",
+        i || r.append(n),
+        i ? s = i.querySelector("[data-remove]") : (s = document.createElement("span"),
+        s.textContent = "X",
+        r.append(s)),
+        s.addEventListener("click", () => {
+            this.value = this.value.filter(u => u !== e),
+            this.selectedItems = this.selectedItems.filter(u => u !== e),
+            this.value.length || this.reassignTagsInputPlaceholder(this.placeholder),
+            this.unselectMultipleItems(),
+            this.selectMultipleItems(),
+            r.remove(),
+            this.triggerChangeEventForNativeSelect()
+        }
+        ),
+        this.wrapper.append(r)
     }
     getItemByValue(e) {
         return this.apiUrl ? this.remoteOptions.find(i => `${i[this.apiFieldsMap.val]}` === e || i[this.apiFieldsMap.title] === e) : this.selectOptions.find(i => i.val === e)
     }
     setTagsItems() {
         this.value && this.value.forEach(e => {
-            this.selectedItems.includes(e) || this.buildTagsItem(e), this.selectedItems = this.selectedItems.includes(e) ? this.selectedItems : [...this.selectedItems, e]
-        })
+            this.selectedItems.includes(e) || this.buildTagsItem(e),
+            this.selectedItems = this.selectedItems.includes(e) ? this.selectedItems : [...this.selectedItems, e]
+        }
+        )
     }
     buildTagsInput() {
-        this.tagsInput = document.createElement("input"), this.tagsInputId && (this.tagsInput.id = this.tagsInputId), this.tagsInputClasses && D(this.tagsInputClasses, this.tagsInput), this.onTagsInputFocusListener = () => this.tagsInputFocus(), this.onTagsInputInputListener = () => this.tagsInputInput(), this.onTagsInputInputSecondListener = ke(e => this.tagsInputInputSecond(e)), this.onTagsInputKeydownListener = e => this.tagsInputKeydown(e), this.tagsInput.addEventListener("focus", this.onTagsInputFocusListener), this.tagsInput.addEventListener("input", this.onTagsInputInputListener), this.tagsInput.addEventListener("input", this.onTagsInputInputSecondListener), this.tagsInput.addEventListener("keydown", this.onTagsInputKeydownListener), this.wrapper.append(this.tagsInput), setTimeout(() => {
-            this.adjustInputWidth(), this.reassignTagsInputPlaceholder(this.value.length ? "" : this.placeholder)
-        })
+        this.tagsInput = document.createElement("input"),
+        this.tagsInputId && (this.tagsInput.id = this.tagsInputId),
+        this.tagsInputClasses && D(this.tagsInputClasses, this.tagsInput),
+        this.onTagsInputFocusListener = () => this.tagsInputFocus(),
+        this.onTagsInputInputListener = () => this.tagsInputInput(),
+        this.onTagsInputInputSecondListener = ke(e => this.tagsInputInputSecond(e)),
+        this.onTagsInputKeydownListener = e => this.tagsInputKeydown(e),
+        this.tagsInput.addEventListener("focus", this.onTagsInputFocusListener),
+        this.tagsInput.addEventListener("input", this.onTagsInputInputListener),
+        this.tagsInput.addEventListener("input", this.onTagsInputInputSecondListener),
+        this.tagsInput.addEventListener("keydown", this.onTagsInputKeydownListener),
+        this.wrapper.append(this.tagsInput),
+        setTimeout( () => {
+            this.adjustInputWidth(),
+            this.reassignTagsInputPlaceholder(this.value.length ? "" : this.placeholder)
+        }
+        )
     }
     buildDropdown() {
-        this.dropdown = y(this.dropdownTag || "<div></div>"), this.dropdown.setAttribute("data-hs-select-dropdown", ""), this.dropdownScope === "parent" && (this.dropdown.classList.add("absolute"), this.dropdownVerticalFixedPlacement || this.dropdown.classList.add("top-full")), this.dropdown.role = "listbox", this.dropdown.tabIndex = -1, this.dropdown.ariaOrientation = "vertical", this.isOpened || this.dropdown.classList.add("hidden"), this.dropdownClasses && D(this.dropdownClasses, this.dropdown), this.wrapper && this.wrapper.append(this.dropdown), this.dropdown && this.hasSearch && this.buildSearch(), this.selectOptions && this.selectOptions.forEach((e, t) => this.buildOption(e.title, e.val, e.disabled, e.selected, e.options, `${t}`)), this.apiUrl && this.optionsFromRemoteData(), this.dropdownScope === "window" && this.buildPopper()
+        this.dropdown = y(this.dropdownTag || "<div></div>"),
+        this.dropdown.setAttribute("data-hs-select-dropdown", ""),
+        this.dropdownScope === "parent" && (this.dropdown.classList.add("absolute"),
+        this.dropdownVerticalFixedPlacement || this.dropdown.classList.add("top-full")),
+        this.dropdown.role = "listbox",
+        this.dropdown.tabIndex = -1,
+        this.dropdown.ariaOrientation = "vertical",
+        this.isOpened || this.dropdown.classList.add("hidden"),
+        this.dropdownClasses && D(this.dropdownClasses, this.dropdown),
+        this.wrapper && this.wrapper.append(this.dropdown),
+        this.dropdown && this.hasSearch && this.buildSearch(),
+        this.selectOptions && this.selectOptions.forEach( (e, t) => this.buildOption(e.title, e.val, e.disabled, e.selected, e.options, `${t}`)),
+        this.apiUrl && this.optionsFromRemoteData(),
+        this.dropdownScope === "window" && this.buildPopper()
     }
     buildPopper() {
-        typeof Popper < "u" && Popper.createPopper && (document.body.appendChild(this.dropdown), this.popperInstance = Popper.createPopper(this.mode === "tags" ? this.wrapper : this.toggle, this.dropdown, {
+        typeof Popper < "u" && Popper.createPopper && (document.body.appendChild(this.dropdown),
+        this.popperInstance = Popper.createPopper(this.mode === "tags" ? this.wrapper : this.toggle, this.dropdown, {
             placement: tt[this.dropdownPlacement] || "bottom",
             strategy: "fixed",
             modifiers: [{
@@ -3916,42 +5099,79 @@ class K extends I {
     }
     buildSearch() {
         let e;
-        this.searchWrapper = y(this.searchWrapperTemplate || "<div></div>"), this.searchWrapperClasses && D(this.searchWrapperClasses, this.searchWrapper), e = this.searchWrapper.querySelector("[data-input]");
+        this.searchWrapper = y(this.searchWrapperTemplate || "<div></div>"),
+        this.searchWrapperClasses && D(this.searchWrapperClasses, this.searchWrapper),
+        e = this.searchWrapper.querySelector("[data-input]");
         const t = y(this.searchTemplate || '<input type="text" />');
-        this.search = t.tagName === "INPUT" ? t : t.querySelector(":scope input"), this.search.placeholder = this.searchPlaceholder, this.searchClasses && D(this.searchClasses, this.search), this.searchId && (this.search.id = this.searchId), this.onSearchInputListener = ke(i => this.searchInput(i)), this.search.addEventListener("input", this.onSearchInputListener), e ? e.append(t) : this.searchWrapper.append(t), this.dropdown.append(this.searchWrapper)
+        this.search = t.tagName === "INPUT" ? t : t.querySelector(":scope input"),
+        this.search.placeholder = this.searchPlaceholder,
+        this.searchClasses && D(this.searchClasses, this.search),
+        this.searchId && (this.search.id = this.searchId),
+        this.onSearchInputListener = ke(i => this.searchInput(i)),
+        this.search.addEventListener("input", this.onSearchInputListener),
+        e ? e.append(t) : this.searchWrapper.append(t),
+        this.dropdown.append(this.searchWrapper)
     }
-    buildOption(e, t, i = !1, n = !1, s, o = "1", r) {
-        let a = null,
-            h = null,
-            c = null,
-            d = null;
+    buildOption(e, t, i=!1, n=!1, s, o="1", r) {
+        let a = null
+          , h = null
+          , c = null
+          , d = null;
         const u = y(this.optionTag || "<div></div>");
-        if (u.setAttribute("data-value", t), u.setAttribute("data-title-value", e), u.setAttribute("tabIndex", o), u.classList.add("cursor-pointer"), u.setAttribute("data-id", r || `${this.optionId}`), r || this.optionId++, i && u.classList.add("disabled"), n && (this.isMultiple ? this.value = [...this.value, t] : this.value = t), this.optionTemplate && (a = y(this.optionTemplate), u.append(a)), a ? (h = a.querySelector("[data-title]"), h.textContent = e || "") : u.textContent = e || "", s) {
+        if (u.setAttribute("data-value", t),
+        u.setAttribute("data-title-value", e),
+        u.setAttribute("tabIndex", o),
+        u.classList.add("cursor-pointer"),
+        u.setAttribute("data-id", r || `${this.optionId}`),
+        r || this.optionId++,
+        i && u.classList.add("disabled"),
+        n && (this.isMultiple ? this.value = [...this.value, t] : this.value = t),
+        this.optionTemplate && (a = y(this.optionTemplate),
+        u.append(a)),
+        a ? (h = a.querySelector("[data-title]"),
+        h.textContent = e || "") : u.textContent = e || "",
+        s) {
             if (s.icon) {
-                const p = y(this.apiIconTag ? ? s.icon);
-                if (p.classList.add("max-w-full"), this.apiUrl && (p.setAttribute("alt", e), p.setAttribute("src", s.icon)), a) c = a.querySelector("[data-icon]"), c.append(p);
+                const p = y(this.apiIconTag ?? s.icon);
+                if (p.classList.add("max-w-full"),
+                this.apiUrl && (p.setAttribute("alt", e),
+                p.setAttribute("src", s.icon)),
+                a)
+                    c = a.querySelector("[data-icon]"),
+                    c.append(p);
                 else {
                     const w = y("<div></div>");
-                    this.iconClasses && D(this.iconClasses, w), w.append(p), u.append(w)
+                    this.iconClasses && D(this.iconClasses, w),
+                    w.append(p),
+                    u.append(w)
                 }
             }
             if (s.description)
-                if (a) d = a.querySelector("[data-description]"), d && d.append(s.description);
+                if (a)
+                    d = a.querySelector("[data-description]"),
+                    d && d.append(s.description);
                 else {
                     const p = y("<div></div>");
-                    p.textContent = s.description, this.descriptionClasses && D(this.descriptionClasses, p), u.append(p)
+                    p.textContent = s.description,
+                    this.descriptionClasses && D(this.descriptionClasses, p),
+                    u.append(p)
                 }
         }
-        a && a.querySelector("[data-icon]") && !s && !(s != null && s.icon) && a.querySelector("[data-icon]").classList.add("hidden"), this.value && (this.isMultiple ? this.value.includes(t) : this.value === t) && u.classList.add("selected"), i || u.addEventListener("click", () => this.onSelectOption(t)), this.optionClasses && D(this.optionClasses, u), this.dropdown && this.dropdown.append(u), n && this.setNewValue()
+        a && a.querySelector("[data-icon]") && !s && !(s != null && s.icon) && a.querySelector("[data-icon]").classList.add("hidden"),
+        this.value && (this.isMultiple ? this.value.includes(t) : this.value === t) && u.classList.add("selected"),
+        i || u.addEventListener("click", () => this.onSelectOption(t)),
+        this.optionClasses && D(this.optionClasses, u),
+        this.dropdown && this.dropdown.append(u),
+        n && this.setNewValue()
     }
-    buildOptionFromRemoteData(e, t, i = !1, n = !1, s = "1", o, r) {
+    buildOptionFromRemoteData(e, t, i=!1, n=!1, s="1", o, r) {
         s ? this.buildOption(e, t, i, n, r, s, o) : alert("ID parameter is required for generating remote options! Please check your API endpoint have it.")
     }
     buildOptionsFromRemoteData(e) {
-        e.forEach((t, i) => {
-            let n = null,
-                s = "",
-                o = "";
+        e.forEach( (t, i) => {
+            let n = null
+              , s = ""
+              , o = "";
             const r = {
                 id: "",
                 val: "",
@@ -3962,21 +5182,34 @@ class K extends I {
             };
             Object.keys(t).forEach(a => {
                 var h;
-                t[this.apiFieldsMap.id] && (n = t[this.apiFieldsMap.id]), (t[this.apiFieldsMap.val] || t[this.apiFieldsMap.title]) && (o = t[this.apiFieldsMap.val] || t[this.apiFieldsMap.title]), t[this.apiFieldsMap.title] && (s = t[this.apiFieldsMap.title]), t[this.apiFieldsMap.icon] && (r.icon = t[this.apiFieldsMap.icon]), t[(h = this.apiFieldsMap) == null ? void 0 : h.description] && (r.description = t[this.apiFieldsMap.description]), r.rest[a] = t[a]
-            }), this.buildOriginalOption(s, `${o}`, n, !1, !1, r), this.buildOptionFromRemoteData(s, `${o}`, !1, !1, `${i}`, n, r)
-        }), this.sortElements(this.el, "option"), this.sortElements(this.dropdown, "[data-value]")
+                t[this.apiFieldsMap.id] && (n = t[this.apiFieldsMap.id]),
+                (t[this.apiFieldsMap.val] || t[this.apiFieldsMap.title]) && (o = t[this.apiFieldsMap.val] || t[this.apiFieldsMap.title]),
+                t[this.apiFieldsMap.title] && (s = t[this.apiFieldsMap.title]),
+                t[this.apiFieldsMap.icon] && (r.icon = t[this.apiFieldsMap.icon]),
+                t[(h = this.apiFieldsMap) == null ? void 0 : h.description] && (r.description = t[this.apiFieldsMap.description]),
+                r.rest[a] = t[a]
+            }
+            ),
+            this.buildOriginalOption(s, `${o}`, n, !1, !1, r),
+            this.buildOptionFromRemoteData(s, `${o}`, !1, !1, `${i}`, n, r)
+        }
+        ),
+        this.sortElements(this.el, "option"),
+        this.sortElements(this.dropdown, "[data-value]")
     }
-    async optionsFromRemoteData(e = "") {
+    async optionsFromRemoteData(e="") {
         const t = await this.apiRequest(e);
-        this.remoteOptions = t, t.length ? this.buildOptionsFromRemoteData(this.remoteOptions) : console.log("There is no data were responded!")
+        this.remoteOptions = t,
+        t.length ? this.buildOptionsFromRemoteData(this.remoteOptions) : console.log("There is no data were responded!")
     }
-    async apiRequest(e = "") {
+    async apiRequest(e="") {
         try {
             let t = this.apiUrl;
-            const i = this.apiSearchQueryKey ? `${this.apiSearchQueryKey}=${e.toLowerCase()}` : null,
-                n = `${this.apiQuery}`,
-                s = this.apiOptions || {};
-            i && (t += `?${i}`), this.apiQuery && (t += `${i?"&":"?"}${n}`);
+            const i = this.apiSearchQueryKey ? `${this.apiSearchQueryKey}=${e.toLowerCase()}` : null
+              , n = `${this.apiQuery}`
+              , s = this.apiOptions || {};
+            i && (t += `?${i}`),
+            this.apiQuery && (t += `${i ? "&" : "?"}${n}`);
             const r = await (await fetch(t, s)).json();
             return this.apiDataPart ? r[this.apiDataPart] : r
         } catch (t) {
@@ -3985,76 +5218,121 @@ class K extends I {
     }
     sortElements(e, t) {
         const i = Array.from(e.querySelectorAll(t));
-        i.sort((n, s) => {
-            const o = n.classList.contains("selected") || n.hasAttribute("selected"),
-                r = s.classList.contains("selected") || s.hasAttribute("selected");
+        i.sort( (n, s) => {
+            const o = n.classList.contains("selected") || n.hasAttribute("selected")
+              , r = s.classList.contains("selected") || s.hasAttribute("selected");
             return o && !r ? -1 : !o && r ? 1 : 0
-        }), i.forEach(n => e.appendChild(n))
+        }
+        ),
+        i.forEach(n => e.appendChild(n))
     }
     async remoteSearch(e) {
         if (e.length <= this.minSearchLength) {
             const r = await this.apiRequest("");
-            return this.remoteOptions = r, Array.from(this.dropdown.querySelectorAll("[data-value]")).forEach(a => a.remove()), Array.from(this.el.querySelectorAll("option[value]")).forEach(a => {
+            return this.remoteOptions = r,
+            Array.from(this.dropdown.querySelectorAll("[data-value]")).forEach(a => a.remove()),
+            Array.from(this.el.querySelectorAll("option[value]")).forEach(a => {
                 a.remove()
-            }), r.length ? this.buildOptionsFromRemoteData(r) : console.log("No data responded!"), !1
+            }
+            ),
+            r.length ? this.buildOptionsFromRemoteData(r) : console.log("No data responded!"),
+            !1
         }
         const t = await this.apiRequest(e);
         this.remoteOptions = t;
-        let i = t.map(r => `${r.id}`),
-            n = null;
+        let i = t.map(r => `${r.id}`)
+          , n = null;
         const s = this.dropdown.querySelectorAll("[data-value]");
         this.el.querySelectorAll("[data-hs-select-option]").forEach(r => {
             var h;
             const a = r.getAttribute("data-id");
             !i.includes(a) && !((h = this.value) != null && h.includes(r.value)) && this.destroyOriginalOption(r.value)
-        }), s.forEach(r => {
+        }
+        ),
+        s.forEach(r => {
             var h;
             const a = r.getAttribute("data-id");
             !i.includes(a) && !((h = this.value) != null && h.includes(r.getAttribute("data-value"))) ? this.destroyOption(r.getAttribute("data-value")) : i = i.filter(c => c !== a)
-        }), n = t.filter(r => i.includes(`${r.id}`)), n.length ? this.buildOptionsFromRemoteData(n) : console.log("No data responded!")
+        }
+        ),
+        n = t.filter(r => i.includes(`${r.id}`)),
+        n.length ? this.buildOptionsFromRemoteData(n) : console.log("No data responded!")
     }
     destroyOption(e) {
         const t = this.dropdown.querySelector(`[data-value="${e}"]`);
-        if (!t) return !1;
+        if (!t)
+            return !1;
         t.remove()
     }
     buildOriginalOption(e, t, i, n, s, o) {
         const r = y("<option></option>");
-        r.setAttribute("value", t), n && r.setAttribute("disabled", "disabled"), s && r.setAttribute("selected", "selected"), i && r.setAttribute("data-id", i), r.setAttribute("data-hs-select-option", JSON.stringify(o)), r.innerText = e, this.el.append(r)
+        r.setAttribute("value", t),
+        n && r.setAttribute("disabled", "disabled"),
+        s && r.setAttribute("selected", "selected"),
+        i && r.setAttribute("data-id", i),
+        r.setAttribute("data-hs-select-option", JSON.stringify(o)),
+        r.innerText = e,
+        this.el.append(r)
     }
     destroyOriginalOption(e) {
         const t = this.el.querySelector(`[value="${e}"]`);
-        if (!t) return !1;
+        if (!t)
+            return !1;
         t.remove()
     }
     buildTagsInputHelper() {
-        this.tagsInputHelper = document.createElement("span"), this.tagsInputHelper.style.fontSize = window.getComputedStyle(this.tagsInput).fontSize, this.tagsInputHelper.style.fontFamily = window.getComputedStyle(this.tagsInput).fontFamily, this.tagsInputHelper.style.fontWeight = window.getComputedStyle(this.tagsInput).fontWeight, this.tagsInputHelper.style.letterSpacing = window.getComputedStyle(this.tagsInput).letterSpacing, this.tagsInputHelper.style.visibility = "hidden", this.tagsInputHelper.style.whiteSpace = "pre", this.tagsInputHelper.style.position = "absolute", this.wrapper.appendChild(this.tagsInputHelper)
+        this.tagsInputHelper = document.createElement("span"),
+        this.tagsInputHelper.style.fontSize = window.getComputedStyle(this.tagsInput).fontSize,
+        this.tagsInputHelper.style.fontFamily = window.getComputedStyle(this.tagsInput).fontFamily,
+        this.tagsInputHelper.style.fontWeight = window.getComputedStyle(this.tagsInput).fontWeight,
+        this.tagsInputHelper.style.letterSpacing = window.getComputedStyle(this.tagsInput).letterSpacing,
+        this.tagsInputHelper.style.visibility = "hidden",
+        this.tagsInputHelper.style.whiteSpace = "pre",
+        this.tagsInputHelper.style.position = "absolute",
+        this.wrapper.appendChild(this.tagsInputHelper)
     }
     calculateInputWidth() {
         this.tagsInputHelper.textContent = this.tagsInput.value || this.tagsInput.placeholder;
-        const e = parseInt(window.getComputedStyle(this.tagsInput).paddingLeft) + parseInt(window.getComputedStyle(this.tagsInput).paddingRight),
-            t = parseInt(window.getComputedStyle(this.tagsInput).borderLeftWidth) + parseInt(window.getComputedStyle(this.tagsInput).borderRightWidth),
-            i = this.tagsInputHelper.offsetWidth + e + t,
-            n = this.wrapper.offsetWidth - (parseInt(window.getComputedStyle(this.wrapper).paddingLeft) + parseInt(window.getComputedStyle(this.wrapper).paddingRight));
-        this.tagsInput.style.width = `${Math.min(i,n)+2}px`
+        const e = parseInt(window.getComputedStyle(this.tagsInput).paddingLeft) + parseInt(window.getComputedStyle(this.tagsInput).paddingRight)
+          , t = parseInt(window.getComputedStyle(this.tagsInput).borderLeftWidth) + parseInt(window.getComputedStyle(this.tagsInput).borderRightWidth)
+          , i = this.tagsInputHelper.offsetWidth + e + t
+          , n = this.wrapper.offsetWidth - (parseInt(window.getComputedStyle(this.wrapper).paddingLeft) + parseInt(window.getComputedStyle(this.wrapper).paddingRight));
+        this.tagsInput.style.width = `${Math.min(i, n) + 2}px`
     }
     adjustInputWidth() {
-        this.buildTagsInputHelper(), this.calculateInputWidth()
+        this.buildTagsInputHelper(),
+        this.calculateInputWidth()
     }
     onSelectOption(e) {
-        if (this.clearSelections(), this.isMultiple ? (this.value = this.value.includes(e) ? Array.from(this.value).filter(t => t !== e) : [...Array.from(this.value), e], this.selectMultipleItems(), this.setNewValue()) : (this.value = e, this.selectSingleItem(), this.setNewValue()), this.fireEvent("change", this.value), this.mode === "tags") {
+        if (this.clearSelections(),
+        this.isMultiple ? (this.value = this.value.includes(e) ? Array.from(this.value).filter(t => t !== e) : [...Array.from(this.value), e],
+        this.selectMultipleItems(),
+        this.setNewValue()) : (this.value = e,
+        this.selectSingleItem(),
+        this.setNewValue()),
+        this.fireEvent("change", this.value),
+        this.mode === "tags") {
             const t = this.selectedItems.filter(i => !this.value.includes(i));
             t.length && t.forEach(i => {
-                this.selectedItems = this.selectedItems.filter(n => n !== i), this.wrapper.querySelector(`[data-tag-value="${i}"]`).remove()
-            }), this.resetTagsInputField()
+                this.selectedItems = this.selectedItems.filter(n => n !== i),
+                this.wrapper.querySelector(`[data-tag-value="${i}"]`).remove()
+            }
+            ),
+            this.resetTagsInputField()
         }
-        this.isMultiple || (this.toggle.querySelector("[data-icon]") && this.setToggleIcon(), this.toggle.querySelector("[data-title]") && this.setToggleTitle(), this.close(!0)), !this.value.length && this.mode === "tags" && this.reassignTagsInputPlaceholder(this.placeholder), this.isOpened && this.mode === "tags" && this.tagsInput && this.tagsInput.focus(), this.triggerChangeEventForNativeSelect()
+        this.isMultiple || (this.toggle.querySelector("[data-icon]") && this.setToggleIcon(),
+        this.toggle.querySelector("[data-title]") && this.setToggleTitle(),
+        this.close(!0)),
+        !this.value.length && this.mode === "tags" && this.reassignTagsInputPlaceholder(this.placeholder),
+        this.isOpened && this.mode === "tags" && this.tagsInput && this.tagsInput.focus(),
+        this.triggerChangeEventForNativeSelect()
     }
     triggerChangeEventForNativeSelect() {
-        const e = new Event("change", {
+        const e = new Event("change",{
             bubbles: !0
         });
-        this.el.dispatchEvent(e), g("change.hs.select", this.el, this.value)
+        this.el.dispatchEvent(e),
+        g("change.hs.select", this.el, this.value)
     }
     addSelectOption(e, t, i, n, s) {
         this.selectOptions = [...this.selectOptions, {
@@ -4065,19 +5343,26 @@ class K extends I {
             options: s
         }]
     }
-    removeSelectOption(e, t = !1) {
-        if (!!!this.selectOptions.some(n => n.val === e)) return !1;
-        this.selectOptions = this.selectOptions.filter(n => n.val !== e), this.value = t ? this.value.filter(n => n !== e) : e
+    removeSelectOption(e, t=!1) {
+        if (!!!this.selectOptions.some(n => n.val === e))
+            return !1;
+        this.selectOptions = this.selectOptions.filter(n => n.val !== e),
+        this.value = t ? this.value.filter(n => n !== e) : e
     }
     resetTagsInputField() {
-        this.tagsInput.value = "", this.reassignTagsInputPlaceholder(""), this.searchOptions("")
+        this.tagsInput.value = "",
+        this.reassignTagsInputPlaceholder(""),
+        this.searchOptions("")
     }
     clearSelections() {
         Array.from(this.dropdown.children).forEach(e => {
             e.classList.contains("selected") && e.classList.remove("selected")
-        }), Array.from(this.el.children).forEach(e => {
+        }
+        ),
+        Array.from(this.el.children).forEach(e => {
             e.selected && (e.selected = !1)
-        })
+        }
+        )
     }
     setNewValue() {
         var e;
@@ -4088,13 +5373,17 @@ class K extends I {
         const t = [];
         let i = "";
         if (e.forEach(s => {
-                this.isMultiple ? this.value.includes(s.val) && t.push(s.title) : this.value === s.val && t.push(s.title)
-            }), this.toggleCountText !== void 0 && this.toggleCountText !== null && t.length >= this.toggleCountTextMinItems)
+            this.isMultiple ? this.value.includes(s.val) && t.push(s.title) : this.value === s.val && t.push(s.title)
+        }
+        ),
+        this.toggleCountText !== void 0 && this.toggleCountText !== null && t.length >= this.toggleCountTextMinItems)
             if (this.toggleCountTextMode === "nItemsAndCount") {
-                const s = t.slice(0, this.toggleCountTextMinItems - 1),
-                    o = [s.join(this.toggleSeparators.items)],
-                    r = `${t.length-s.length}`;
-                if ((n = this == null ? void 0 : this.toggleSeparators) != null && n.betweenItemsAndCounter && o.push(this.toggleSeparators.betweenItemsAndCounter), this.toggleCountText) switch (this.toggleCountTextPlacement) {
+                const s = t.slice(0, this.toggleCountTextMinItems - 1)
+                  , o = [s.join(this.toggleSeparators.items)]
+                  , r = `${t.length - s.length}`;
+                if ((n = this == null ? void 0 : this.toggleSeparators) != null && n.betweenItemsAndCounter && o.push(this.toggleSeparators.betweenItemsAndCounter),
+                this.toggleCountText)
+                    switch (this.toggleCountTextPlacement) {
                     case "postfix-no-space":
                         o.push(`${r}${this.toggleCountText}`);
                         break;
@@ -4107,26 +5396,32 @@ class K extends I {
                     default:
                         o.push(`${r} ${this.toggleCountText}`);
                         break
-                }
+                    }
                 i = o.join(" ")
-            } else i = `${t.length} ${this.toggleCountText}`;
-        else i = t.join(this.toggleSeparators.items);
+            } else
+                i = `${t.length} ${this.toggleCountText}`;
+        else
+            i = t.join(this.toggleSeparators.items);
         return i
     }
     stringFromValueRemoteData() {
-        const e = this.dropdown.querySelectorAll("[data-title-value]"),
-            t = [];
+        const e = this.dropdown.querySelectorAll("[data-title-value]")
+          , t = [];
         let i = "";
         if (e.forEach(n => {
-                const s = n.getAttribute("data-value"),
-                    o = n.getAttribute("data-title-value");
-                this.isMultiple ? this.value.includes(s) && t.push(o) : this.value === s && t.push(o)
-            }), this.toggleCountText && this.toggleCountText !== "" && t.length >= this.toggleCountTextMinItems)
+            const s = n.getAttribute("data-value")
+              , o = n.getAttribute("data-title-value");
+            this.isMultiple ? this.value.includes(s) && t.push(o) : this.value === s && t.push(o)
+        }
+        ),
+        this.toggleCountText && this.toggleCountText !== "" && t.length >= this.toggleCountTextMinItems)
             if (this.toggleCountTextMode === "nItemsAndCount") {
                 const n = t.slice(0, this.toggleCountTextMinItems - 1);
-                i = `${n.join(this.toggleSeparators.items)} ${this.toggleSeparators.betweenItemsAndCounter} ${t.length-n.length} ${this.toggleCountText}`
-            } else i = `${t.length} ${this.toggleCountText}`;
-        else i = t.join(this.toggleSeparators.items);
+                i = `${n.join(this.toggleSeparators.items)} ${this.toggleSeparators.betweenItemsAndCounter} ${t.length - n.length} ${this.toggleCountText}`
+            } else
+                i = `${t.length} ${this.toggleCountText}`;
+        else
+            i = t.join(this.toggleSeparators.items);
         return i
     }
     stringFromValue() {
@@ -4139,34 +5434,51 @@ class K extends I {
         t && t.classList.add("selected")
     }
     selectMultipleItems() {
-        Array.from(this.dropdown.children).filter(e => this.value.includes(e.getAttribute("data-value"))).forEach(e => e.classList.add("selected")), Array.from(this.el.children).filter(e => this.value.includes(e.value)).forEach(e => e.selected = !0)
+        Array.from(this.dropdown.children).filter(e => this.value.includes(e.getAttribute("data-value"))).forEach(e => e.classList.add("selected")),
+        Array.from(this.el.children).filter(e => this.value.includes(e.value)).forEach(e => e.selected = !0)
     }
     unselectMultipleItems() {
-        Array.from(this.dropdown.children).forEach(e => e.classList.remove("selected")), Array.from(this.el.children).forEach(e => e.selected = !1)
+        Array.from(this.dropdown.children).forEach(e => e.classList.remove("selected")),
+        Array.from(this.el.children).forEach(e => e.selected = !1)
     }
     searchOptions(e) {
-        if (e.length <= this.minSearchLength) return this.searchNoResult && (this.searchNoResult.remove(), this.searchNoResult = null), this.dropdown.querySelectorAll("[data-value]").forEach(o => {
-            o.classList.remove("hidden")
-        }), !1;
-        this.searchNoResult && (this.searchNoResult.remove(), this.searchNoResult = null), this.searchNoResult = y(this.searchNoResultTemplate), this.searchNoResult.innerText = this.searchNoResultText, D(this.searchNoResultClasses, this.searchNoResult);
+        if (e.length <= this.minSearchLength)
+            return this.searchNoResult && (this.searchNoResult.remove(),
+            this.searchNoResult = null),
+            this.dropdown.querySelectorAll("[data-value]").forEach(o => {
+                o.classList.remove("hidden")
+            }
+            ),
+            !1;
+        this.searchNoResult && (this.searchNoResult.remove(),
+        this.searchNoResult = null),
+        this.searchNoResult = y(this.searchNoResultTemplate),
+        this.searchNoResult.innerText = this.searchNoResultText,
+        D(this.searchNoResultClasses, this.searchNoResult);
         const t = this.dropdown.querySelectorAll("[data-value]");
-        let i = !1,
-            n;
-        this.searchLimit && (n = 0), t.forEach(s => {
-            const o = s.getAttribute("data-title-value").toLocaleLowerCase(),
-                r = this.isSearchDirectMatch;
+        let i = !1, n;
+        this.searchLimit && (n = 0),
+        t.forEach(s => {
+            const o = s.getAttribute("data-title-value").toLocaleLowerCase()
+              , r = this.isSearchDirectMatch;
             let a;
-            if (r) a = !o.includes(e.toLowerCase()) || this.searchLimit && n >= this.searchLimit;
+            if (r)
+                a = !o.includes(e.toLowerCase()) || this.searchLimit && n >= this.searchLimit;
             else {
                 const h = e ? e.split("").map(d => /\w/.test(d) ? `${d}[\\W_]*` : "\\W*").join("") : "";
-                a = !new RegExp(h, "i").test(o.trim()) || this.searchLimit && n >= this.searchLimit
+                a = !new RegExp(h,"i").test(o.trim()) || this.searchLimit && n >= this.searchLimit
             }
-            a ? s.classList.add("hidden") : (s.classList.remove("hidden"), i = !0, this.searchLimit && n++)
-        }), i || this.dropdown.append(this.searchNoResult)
+            a ? s.classList.add("hidden") : (s.classList.remove("hidden"),
+            i = !0,
+            this.searchLimit && n++)
+        }
+        ),
+        i || this.dropdown.append(this.searchNoResult)
     }
     eraseToggleIcon() {
         const e = this.toggle.querySelector("[data-icon]");
-        e && (e.innerHTML = null, e.classList.add("hidden"))
+        e && (e.innerHTML = null,
+        e.classList.add("hidden"))
     }
     eraseToggleTitle() {
         const e = this.toggle.querySelector("[data-title]");
@@ -4176,56 +5488,118 @@ class K extends I {
         this.isOpened ? this.close() : this.open()
     }
     destroy() {
-        this.wrapper && this.wrapper.removeEventListener("click", this.onWrapperClickListener), this.toggle && this.toggle.removeEventListener("click", this.onToggleClickListener), this.tagsInput && (this.tagsInput.removeEventListener("focus", this.onTagsInputFocusListener), this.tagsInput.removeEventListener("input", this.onTagsInputInputListener), this.tagsInput.removeEventListener("input", this.onTagsInputInputSecondListener), this.tagsInput.removeEventListener("keydown", this.onTagsInputKeydownListener)), this.search && this.search.removeEventListener("input", this.onSearchInputListener);
+        this.wrapper && this.wrapper.removeEventListener("click", this.onWrapperClickListener),
+        this.toggle && this.toggle.removeEventListener("click", this.onToggleClickListener),
+        this.tagsInput && (this.tagsInput.removeEventListener("focus", this.onTagsInputFocusListener),
+        this.tagsInput.removeEventListener("input", this.onTagsInputInputListener),
+        this.tagsInput.removeEventListener("input", this.onTagsInputInputSecondListener),
+        this.tagsInput.removeEventListener("keydown", this.onTagsInputKeydownListener)),
+        this.search && this.search.removeEventListener("input", this.onSearchInputListener);
         const e = this.el.parentElement.parentElement;
-        this.el.classList.remove("hidden"), this.el.style.display = "", e.prepend(this.el), e.querySelector(".hs-select").remove(), this.wrapper = null
+        this.el.classList.remove("hidden"),
+        this.el.style.display = "",
+        e.prepend(this.el),
+        e.querySelector(".hs-select").remove(),
+        this.wrapper = null
     }
     open() {
         var t;
         const e = ((t = window == null ? void 0 : window.$hsSelectCollection) == null ? void 0 : t.find(i => i.element.isOpened)) || null;
-        if (e && e.element.close(), this.animationInProcess) return !1;
-        this.animationInProcess = !0, this.dropdownScope === "window" && this.dropdown.classList.add("invisible"), this.dropdown.classList.remove("hidden"), this.recalculateDirection(), setTimeout(() => {
+        if (e && e.element.close(),
+        this.animationInProcess)
+            return !1;
+        this.animationInProcess = !0,
+        this.dropdownScope === "window" && this.dropdown.classList.add("invisible"),
+        this.dropdown.classList.remove("hidden"),
+        this.recalculateDirection(),
+        setTimeout( () => {
             var i;
-            (i = this == null ? void 0 : this.toggle) != null && i.ariaExpanded && (this.toggle.ariaExpanded = "true"), this.wrapper.classList.add("active"), this.dropdown.classList.add("opened"), this.dropdown.classList.contains("w-full") && this.dropdownScope === "window" && this.updateDropdownWidth(), this.popperInstance && this.dropdownScope === "window" && (this.popperInstance.update(), this.dropdown.classList.remove("invisible")), this.hasSearch && !this.preventSearchFocus && this.search.focus(), this.animationInProcess = !1
-        }), this.isOpened = !0
+            (i = this == null ? void 0 : this.toggle) != null && i.ariaExpanded && (this.toggle.ariaExpanded = "true"),
+            this.wrapper.classList.add("active"),
+            this.dropdown.classList.add("opened"),
+            this.dropdown.classList.contains("w-full") && this.dropdownScope === "window" && this.updateDropdownWidth(),
+            this.popperInstance && this.dropdownScope === "window" && (this.popperInstance.update(),
+            this.dropdown.classList.remove("invisible")),
+            this.hasSearch && !this.preventSearchFocus && this.search.focus(),
+            this.animationInProcess = !1
+        }
+        ),
+        this.isOpened = !0
     }
-    close(e = !1) {
+    close(e=!1) {
         var t, i, n, s;
-        if (this.animationInProcess) return !1;
-        this.animationInProcess = !0, (t = this == null ? void 0 : this.toggle) != null && t.ariaExpanded && (this.toggle.ariaExpanded = "false"), this.wrapper.classList.remove("active"), this.dropdown.classList.remove("opened", "bottom-full", "top-full"), (i = this.dropdownDirectionClasses) != null && i.bottom && this.dropdown.classList.remove(this.dropdownDirectionClasses.bottom), (n = this.dropdownDirectionClasses) != null && n.top && this.dropdown.classList.remove(this.dropdownDirectionClasses.top), this.dropdown.style.marginTop = "", this.dropdown.style.marginBottom = "", z(this.dropdown, () => {
-            this.dropdown.classList.add("hidden"), this.hasSearch && (this.search.value = "", this.search.dispatchEvent(new Event("input", {
+        if (this.animationInProcess)
+            return !1;
+        this.animationInProcess = !0,
+        (t = this == null ? void 0 : this.toggle) != null && t.ariaExpanded && (this.toggle.ariaExpanded = "false"),
+        this.wrapper.classList.remove("active"),
+        this.dropdown.classList.remove("opened", "bottom-full", "top-full"),
+        (i = this.dropdownDirectionClasses) != null && i.bottom && this.dropdown.classList.remove(this.dropdownDirectionClasses.bottom),
+        (n = this.dropdownDirectionClasses) != null && n.top && this.dropdown.classList.remove(this.dropdownDirectionClasses.top),
+        this.dropdown.style.marginTop = "",
+        this.dropdown.style.marginBottom = "",
+        z(this.dropdown, () => {
+            this.dropdown.classList.add("hidden"),
+            this.hasSearch && (this.search.value = "",
+            this.search.dispatchEvent(new Event("input",{
                 bubbles: !0
-            })), this.search.blur()), e && this.toggle.focus(), this.animationInProcess = !1
-        }), (s = this.dropdown.querySelector(".hs-select-option-highlighted")) == null || s.classList.remove("hs-select-option-highlighted"), this.isOpened = !1
+            })),
+            this.search.blur()),
+            e && this.toggle.focus(),
+            this.animationInProcess = !1
+        }
+        ),
+        (s = this.dropdown.querySelector(".hs-select-option-highlighted")) == null || s.classList.remove("hs-select-option-highlighted"),
+        this.isOpened = !1
     }
     addOption(e) {
         let t = `${this.selectOptions.length}`;
         const i = n => {
-            const {
-                title: s,
-                val: o,
-                disabled: r,
-                selected: a,
-                options: h
-            } = n;
-            !!this.selectOptions.some(d => d.val === o) || (this.addSelectOption(s, o, r, a, h), this.buildOption(s, o, r, a, h, t), this.buildOriginalOption(s, o, null, r, a, h), a && !this.isMultiple && this.onSelectOption(o))
-        };
+            const {title: s, val: o, disabled: r, selected: a, options: h} = n;
+            !!this.selectOptions.some(d => d.val === o) || (this.addSelectOption(s, o, r, a, h),
+            this.buildOption(s, o, r, a, h, t),
+            this.buildOriginalOption(s, o, null, r, a, h),
+            a && !this.isMultiple && this.onSelectOption(o))
+        }
+        ;
         Array.isArray(e) ? e.forEach(n => {
             i(n)
-        }) : i(e)
+        }
+        ) : i(e)
     }
     removeOption(e) {
-        const t = (i, n = !1) => {
-            !!this.selectOptions.some(o => o.val === i) && (this.removeSelectOption(i, n), this.destroyOption(i), this.destroyOriginalOption(i), this.value === i && (this.value = null, this.eraseToggleTitle(), this.eraseToggleIcon()))
-        };
+        const t = (i, n=!1) => {
+            !!this.selectOptions.some(o => o.val === i) && (this.removeSelectOption(i, n),
+            this.destroyOption(i),
+            this.destroyOriginalOption(i),
+            this.value === i && (this.value = null,
+            this.eraseToggleTitle(),
+            this.eraseToggleIcon()))
+        }
+        ;
         Array.isArray(e) ? e.forEach(i => {
             t(i, this.isMultiple)
-        }) : t(e, this.isMultiple), this.setNewValue()
+        }
+        ) : t(e, this.isMultiple),
+        this.setNewValue()
     }
     recalculateDirection() {
         var e, t, i, n;
-        if (this != null && this.dropdownVerticalFixedPlacement && (this.dropdown.classList.contains("bottom-full") || this.dropdown.classList.contains("top-full"))) return !1;
-        (this == null ? void 0 : this.dropdownVerticalFixedPlacement) === "top" ? (this.dropdown.classList.add("bottom-full"), this.dropdown.style.marginBottom = `${this.dropdownSpace}px`) : (this == null ? void 0 : this.dropdownVerticalFixedPlacement) === "bottom" ? (this.dropdown.classList.add("top-full"), this.dropdown.style.marginTop = `${this.dropdownSpace}px`) : pt(this.dropdown, this.toggle || this.tagsInput, "bottom", this.dropdownSpace, this.viewport) ? (this.dropdown.classList.remove("bottom-full"), (e = this.dropdownDirectionClasses) != null && e.bottom && this.dropdown.classList.remove(this.dropdownDirectionClasses.bottom), this.dropdown.style.marginBottom = "", this.dropdown.classList.add("top-full"), (t = this.dropdownDirectionClasses) != null && t.top && this.dropdown.classList.add(this.dropdownDirectionClasses.top), this.dropdown.style.marginTop = `${this.dropdownSpace}px`) : (this.dropdown.classList.remove("top-full"), (i = this.dropdownDirectionClasses) != null && i.top && this.dropdown.classList.remove(this.dropdownDirectionClasses.top), this.dropdown.style.marginTop = "", this.dropdown.classList.add("bottom-full"), (n = this.dropdownDirectionClasses) != null && n.bottom && this.dropdown.classList.add(this.dropdownDirectionClasses.bottom), this.dropdown.style.marginBottom = `${this.dropdownSpace}px`)
+        if (this != null && this.dropdownVerticalFixedPlacement && (this.dropdown.classList.contains("bottom-full") || this.dropdown.classList.contains("top-full")))
+            return !1;
+        (this == null ? void 0 : this.dropdownVerticalFixedPlacement) === "top" ? (this.dropdown.classList.add("bottom-full"),
+        this.dropdown.style.marginBottom = `${this.dropdownSpace}px`) : (this == null ? void 0 : this.dropdownVerticalFixedPlacement) === "bottom" ? (this.dropdown.classList.add("top-full"),
+        this.dropdown.style.marginTop = `${this.dropdownSpace}px`) : pt(this.dropdown, this.toggle || this.tagsInput, "bottom", this.dropdownSpace, this.viewport) ? (this.dropdown.classList.remove("bottom-full"),
+        (e = this.dropdownDirectionClasses) != null && e.bottom && this.dropdown.classList.remove(this.dropdownDirectionClasses.bottom),
+        this.dropdown.style.marginBottom = "",
+        this.dropdown.classList.add("top-full"),
+        (t = this.dropdownDirectionClasses) != null && t.top && this.dropdown.classList.add(this.dropdownDirectionClasses.top),
+        this.dropdown.style.marginTop = `${this.dropdownSpace}px`) : (this.dropdown.classList.remove("top-full"),
+        (i = this.dropdownDirectionClasses) != null && i.top && this.dropdown.classList.remove(this.dropdownDirectionClasses.top),
+        this.dropdown.style.marginTop = "",
+        this.dropdown.classList.add("bottom-full"),
+        (n = this.dropdownDirectionClasses) != null && n.bottom && this.dropdown.classList.add(this.dropdownDirectionClasses.bottom),
+        this.dropdown.style.marginBottom = `${this.dropdownSpace}px`)
     }
     static findInCollection(e) {
         return window.$hsSelectCollection.find(t => e instanceof K ? t.element.el === e.el : typeof e == "string" ? t.element.el === document.querySelector(e) : t.element.el === e) || null
@@ -4235,21 +5609,26 @@ class K extends I {
         return i ? t ? i : i.element : null
     }
     static autoInit() {
-        window.$hsSelectCollection || (window.$hsSelectCollection = [], window.addEventListener("click", e => {
+        window.$hsSelectCollection || (window.$hsSelectCollection = [],
+        window.addEventListener("click", e => {
             const t = e.target;
             K.closeCurrentlyOpened(t)
-        }), document.addEventListener("keydown", e => K.accessibility(e))), window.$hsSelectCollection && (window.$hsSelectCollection = window.$hsSelectCollection.filter(({
-            element: e
-        }) => document.contains(e.el))), document.querySelectorAll("[data-hs-select]:not(.--prevent-on-load-init)").forEach(e => {
+        }
+        ),
+        document.addEventListener("keydown", e => K.accessibility(e))),
+        window.$hsSelectCollection && (window.$hsSelectCollection = window.$hsSelectCollection.filter( ({element: e}) => document.contains(e.el))),
+        document.querySelectorAll("[data-hs-select]:not(.--prevent-on-load-init)").forEach(e => {
             if (!window.$hsSelectCollection.find(t => {
-                    var i;
-                    return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
-                })) {
-                const t = e.getAttribute("data-hs-select"),
-                    i = t ? JSON.parse(t) : {};
-                new K(e, i)
+                var i;
+                return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
             }
-        })
+            )) {
+                const t = e.getAttribute("data-hs-select")
+                  , i = t ? JSON.parse(t) : {};
+                new K(e,i)
+            }
+        }
+        )
     }
     static open(e) {
         const t = K.findInCollection(e);
@@ -4259,88 +5638,119 @@ class K extends I {
         const t = K.findInCollection(e);
         t && t.element.isOpened && t.element.close()
     }
-    static closeCurrentlyOpened(e = null) {
+    static closeCurrentlyOpened(e=null) {
         if (!e.closest(".hs-select.active") && !e.closest("[data-hs-select-dropdown].opened")) {
             const t = window.$hsSelectCollection.filter(i => i.element.isOpened) || null;
             t && t.forEach(i => {
                 i.element.close()
-            })
+            }
+            )
         }
     }
     static accessibility(e) {
-        if (window.$hsSelectCollection.find(i => i.element.isOpened) && pi.includes(e.code) && !e.metaKey) switch (e.code) {
+        if (window.$hsSelectCollection.find(i => i.element.isOpened) && pi.includes(e.code) && !e.metaKey)
+            switch (e.code) {
             case "Escape":
-                e.preventDefault(), this.onEscape();
+                e.preventDefault(),
+                this.onEscape();
                 break;
             case "ArrowUp":
-                e.preventDefault(), e.stopImmediatePropagation(), this.onArrow();
+                e.preventDefault(),
+                e.stopImmediatePropagation(),
+                this.onArrow();
                 break;
             case "ArrowDown":
-                e.preventDefault(), e.stopImmediatePropagation(), this.onArrow(!1);
+                e.preventDefault(),
+                e.stopImmediatePropagation(),
+                this.onArrow(!1);
                 break;
             case "Tab":
-                e.preventDefault(), e.stopImmediatePropagation(), this.onTab(e.shiftKey);
+                e.preventDefault(),
+                e.stopImmediatePropagation(),
+                this.onTab(e.shiftKey);
                 break;
             case "Home":
-                e.preventDefault(), e.stopImmediatePropagation(), this.onStartEnd();
+                e.preventDefault(),
+                e.stopImmediatePropagation(),
+                this.onStartEnd();
                 break;
             case "End":
-                e.preventDefault(), e.stopImmediatePropagation(), this.onStartEnd(!1);
+                e.preventDefault(),
+                e.stopImmediatePropagation(),
+                this.onStartEnd(!1);
                 break;
             case "Enter":
-                e.preventDefault(), this.onEnter(e);
+                e.preventDefault(),
+                this.onEnter(e);
                 break;
             case "Space":
-                e.preventDefault(), this.onEnter(e);
+                e.preventDefault(),
+                this.onEnter(e);
                 break
-        }
+            }
     }
     static onEscape() {
         const e = window.$hsSelectCollection.find(t => t.element.isOpened);
         e && e.element.close()
     }
-    static onArrow(e = !0) {
+    static onArrow(e=!0) {
         const t = window.$hsSelectCollection.find(i => i.element.isOpened);
         if (t) {
             const i = t.element.dropdown;
-            if (!i) return !1;
-            const s = (e ? Array.from(i.querySelectorAll(":scope > *:not(.hidden)")).reverse() : Array.from(i.querySelectorAll(":scope > *:not(.hidden)"))).filter(a => !a.classList.contains("disabled")),
-                o = i.querySelector(".hs-select-option-highlighted") || i.querySelector(".selected");
+            if (!i)
+                return !1;
+            const s = (e ? Array.from(i.querySelectorAll(":scope > *:not(.hidden)")).reverse() : Array.from(i.querySelectorAll(":scope > *:not(.hidden)"))).filter(a => !a.classList.contains("disabled"))
+              , o = i.querySelector(".hs-select-option-highlighted") || i.querySelector(".selected");
             o || s[0].classList.add("hs-select-option-highlighted");
             let r = s.findIndex(a => a === o);
-            r + 1 < s.length && r++, s[r].focus(), o && o.classList.remove("hs-select-option-highlighted"), s[r].classList.add("hs-select-option-highlighted")
+            r + 1 < s.length && r++,
+            s[r].focus(),
+            o && o.classList.remove("hs-select-option-highlighted"),
+            s[r].classList.add("hs-select-option-highlighted")
         }
     }
-    static onTab(e = !0) {
+    static onTab(e=!0) {
         const t = window.$hsSelectCollection.find(i => i.element.isOpened);
         if (t) {
             const i = t.element.dropdown;
-            if (!i) return !1;
-            const s = (e ? Array.from(i.querySelectorAll(":scope >  *:not(.hidden)")).reverse() : Array.from(i.querySelectorAll(":scope >  *:not(.hidden)"))).filter(a => !a.classList.contains("disabled")),
-                o = i.querySelector(".hs-select-option-highlighted") || i.querySelector(".selected");
+            if (!i)
+                return !1;
+            const s = (e ? Array.from(i.querySelectorAll(":scope >  *:not(.hidden)")).reverse() : Array.from(i.querySelectorAll(":scope >  *:not(.hidden)"))).filter(a => !a.classList.contains("disabled"))
+              , o = i.querySelector(".hs-select-option-highlighted") || i.querySelector(".selected");
             o || s[0].classList.add("hs-select-option-highlighted");
             let r = s.findIndex(a => a === o);
-            if (r + 1 < s.length) r++;
-            else return o && o.classList.remove("hs-select-option-highlighted"), t.element.close(), t.element.toggle.focus(), !1;
-            s[r].focus(), o && o.classList.remove("hs-select-option-highlighted"), s[r].classList.add("hs-select-option-highlighted")
+            if (r + 1 < s.length)
+                r++;
+            else
+                return o && o.classList.remove("hs-select-option-highlighted"),
+                t.element.close(),
+                t.element.toggle.focus(),
+                !1;
+            s[r].focus(),
+            o && o.classList.remove("hs-select-option-highlighted"),
+            s[r].classList.add("hs-select-option-highlighted")
         }
     }
-    static onStartEnd(e = !0) {
+    static onStartEnd(e=!0) {
         const t = window.$hsSelectCollection.find(i => i.element.isOpened);
         if (t) {
             const i = t.element.dropdown;
-            if (!i) return !1;
-            const s = (e ? Array.from(i.querySelectorAll(":scope >  *:not(.hidden)")) : Array.from(i.querySelectorAll(":scope >  *:not(.hidden)")).reverse()).filter(r => !r.classList.contains("disabled")),
-                o = i.querySelector(".hs-select-option-highlighted");
-            s.length && (s[0].focus(), o && o.classList.remove("hs-select-option-highlighted"), s[0].classList.add("hs-select-option-highlighted"))
+            if (!i)
+                return !1;
+            const s = (e ? Array.from(i.querySelectorAll(":scope >  *:not(.hidden)")) : Array.from(i.querySelectorAll(":scope >  *:not(.hidden)")).reverse()).filter(r => !r.classList.contains("disabled"))
+              , o = i.querySelector(".hs-select-option-highlighted");
+            s.length && (s[0].focus(),
+            o && o.classList.remove("hs-select-option-highlighted"),
+            s[0].classList.add("hs-select-option-highlighted"))
         }
     }
     static onEnter(e) {
         const t = e.target.previousSibling;
         if (window.$hsSelectCollection.find(i => i.element.el === t)) {
-            const i = window.$hsSelectCollection.find(s => s.element.isOpened),
-                n = window.$hsSelectCollection.find(s => s.element.el === t);
-            i.element.close(), n.element.open()
+            const i = window.$hsSelectCollection.find(s => s.element.isOpened)
+              , n = window.$hsSelectCollection.find(s => s.element.el === t);
+            i.element.close(),
+            n.element.open()
         } else {
             const i = window.$hsSelectCollection.find(n => n.element.isOpened);
             i && i.element.onSelectOption(e.target.dataset.value || "")
@@ -4349,12 +5759,15 @@ class K extends I {
 }
 window.addEventListener("load", () => {
     K.autoInit()
-});
+}
+);
 document.addEventListener("scroll", () => {
-    if (!window.$hsSelectCollection) return !1;
+    if (!window.$hsSelectCollection)
+        return !1;
     const l = window.$hsSelectCollection.find(e => e.element.isOpened);
     l && l.element.recalculateDirection()
-});
+}
+);
 typeof window < "u" && (window.HSSelect = K);
 /*
  * HSStepper
@@ -4366,34 +5779,57 @@ typeof window < "u" && (window.HSSelect = K);
 class Ve extends I {
     constructor(e, t) {
         super(e, t);
-        const i = e.getAttribute("data-hs-stepper"),
-            s = { ...i ? JSON.parse(i) : {},
-                ...t
-            };
-        this.currentIndex = (s == null ? void 0 : s.currentIndex) || 1, this.mode = (s == null ? void 0 : s.mode) || "linear", this.isCompleted = typeof(s == null ? void 0 : s.isCompleted) < "u" ? s == null ? void 0 : s.isCompleted : !1, this.totalSteps = 1, this.navItems = [], this.contentItems = [], this.onNavItemClickListener = [], this.init()
+        const i = e.getAttribute("data-hs-stepper")
+          , s = {
+            ...i ? JSON.parse(i) : {},
+            ...t
+        };
+        this.currentIndex = (s == null ? void 0 : s.currentIndex) || 1,
+        this.mode = (s == null ? void 0 : s.mode) || "linear",
+        this.isCompleted = typeof (s == null ? void 0 : s.isCompleted) < "u" ? s == null ? void 0 : s.isCompleted : !1,
+        this.totalSteps = 1,
+        this.navItems = [],
+        this.contentItems = [],
+        this.onNavItemClickListener = [],
+        this.init()
     }
     navItemClick(e) {
         this.handleNavItemClick(e)
     }
     backClick() {
-        if (this.handleBackButtonClick(), this.mode === "linear") {
-            const e = this.navItems.find(({
-                    index: i
-                }) => i === this.currentIndex),
-                t = this.contentItems.find(({
-                    index: i
-                }) => i === this.currentIndex);
-            if (!e || !t) return;
-            e.isCompleted && (e.isCompleted = !1, e.isSkip = !1, e.el.classList.remove("success", "skipped")), t.isCompleted && (t.isCompleted = !1, t.isSkip = !1, t.el.classList.remove("success", "skipped")), this.mode === "linear" && this.currentIndex !== this.totalSteps && (this.nextBtn && (this.nextBtn.style.display = ""), this.completeStepBtn && (this.completeStepBtn.style.display = "")), this.showSkipButton(), this.showFinishButton(), this.showCompleteStepButton()
+        if (this.handleBackButtonClick(),
+        this.mode === "linear") {
+            const e = this.navItems.find( ({index: i}) => i === this.currentIndex)
+              , t = this.contentItems.find( ({index: i}) => i === this.currentIndex);
+            if (!e || !t)
+                return;
+            e.isCompleted && (e.isCompleted = !1,
+            e.isSkip = !1,
+            e.el.classList.remove("success", "skipped")),
+            t.isCompleted && (t.isCompleted = !1,
+            t.isSkip = !1,
+            t.el.classList.remove("success", "skipped")),
+            this.mode === "linear" && this.currentIndex !== this.totalSteps && (this.nextBtn && (this.nextBtn.style.display = ""),
+            this.completeStepBtn && (this.completeStepBtn.style.display = "")),
+            this.showSkipButton(),
+            this.showFinishButton(),
+            this.showCompleteStepButton()
         }
     }
     nextClick() {
         var e;
-        if (this.fireEvent("beforeNext", this.currentIndex), g("beforeNext.hs.stepper", this.el, this.currentIndex), (e = this.getNavItem(this.currentIndex)) != null && e.isProcessed) return this.disableAll(), !1;
+        if (this.fireEvent("beforeNext", this.currentIndex),
+        g("beforeNext.hs.stepper", this.el, this.currentIndex),
+        (e = this.getNavItem(this.currentIndex)) != null && e.isProcessed)
+            return this.disableAll(),
+            !1;
         this.goToNext()
     }
     skipClick() {
-        this.handleSkipButtonClick(), this.mode === "linear" && this.currentIndex === this.totalSteps && (this.nextBtn && (this.nextBtn.style.display = "none"), this.completeStepBtn && (this.completeStepBtn.style.display = "none"), this.finishBtn && (this.finishBtn.style.display = ""))
+        this.handleSkipButtonClick(),
+        this.mode === "linear" && this.currentIndex === this.totalSteps && (this.nextBtn && (this.nextBtn.style.display = "none"),
+        this.completeStepBtn && (this.completeStepBtn.style.display = "none"),
+        this.finishBtn && (this.finishBtn.style.display = ""))
     }
     completeStepBtnClick() {
         this.handleCompleteStepButtonClick()
@@ -4405,48 +5841,43 @@ class Ve extends I {
         this.handleResetButtonClick()
     }
     init() {
-        this.createCollection(window.$hsStepperCollection, this), this.buildNav(), this.buildContent(), this.buildButtons(), this.setTotalSteps()
+        this.createCollection(window.$hsStepperCollection, this),
+        this.buildNav(),
+        this.buildContent(),
+        this.buildButtons(),
+        this.setTotalSteps()
     }
-    getUncompletedSteps(e = !1) {
-        return this.navItems.filter(({
-            isCompleted: t,
-            isSkip: i
-        }) => e ? !t || i : !t && !i)
+    getUncompletedSteps(e=!1) {
+        return this.navItems.filter( ({isCompleted: t, isSkip: i}) => e ? !t || i : !t && !i)
     }
     setTotalSteps() {
         this.navItems.forEach(e => {
-            const {
-                index: t
-            } = e;
+            const {index: t} = e;
             t > this.totalSteps && (this.totalSteps = t)
-        })
+        }
+        )
     }
     buildNav() {
-        this.el.querySelectorAll("[data-hs-stepper-nav-item]").forEach(e => this.addNavItem(e)), this.navItems.forEach(e => this.buildNavItem(e))
+        this.el.querySelectorAll("[data-hs-stepper-nav-item]").forEach(e => this.addNavItem(e)),
+        this.navItems.forEach(e => this.buildNavItem(e))
     }
     buildNavItem(e) {
-        const {
-            index: t,
-            isDisabled: i,
-            el: n
-        } = e;
-        t === this.currentIndex && this.setCurrentNavItem(), (this.mode !== "linear" || i) && (this.onNavItemClickListener.push({
+        const {index: t, isDisabled: i, el: n} = e;
+        t === this.currentIndex && this.setCurrentNavItem(),
+        (this.mode !== "linear" || i) && (this.onNavItemClickListener.push({
             el: n,
             fn: () => this.navItemClick(e)
-        }), n.addEventListener("click", this.onNavItemClickListener.find(s => s.el === n).fn))
+        }),
+        n.addEventListener("click", this.onNavItemClickListener.find(s => s.el === n).fn))
     }
     addNavItem(e) {
-        const {
-            index: t,
-            isFinal: i = !1,
-            isCompleted: n = !1,
-            isSkip: s = !1,
-            isOptional: o = !1,
-            isDisabled: r = !1,
-            isProcessed: a = !1,
-            hasError: h = !1
-        } = JSON.parse(e.getAttribute("data-hs-stepper-nav-item"));
-        n && e.classList.add("success"), s && e.classList.add("skipped"), r && ((e.tagName === "BUTTON" || e.tagName === "INPUT") && e.setAttribute("disabled", "disabled"), e.classList.add("disabled")), h && e.classList.add("error"), this.navItems.push({
+        const {index: t, isFinal: i=!1, isCompleted: n=!1, isSkip: s=!1, isOptional: o=!1, isDisabled: r=!1, isProcessed: a=!1, hasError: h=!1} = JSON.parse(e.getAttribute("data-hs-stepper-nav-item"));
+        n && e.classList.add("success"),
+        s && e.classList.add("skipped"),
+        r && ((e.tagName === "BUTTON" || e.tagName === "INPUT") && e.setAttribute("disabled", "disabled"),
+        e.classList.add("disabled")),
+        h && e.classList.add("error"),
+        this.navItems.push({
             index: t,
             isFinal: i,
             isCompleted: n,
@@ -4460,53 +5891,50 @@ class Ve extends I {
     }
     setCurrentNavItem() {
         this.navItems.forEach(e => {
-            const {
-                index: t,
-                el: i
-            } = e;
+            const {index: t, el: i} = e;
             t === this.currentIndex ? this.setCurrentNavItemActions(i) : this.unsetCurrentNavItemActions(i)
-        })
+        }
+        )
     }
     setCurrentNavItemActions(e) {
-        e.classList.add("active"), this.fireEvent("active", this.currentIndex), g("active.hs.stepper", this.el, this.currentIndex)
+        e.classList.add("active"),
+        this.fireEvent("active", this.currentIndex),
+        g("active.hs.stepper", this.el, this.currentIndex)
     }
-    getNavItem(e = this.currentIndex) {
-        return this.navItems.find(({
-            index: t
-        }) => t === e)
+    getNavItem(e=this.currentIndex) {
+        return this.navItems.find( ({index: t}) => t === e)
     }
     setProcessedNavItemActions(e) {
-        e.isProcessed = !0, e.el.classList.add("processed")
+        e.isProcessed = !0,
+        e.el.classList.add("processed")
     }
     setErrorNavItemActions(e) {
-        e.hasError = !0, e.el.classList.add("error")
+        e.hasError = !0,
+        e.el.classList.add("error")
     }
     unsetCurrentNavItemActions(e) {
         e.classList.remove("active")
     }
     handleNavItemClick(e) {
-        const {
-            index: t
-        } = e;
-        this.currentIndex = t, this.setCurrentNavItem(), this.setCurrentContentItem(), this.checkForTheFirstStep()
+        const {index: t} = e;
+        this.currentIndex = t,
+        this.setCurrentNavItem(),
+        this.setCurrentContentItem(),
+        this.checkForTheFirstStep()
     }
     buildContent() {
-        this.el.querySelectorAll("[data-hs-stepper-content-item]").forEach(e => this.addContentItem(e)), this.navItems.forEach(e => this.buildContentItem(e))
+        this.el.querySelectorAll("[data-hs-stepper-content-item]").forEach(e => this.addContentItem(e)),
+        this.navItems.forEach(e => this.buildContentItem(e))
     }
     buildContentItem(e) {
-        const {
-            index: t
-        } = e;
+        const {index: t} = e;
         t === this.currentIndex && this.setCurrentContentItem()
     }
     addContentItem(e) {
-        const {
-            index: t,
-            isFinal: i = !1,
-            isCompleted: n = !1,
-            isSkip: s = !1
-        } = JSON.parse(e.getAttribute("data-hs-stepper-content-item"));
-        n && e.classList.add("success"), s && e.classList.add("skipped"), this.contentItems.push({
+        const {index: t, isFinal: i=!1, isCompleted: n=!1, isSkip: s=!1} = JSON.parse(e.getAttribute("data-hs-stepper-content-item"));
+        n && e.classList.add("success"),
+        s && e.classList.add("skipped"),
+        this.contentItems.push({
             index: t,
             isFinal: i,
             isCompleted: n,
@@ -4516,28 +5944,20 @@ class Ve extends I {
     }
     setCurrentContentItem() {
         if (this.isCompleted) {
-            const e = this.contentItems.find(({
-                    isFinal: i
-                }) => i),
-                t = this.contentItems.filter(({
-                    isFinal: i
-                }) => !i);
-            return e.el.style.display = "", t.forEach(({
-                el: i
-            }) => i.style.display = "none"), !1
+            const e = this.contentItems.find( ({isFinal: i}) => i)
+              , t = this.contentItems.filter( ({isFinal: i}) => !i);
+            return e.el.style.display = "",
+            t.forEach( ({el: i}) => i.style.display = "none"),
+            !1
         }
         this.contentItems.forEach(e => {
-            const {
-                index: t,
-                el: i
-            } = e;
+            const {index: t, el: i} = e;
             t === this.currentIndex ? this.setCurrentContentItemActions(i) : this.unsetCurrentContentItemActions(i)
-        })
+        }
+        )
     }
     hideAllContentItems() {
-        this.contentItems.forEach(({
-            el: e
-        }) => e.style.display = "none")
+        this.contentItems.forEach( ({el: e}) => e.style.display = "none")
     }
     setCurrentContentItemActions(e) {
         e.style.display = ""
@@ -4547,123 +5967,175 @@ class Ve extends I {
     }
     disableAll() {
         const e = this.getNavItem(this.currentIndex);
-        e.hasError = !1, e.isCompleted = !1, e.isDisabled = !1, e.el.classList.remove("error", "success"), this.disableButtons()
+        e.hasError = !1,
+        e.isCompleted = !1,
+        e.isDisabled = !1,
+        e.el.classList.remove("error", "success"),
+        this.disableButtons()
     }
     disableNavItemActions(e) {
-        e.isDisabled = !0, e.el.classList.add("disabled")
+        e.isDisabled = !0,
+        e.el.classList.add("disabled")
     }
     enableNavItemActions(e) {
-        e.isDisabled = !1, e.el.classList.remove("disabled")
+        e.isDisabled = !1,
+        e.el.classList.remove("disabled")
     }
     buildButtons() {
-        this.backBtn = this.el.querySelector("[data-hs-stepper-back-btn]"), this.nextBtn = this.el.querySelector("[data-hs-stepper-next-btn]"), this.skipBtn = this.el.querySelector("[data-hs-stepper-skip-btn]"), this.completeStepBtn = this.el.querySelector("[data-hs-stepper-complete-step-btn]"), this.finishBtn = this.el.querySelector("[data-hs-stepper-finish-btn]"), this.resetBtn = this.el.querySelector("[data-hs-stepper-reset-btn]"), this.buildBackButton(), this.buildNextButton(), this.buildSkipButton(), this.buildCompleteStepButton(), this.buildFinishButton(), this.buildResetButton()
+        this.backBtn = this.el.querySelector("[data-hs-stepper-back-btn]"),
+        this.nextBtn = this.el.querySelector("[data-hs-stepper-next-btn]"),
+        this.skipBtn = this.el.querySelector("[data-hs-stepper-skip-btn]"),
+        this.completeStepBtn = this.el.querySelector("[data-hs-stepper-complete-step-btn]"),
+        this.finishBtn = this.el.querySelector("[data-hs-stepper-finish-btn]"),
+        this.resetBtn = this.el.querySelector("[data-hs-stepper-reset-btn]"),
+        this.buildBackButton(),
+        this.buildNextButton(),
+        this.buildSkipButton(),
+        this.buildCompleteStepButton(),
+        this.buildFinishButton(),
+        this.buildResetButton()
     }
     buildBackButton() {
-        this.backBtn && (this.checkForTheFirstStep(), this.onBackClickListener = () => this.backClick(), this.backBtn.addEventListener("click", this.onBackClickListener))
+        this.backBtn && (this.checkForTheFirstStep(),
+        this.onBackClickListener = () => this.backClick(),
+        this.backBtn.addEventListener("click", this.onBackClickListener))
     }
     handleBackButtonClick() {
-        this.currentIndex !== 1 && (this.mode === "linear" && this.removeOptionalClasses(), this.currentIndex--, this.mode === "linear" && this.removeOptionalClasses(), this.setCurrentNavItem(), this.setCurrentContentItem(), this.checkForTheFirstStep(), this.completeStepBtn && this.changeTextAndDisableCompleteButtonIfStepCompleted(), this.fireEvent("back", this.currentIndex), g("back.hs.stepper", this.el, this.currentIndex))
+        this.currentIndex !== 1 && (this.mode === "linear" && this.removeOptionalClasses(),
+        this.currentIndex--,
+        this.mode === "linear" && this.removeOptionalClasses(),
+        this.setCurrentNavItem(),
+        this.setCurrentContentItem(),
+        this.checkForTheFirstStep(),
+        this.completeStepBtn && this.changeTextAndDisableCompleteButtonIfStepCompleted(),
+        this.fireEvent("back", this.currentIndex),
+        g("back.hs.stepper", this.el, this.currentIndex))
     }
     checkForTheFirstStep() {
         this.currentIndex === 1 ? this.setToDisabled(this.backBtn) : this.setToNonDisabled(this.backBtn)
     }
     setToDisabled(e) {
-        (e.tagName === "BUTTON" || e.tagName === "INPUT") && e.setAttribute("disabled", "disabled"), e.classList.add("disabled")
+        (e.tagName === "BUTTON" || e.tagName === "INPUT") && e.setAttribute("disabled", "disabled"),
+        e.classList.add("disabled")
     }
     setToNonDisabled(e) {
-        (e.tagName === "BUTTON" || e.tagName === "INPUT") && e.removeAttribute("disabled"), e.classList.remove("disabled")
+        (e.tagName === "BUTTON" || e.tagName === "INPUT") && e.removeAttribute("disabled"),
+        e.classList.remove("disabled")
     }
     buildNextButton() {
-        this.nextBtn && (this.onNextClickListener = () => this.nextClick(), this.nextBtn.addEventListener("click", this.onNextClickListener))
+        this.nextBtn && (this.onNextClickListener = () => this.nextClick(),
+        this.nextBtn.addEventListener("click", this.onNextClickListener))
     }
     unsetProcessedNavItemActions(e) {
-        e.isProcessed = !1, e.el.classList.remove("processed")
+        e.isProcessed = !1,
+        e.el.classList.remove("processed")
     }
-    handleNextButtonClick(e = !0) {
-        if (e) this.currentIndex === this.totalSteps ? this.currentIndex = 1 : this.currentIndex++;
+    handleNextButtonClick(e=!0) {
+        if (e)
+            this.currentIndex === this.totalSteps ? this.currentIndex = 1 : this.currentIndex++;
         else {
             const t = this.getUncompletedSteps();
             if (t.length === 1) {
-                const {
-                    index: i
-                } = t[0];
+                const {index: i} = t[0];
                 this.currentIndex = i
             } else {
-                if (this.currentIndex === this.totalSteps) return;
+                if (this.currentIndex === this.totalSteps)
+                    return;
                 this.currentIndex++
             }
         }
-        this.mode === "linear" && this.removeOptionalClasses(), this.setCurrentNavItem(), this.setCurrentContentItem(), this.checkForTheFirstStep(), this.completeStepBtn && this.changeTextAndDisableCompleteButtonIfStepCompleted(), this.showSkipButton(), this.showFinishButton(), this.showCompleteStepButton(), this.fireEvent("next", this.currentIndex), g("next.hs.stepper", this.el, this.currentIndex)
+        this.mode === "linear" && this.removeOptionalClasses(),
+        this.setCurrentNavItem(),
+        this.setCurrentContentItem(),
+        this.checkForTheFirstStep(),
+        this.completeStepBtn && this.changeTextAndDisableCompleteButtonIfStepCompleted(),
+        this.showSkipButton(),
+        this.showFinishButton(),
+        this.showCompleteStepButton(),
+        this.fireEvent("next", this.currentIndex),
+        g("next.hs.stepper", this.el, this.currentIndex)
     }
     removeOptionalClasses() {
-        const e = this.navItems.find(({
-                index: i
-            }) => i === this.currentIndex),
-            t = this.contentItems.find(({
-                index: i
-            }) => i === this.currentIndex);
-        e.isSkip = !1, e.hasError = !1, e.isDisabled = !1, t.isSkip = !1, e.el.classList.remove("skipped", "success", "error"), t.el.classList.remove("skipped", "success", "error")
+        const e = this.navItems.find( ({index: i}) => i === this.currentIndex)
+          , t = this.contentItems.find( ({index: i}) => i === this.currentIndex);
+        e.isSkip = !1,
+        e.hasError = !1,
+        e.isDisabled = !1,
+        t.isSkip = !1,
+        e.el.classList.remove("skipped", "success", "error"),
+        t.el.classList.remove("skipped", "success", "error")
     }
     buildSkipButton() {
-        this.skipBtn && (this.showSkipButton(), this.onSkipClickListener = () => this.skipClick(), this.skipBtn.addEventListener("click", this.onSkipClickListener))
+        this.skipBtn && (this.showSkipButton(),
+        this.onSkipClickListener = () => this.skipClick(),
+        this.skipBtn.addEventListener("click", this.onSkipClickListener))
     }
     setSkipItem(e) {
-        const t = this.navItems.find(({
-                index: n
-            }) => n === (e || this.currentIndex)),
-            i = this.contentItems.find(({
-                index: n
-            }) => n === (e || this.currentIndex));
-        !t || !i || (this.setSkipItemActions(t), this.setSkipItemActions(i))
+        const t = this.navItems.find( ({index: n}) => n === (e || this.currentIndex))
+          , i = this.contentItems.find( ({index: n}) => n === (e || this.currentIndex));
+        !t || !i || (this.setSkipItemActions(t),
+        this.setSkipItemActions(i))
     }
     setSkipItemActions(e) {
-        e.isSkip = !0, e.el.classList.add("skipped")
+        e.isSkip = !0,
+        e.el.classList.add("skipped")
     }
     showSkipButton() {
-        if (!this.skipBtn) return;
-        const {
-            isOptional: e
-        } = this.navItems.find(({
-            index: t
-        }) => t === this.currentIndex);
+        if (!this.skipBtn)
+            return;
+        const {isOptional: e} = this.navItems.find( ({index: t}) => t === this.currentIndex);
         e ? this.skipBtn.style.display = "" : this.skipBtn.style.display = "none"
     }
     handleSkipButtonClick() {
-        this.setSkipItem(), this.handleNextButtonClick(), this.fireEvent("skip", this.currentIndex), g("skip.hs.stepper", this.el, this.currentIndex)
+        this.setSkipItem(),
+        this.handleNextButtonClick(),
+        this.fireEvent("skip", this.currentIndex),
+        g("skip.hs.stepper", this.el, this.currentIndex)
     }
     buildCompleteStepButton() {
-        this.completeStepBtn && (this.completeStepBtnDefaultText = this.completeStepBtn.innerText, this.onCompleteStepBtnClickListener = () => this.completeStepBtnClick(), this.completeStepBtn.addEventListener("click", this.onCompleteStepBtnClickListener))
+        this.completeStepBtn && (this.completeStepBtnDefaultText = this.completeStepBtn.innerText,
+        this.onCompleteStepBtnClickListener = () => this.completeStepBtnClick(),
+        this.completeStepBtn.addEventListener("click", this.onCompleteStepBtnClickListener))
     }
     changeTextAndDisableCompleteButtonIfStepCompleted() {
-        const e = this.navItems.find(({
-                index: i
-            }) => i === this.currentIndex),
-            {
-                completedText: t
-            } = JSON.parse(this.completeStepBtn.getAttribute("data-hs-stepper-complete-step-btn"));
-        e && (e.isCompleted ? (this.completeStepBtn.innerText = t || this.completeStepBtnDefaultText, this.completeStepBtn.setAttribute("disabled", "disabled"), this.completeStepBtn.classList.add("disabled")) : (this.completeStepBtn.innerText = this.completeStepBtnDefaultText, this.completeStepBtn.removeAttribute("disabled"), this.completeStepBtn.classList.remove("disabled")))
+        const e = this.navItems.find( ({index: i}) => i === this.currentIndex)
+          , {completedText: t} = JSON.parse(this.completeStepBtn.getAttribute("data-hs-stepper-complete-step-btn"));
+        e && (e.isCompleted ? (this.completeStepBtn.innerText = t || this.completeStepBtnDefaultText,
+        this.completeStepBtn.setAttribute("disabled", "disabled"),
+        this.completeStepBtn.classList.add("disabled")) : (this.completeStepBtn.innerText = this.completeStepBtnDefaultText,
+        this.completeStepBtn.removeAttribute("disabled"),
+        this.completeStepBtn.classList.remove("disabled")))
     }
     setCompleteItem(e) {
-        const t = this.navItems.find(({
-                index: n
-            }) => n === (e || this.currentIndex)),
-            i = this.contentItems.find(({
-                index: n
-            }) => n === (e || this.currentIndex));
-        !t || !i || (this.setCompleteItemActions(t), this.setCompleteItemActions(i))
+        const t = this.navItems.find( ({index: n}) => n === (e || this.currentIndex))
+          , i = this.contentItems.find( ({index: n}) => n === (e || this.currentIndex));
+        !t || !i || (this.setCompleteItemActions(t),
+        this.setCompleteItemActions(i))
     }
     setCompleteItemActions(e) {
-        e.isCompleted = !0, e.el.classList.add("success")
+        e.isCompleted = !0,
+        e.el.classList.add("success")
     }
     showCompleteStepButton() {
-        if (!this.completeStepBtn) return;
+        if (!this.completeStepBtn)
+            return;
         this.getUncompletedSteps().length === 1 ? this.completeStepBtn.style.display = "none" : this.completeStepBtn.style.display = ""
     }
     handleCompleteStepButtonClick() {
-        this.setCompleteItem(), this.fireEvent("complete", this.currentIndex), g("complete.hs.stepper", this.el, this.currentIndex), this.handleNextButtonClick(!1), this.showFinishButton(), this.showCompleteStepButton(), this.checkForTheFirstStep(), this.completeStepBtn && this.changeTextAndDisableCompleteButtonIfStepCompleted(), this.showSkipButton()
+        this.setCompleteItem(),
+        this.fireEvent("complete", this.currentIndex),
+        g("complete.hs.stepper", this.el, this.currentIndex),
+        this.handleNextButtonClick(!1),
+        this.showFinishButton(),
+        this.showCompleteStepButton(),
+        this.checkForTheFirstStep(),
+        this.completeStepBtn && this.changeTextAndDisableCompleteButtonIfStepCompleted(),
+        this.showSkipButton()
     }
     buildFinishButton() {
-        this.finishBtn && (this.isCompleted && this.setCompleted(), this.onFinishBtnClickListener = () => this.finishBtnClick(), this.finishBtn.addEventListener("click", this.onFinishBtnClickListener))
+        this.finishBtn && (this.isCompleted && this.setCompleted(),
+        this.onFinishBtnClickListener = () => this.finishBtnClick(),
+        this.finishBtn.addEventListener("click", this.onFinishBtnClickListener))
     }
     setCompleted() {
         this.el.classList.add("completed")
@@ -4672,40 +6144,71 @@ class Ve extends I {
         this.el.classList.remove("completed")
     }
     showFinishButton() {
-        if (!this.finishBtn) return;
+        if (!this.finishBtn)
+            return;
         this.getUncompletedSteps().length === 1 ? this.finishBtn.style.display = "" : this.finishBtn.style.display = "none"
     }
     handleFinishButtonClick() {
-        const e = this.getUncompletedSteps(),
-            t = this.getUncompletedSteps(!0),
-            {
-                el: i
-            } = this.contentItems.find(({
-                isFinal: o
-            }) => o);
-        e.length && e.forEach(({
-            index: o
-        }) => this.setCompleteItem(o)), this.currentIndex = this.totalSteps, this.setCurrentNavItem(), this.hideAllContentItems();
-        const n = this.navItems.find(({
-            index: o
-        }) => o === this.currentIndex);
-        (n ? n.el : null).classList.remove("active"), i.style.display = "block", this.backBtn && (this.backBtn.style.display = "none"), this.nextBtn && (this.nextBtn.style.display = "none"), this.skipBtn && (this.skipBtn.style.display = "none"), this.completeStepBtn && (this.completeStepBtn.style.display = "none"), this.finishBtn && (this.finishBtn.style.display = "none"), this.resetBtn && (this.resetBtn.style.display = ""), t.length <= 1 && (this.isCompleted = !0, this.setCompleted()), this.fireEvent("finish", this.currentIndex), g("finish.hs.stepper", this.el, this.currentIndex)
+        const e = this.getUncompletedSteps()
+          , t = this.getUncompletedSteps(!0)
+          , {el: i} = this.contentItems.find( ({isFinal: o}) => o);
+        e.length && e.forEach( ({index: o}) => this.setCompleteItem(o)),
+        this.currentIndex = this.totalSteps,
+        this.setCurrentNavItem(),
+        this.hideAllContentItems();
+        const n = this.navItems.find( ({index: o}) => o === this.currentIndex);
+        (n ? n.el : null).classList.remove("active"),
+        i.style.display = "block",
+        this.backBtn && (this.backBtn.style.display = "none"),
+        this.nextBtn && (this.nextBtn.style.display = "none"),
+        this.skipBtn && (this.skipBtn.style.display = "none"),
+        this.completeStepBtn && (this.completeStepBtn.style.display = "none"),
+        this.finishBtn && (this.finishBtn.style.display = "none"),
+        this.resetBtn && (this.resetBtn.style.display = ""),
+        t.length <= 1 && (this.isCompleted = !0,
+        this.setCompleted()),
+        this.fireEvent("finish", this.currentIndex),
+        g("finish.hs.stepper", this.el, this.currentIndex)
     }
     buildResetButton() {
-        this.resetBtn && (this.onResetBtnClickListener = () => this.resetBtnClick(), this.resetBtn.addEventListener("click", this.onResetBtnClickListener))
+        this.resetBtn && (this.onResetBtnClickListener = () => this.resetBtnClick(),
+        this.resetBtn.addEventListener("click", this.onResetBtnClickListener))
     }
     handleResetButtonClick() {
-        this.backBtn && (this.backBtn.style.display = ""), this.nextBtn && (this.nextBtn.style.display = ""), this.completeStepBtn && (this.completeStepBtn.style.display = "", this.completeStepBtn.innerText = this.completeStepBtnDefaultText, this.completeStepBtn.removeAttribute("disabled"), this.completeStepBtn.classList.remove("disabled")), this.resetBtn && (this.resetBtn.style.display = "none"), this.navItems.forEach(e => {
-            const {
-                el: t
-            } = e;
-            e.isSkip = !1, e.isCompleted = !1, this.unsetCurrentNavItemActions(t), t.classList.remove("success", "skipped")
-        }), this.contentItems.forEach(e => {
-            const {
-                el: t
-            } = e;
-            e.isSkip = !1, e.isCompleted = !1, this.unsetCurrentContentItemActions(t), t.classList.remove("success", "skipped")
-        }), this.currentIndex = 1, this.unsetCompleted(), this.isCompleted = !1, this.showSkipButton(), this.setCurrentNavItem(), this.setCurrentContentItem(), this.showFinishButton(), this.showCompleteStepButton(), this.checkForTheFirstStep(), this.fireEvent("reset", this.currentIndex), g("reset.hs.stepper", this.el, this.currentIndex)
+        this.backBtn && (this.backBtn.style.display = ""),
+        this.nextBtn && (this.nextBtn.style.display = ""),
+        this.completeStepBtn && (this.completeStepBtn.style.display = "",
+        this.completeStepBtn.innerText = this.completeStepBtnDefaultText,
+        this.completeStepBtn.removeAttribute("disabled"),
+        this.completeStepBtn.classList.remove("disabled")),
+        this.resetBtn && (this.resetBtn.style.display = "none"),
+        this.navItems.forEach(e => {
+            const {el: t} = e;
+            e.isSkip = !1,
+            e.isCompleted = !1,
+            this.unsetCurrentNavItemActions(t),
+            t.classList.remove("success", "skipped")
+        }
+        ),
+        this.contentItems.forEach(e => {
+            const {el: t} = e;
+            e.isSkip = !1,
+            e.isCompleted = !1,
+            this.unsetCurrentContentItemActions(t),
+            t.classList.remove("success", "skipped")
+        }
+        ),
+        this.currentIndex = 1,
+        this.unsetCompleted(),
+        this.isCompleted = !1,
+        this.showSkipButton(),
+        this.setCurrentNavItem(),
+        this.setCurrentContentItem(),
+        this.showFinishButton(),
+        this.showCompleteStepButton(),
+        this.checkForTheFirstStep(),
+        this.fireEvent("reset", this.currentIndex),
+        g("reset.hs.stepper", this.el, this.currentIndex)
     }
     setProcessedNavItem(e) {
         const t = this.getNavItem(e);
@@ -4716,50 +6219,75 @@ class Ve extends I {
         t && this.unsetProcessedNavItemActions(t)
     }
     goToNext() {
-        this.mode === "linear" && this.setCompleteItem(), this.handleNextButtonClick(this.mode !== "linear"), this.mode === "linear" && this.currentIndex === this.totalSteps && (this.nextBtn && (this.nextBtn.style.display = "none"), this.completeStepBtn && (this.completeStepBtn.style.display = "none"))
+        this.mode === "linear" && this.setCompleteItem(),
+        this.handleNextButtonClick(this.mode !== "linear"),
+        this.mode === "linear" && this.currentIndex === this.totalSteps && (this.nextBtn && (this.nextBtn.style.display = "none"),
+        this.completeStepBtn && (this.completeStepBtn.style.display = "none"))
     }
     disableButtons() {
-        this.backBtn && this.setToDisabled(this.backBtn), this.nextBtn && this.setToDisabled(this.nextBtn)
+        this.backBtn && this.setToDisabled(this.backBtn),
+        this.nextBtn && this.setToDisabled(this.nextBtn)
     }
     enableButtons() {
-        this.backBtn && this.setToNonDisabled(this.backBtn), this.nextBtn && this.setToNonDisabled(this.nextBtn)
+        this.backBtn && this.setToNonDisabled(this.backBtn),
+        this.nextBtn && this.setToNonDisabled(this.nextBtn)
     }
     setErrorNavItem(e) {
         const t = this.getNavItem(e);
         t && this.setErrorNavItemActions(t)
     }
     destroy() {
-        this.el.classList.remove("completed"), this.el.querySelectorAll("[data-hs-stepper-nav-item]").forEach(e => {
-            e.classList.remove("active", "success", "skipped", "disabled", "error"), (e.tagName === "BUTTON" || e.tagName === "INPUT") && e.removeAttribute("disabled")
-        }), this.el.querySelectorAll("[data-hs-stepper-content-item]").forEach(e => {
+        this.el.classList.remove("completed"),
+        this.el.querySelectorAll("[data-hs-stepper-nav-item]").forEach(e => {
+            e.classList.remove("active", "success", "skipped", "disabled", "error"),
+            (e.tagName === "BUTTON" || e.tagName === "INPUT") && e.removeAttribute("disabled")
+        }
+        ),
+        this.el.querySelectorAll("[data-hs-stepper-content-item]").forEach(e => {
             e.classList.remove("success", "skipped")
-        }), this.backBtn && this.backBtn.classList.remove("disabled"), this.nextBtn && this.nextBtn.classList.remove("disabled"), this.completeStepBtn && this.completeStepBtn.classList.remove("disabled"), this.backBtn && (this.backBtn.style.display = ""), this.nextBtn && (this.nextBtn.style.display = ""), this.skipBtn && (this.skipBtn.style.display = ""), this.finishBtn && (this.finishBtn.style.display = "none"), this.resetBtn && (this.resetBtn.style.display = "none"), this.onNavItemClickListener.length && this.onNavItemClickListener.forEach(({
-            el: e,
-            fn: t
-        }) => {
+        }
+        ),
+        this.backBtn && this.backBtn.classList.remove("disabled"),
+        this.nextBtn && this.nextBtn.classList.remove("disabled"),
+        this.completeStepBtn && this.completeStepBtn.classList.remove("disabled"),
+        this.backBtn && (this.backBtn.style.display = ""),
+        this.nextBtn && (this.nextBtn.style.display = ""),
+        this.skipBtn && (this.skipBtn.style.display = ""),
+        this.finishBtn && (this.finishBtn.style.display = "none"),
+        this.resetBtn && (this.resetBtn.style.display = "none"),
+        this.onNavItemClickListener.length && this.onNavItemClickListener.forEach( ({el: e, fn: t}) => {
             e.removeEventListener("click", t)
-        }), this.backBtn && this.backBtn.removeEventListener("click", this.onBackClickListener), this.nextBtn && this.nextBtn.removeEventListener("click", this.onNextClickListener), this.skipBtn && this.skipBtn.removeEventListener("click", this.onSkipClickListener), this.completeStepBtn && this.completeStepBtn.removeEventListener("click", this.onCompleteStepBtnClickListener), this.finishBtn && this.finishBtn.removeEventListener("click", this.onFinishBtnClickListener), this.resetBtn && this.resetBtn.removeEventListener("click", this.onResetBtnClickListener), window.$hsStepperCollection = window.$hsStepperCollection.filter(({
-            element: e
-        }) => e.el !== this.el)
+        }
+        ),
+        this.backBtn && this.backBtn.removeEventListener("click", this.onBackClickListener),
+        this.nextBtn && this.nextBtn.removeEventListener("click", this.onNextClickListener),
+        this.skipBtn && this.skipBtn.removeEventListener("click", this.onSkipClickListener),
+        this.completeStepBtn && this.completeStepBtn.removeEventListener("click", this.onCompleteStepBtnClickListener),
+        this.finishBtn && this.finishBtn.removeEventListener("click", this.onFinishBtnClickListener),
+        this.resetBtn && this.resetBtn.removeEventListener("click", this.onResetBtnClickListener),
+        window.$hsStepperCollection = window.$hsStepperCollection.filter( ({element: e}) => e.el !== this.el)
     }
     static getInstance(e, t) {
         const i = window.$hsStepperCollection.find(n => n.element.el === (typeof e == "string" ? document.querySelector(e) : e));
         return i ? t ? i : i.element : null
     }
     static autoInit() {
-        window.$hsStepperCollection || (window.$hsStepperCollection = []), window.$hsStepperCollection && (window.$hsStepperCollection = window.$hsStepperCollection.filter(({
-            element: e
-        }) => document.contains(e.el))), document.querySelectorAll("[data-hs-stepper]:not(.--prevent-on-load-init)").forEach(e => {
+        window.$hsStepperCollection || (window.$hsStepperCollection = []),
+        window.$hsStepperCollection && (window.$hsStepperCollection = window.$hsStepperCollection.filter( ({element: e}) => document.contains(e.el))),
+        document.querySelectorAll("[data-hs-stepper]:not(.--prevent-on-load-init)").forEach(e => {
             window.$hsStepperCollection.find(t => {
                 var i;
                 return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
-            }) || new Ve(e)
-        })
+            }
+            ) || new Ve(e)
+        }
+        )
     }
 }
 window.addEventListener("load", () => {
     Ve.autoInit()
-});
+}
+);
 typeof window < "u" && (window.HSStepper = Ve);
 /*
  * HSStrongPassword
@@ -4770,21 +6298,41 @@ typeof window < "u" && (window.HSStepper = Ve);
  */
 class He extends I {
     constructor(e, t) {
-        super(e, t), this.isOpened = !1, this.strength = 0, this.passedRules = new Set;
-        const i = e.getAttribute("data-hs-strong-password"),
-            s = { ...i ? JSON.parse(i) : {},
-                ...t
-            };
-        this.target = s != null && s.target ? typeof(s == null ? void 0 : s.target) == "string" ? document.querySelector(s.target) : s.target : null, this.hints = s != null && s.hints ? typeof(s == null ? void 0 : s.hints) == "string" ? document.querySelector(s.hints) : s.hints : null, this.stripClasses = (s == null ? void 0 : s.stripClasses) || null, this.minLength = (s == null ? void 0 : s.minLength) || 6, this.mode = (s == null ? void 0 : s.mode) || "default", this.popoverSpace = (s == null ? void 0 : s.popoverSpace) || 10, this.checksExclude = (s == null ? void 0 : s.checksExclude) || [], this.availableChecks = ["lowercase", "uppercase", "numbers", "special-characters", "min-length"].filter(o => !this.checksExclude.includes(o)), this.specialCharactersSet = (s == null ? void 0 : s.specialCharactersSet) || "!\"#$%&'()*+,-./:;<=>?@[\\\\\\]^_`{|}~", this.target && this.init()
+        super(e, t),
+        this.isOpened = !1,
+        this.strength = 0,
+        this.passedRules = new Set;
+        const i = e.getAttribute("data-hs-strong-password")
+          , s = {
+            ...i ? JSON.parse(i) : {},
+            ...t
+        };
+        this.target = s != null && s.target ? typeof (s == null ? void 0 : s.target) == "string" ? document.querySelector(s.target) : s.target : null,
+        this.hints = s != null && s.hints ? typeof (s == null ? void 0 : s.hints) == "string" ? document.querySelector(s.hints) : s.hints : null,
+        this.stripClasses = (s == null ? void 0 : s.stripClasses) || null,
+        this.minLength = (s == null ? void 0 : s.minLength) || 6,
+        this.mode = (s == null ? void 0 : s.mode) || "default",
+        this.popoverSpace = (s == null ? void 0 : s.popoverSpace) || 10,
+        this.checksExclude = (s == null ? void 0 : s.checksExclude) || [],
+        this.availableChecks = ["lowercase", "uppercase", "numbers", "special-characters", "min-length"].filter(o => !this.checksExclude.includes(o)),
+        this.specialCharactersSet = (s == null ? void 0 : s.specialCharactersSet) || "!\"#$%&'()*+,-./:;<=>?@[\\\\\\]^_`{|}~",
+        this.target && this.init()
     }
     targetInput(e) {
         this.setStrength(e.target.value)
     }
     targetFocus() {
-        this.isOpened = !0, this.hints.classList.remove("hidden"), this.hints.classList.add("block"), this.recalculateDirection()
+        this.isOpened = !0,
+        this.hints.classList.remove("hidden"),
+        this.hints.classList.add("block"),
+        this.recalculateDirection()
     }
     targetBlur() {
-        this.isOpened = !1, this.hints.classList.remove("block", "bottom-full", "top-full"), this.hints.classList.add("hidden"), this.hints.style.marginTop = "", this.hints.style.marginBottom = ""
+        this.isOpened = !1,
+        this.hints.classList.remove("block", "bottom-full", "top-full"),
+        this.hints.classList.add("hidden"),
+        this.hints.style.marginTop = "",
+        this.hints.style.marginBottom = ""
     }
     targetInputSecond() {
         this.setWeaknessText()
@@ -4793,115 +6341,170 @@ class He extends I {
         this.setRulesText()
     }
     init() {
-        this.createCollection(window.$hsStrongPasswordCollection, this), this.availableChecks.length && this.build()
+        this.createCollection(window.$hsStrongPasswordCollection, this),
+        this.availableChecks.length && this.build()
     }
     build() {
-        this.buildStrips(), this.hints && this.buildHints(), this.setStrength(this.target.value), this.onTargetInputListener = e => this.targetInput(e), this.target.addEventListener("input", this.onTargetInputListener)
+        this.buildStrips(),
+        this.hints && this.buildHints(),
+        this.setStrength(this.target.value),
+        this.onTargetInputListener = e => this.targetInput(e),
+        this.target.addEventListener("input", this.onTargetInputListener)
     }
     buildStrips() {
-        if (this.el.innerHTML = "", this.stripClasses)
+        if (this.el.innerHTML = "",
+        this.stripClasses)
             for (let e = 0; e < this.availableChecks.length; e++) {
                 const t = y("<div></div>");
-                D(this.stripClasses, t), this.el.append(t)
+                D(this.stripClasses, t),
+                this.el.append(t)
             }
     }
     buildHints() {
-        this.weakness = this.hints.querySelector("[data-hs-strong-password-hints-weakness-text]") || null, this.rules = Array.from(this.hints.querySelectorAll("[data-hs-strong-password-hints-rule-text]")) || null, this.rules.forEach(e => {
+        this.weakness = this.hints.querySelector("[data-hs-strong-password-hints-weakness-text]") || null,
+        this.rules = Array.from(this.hints.querySelectorAll("[data-hs-strong-password-hints-rule-text]")) || null,
+        this.rules.forEach(e => {
             var i;
             const t = e.getAttribute("data-hs-strong-password-hints-rule-text");
             (i = this.checksExclude) != null && i.includes(t) && e.remove()
-        }), this.weakness && this.buildWeakness(), this.rules && this.buildRules(), this.mode === "popover" && (this.onTargetFocusListener = () => this.targetFocus(), this.onTargetBlurListener = () => this.targetBlur(), this.target.addEventListener("focus", this.onTargetFocusListener), this.target.addEventListener("blur", this.onTargetBlurListener))
+        }
+        ),
+        this.weakness && this.buildWeakness(),
+        this.rules && this.buildRules(),
+        this.mode === "popover" && (this.onTargetFocusListener = () => this.targetFocus(),
+        this.onTargetBlurListener = () => this.targetBlur(),
+        this.target.addEventListener("focus", this.onTargetFocusListener),
+        this.target.addEventListener("blur", this.onTargetBlurListener))
     }
     buildWeakness() {
-        this.checkStrength(this.target.value), this.setWeaknessText(), this.onTargetInputSecondListener = () => setTimeout(() => this.targetInputSecond()), this.target.addEventListener("input", this.onTargetInputSecondListener)
+        this.checkStrength(this.target.value),
+        this.setWeaknessText(),
+        this.onTargetInputSecondListener = () => setTimeout( () => this.targetInputSecond()),
+        this.target.addEventListener("input", this.onTargetInputSecondListener)
     }
     buildRules() {
-        this.setRulesText(), this.onTargetInputThirdListener = () => setTimeout(() => this.targetInputThird()), this.target.addEventListener("input", this.onTargetInputThirdListener)
+        this.setRulesText(),
+        this.onTargetInputThirdListener = () => setTimeout( () => this.targetInputThird()),
+        this.target.addEventListener("input", this.onTargetInputThirdListener)
     }
     setWeaknessText() {
-        const e = this.weakness.getAttribute("data-hs-strong-password-hints-weakness-text"),
-            t = JSON.parse(e);
+        const e = this.weakness.getAttribute("data-hs-strong-password-hints-weakness-text")
+          , t = JSON.parse(e);
         this.weakness.textContent = t[this.strength]
     }
     setRulesText() {
         this.rules.forEach(e => {
             const t = e.getAttribute("data-hs-strong-password-hints-rule-text");
             this.checkIfPassed(e, this.passedRules.has(t))
-        })
+        }
+        )
     }
     togglePopover() {
         const e = this.el.querySelector(".popover");
         e && e.classList.toggle("show")
     }
     checkStrength(e) {
-        const t = new Set,
-            i = {
-                lowercase: /[a-z]+/,
-                uppercase: /[A-Z]+/,
-                numbers: /[0-9]+/,
-                "special-characters": new RegExp(`[${this.specialCharactersSet}]`)
-            };
+        const t = new Set
+          , i = {
+            lowercase: /[a-z]+/,
+            uppercase: /[A-Z]+/,
+            numbers: /[0-9]+/,
+            "special-characters": new RegExp(`[${this.specialCharactersSet}]`)
+        };
         let n = 0;
-        return this.availableChecks.includes("lowercase") && e.match(i.lowercase) && (n += 1, t.add("lowercase")), this.availableChecks.includes("uppercase") && e.match(i.uppercase) && (n += 1, t.add("uppercase")), this.availableChecks.includes("numbers") && e.match(i.numbers) && (n += 1, t.add("numbers")), this.availableChecks.includes("special-characters") && e.match(i["special-characters"]) && (n += 1, t.add("special-characters")), this.availableChecks.includes("min-length") && e.length >= this.minLength && (n += 1, t.add("min-length")), e.length || (n = 0), n === this.availableChecks.length ? this.el.classList.add("accepted") : this.el.classList.remove("accepted"), this.strength = n, this.passedRules = t, {
+        return this.availableChecks.includes("lowercase") && e.match(i.lowercase) && (n += 1,
+        t.add("lowercase")),
+        this.availableChecks.includes("uppercase") && e.match(i.uppercase) && (n += 1,
+        t.add("uppercase")),
+        this.availableChecks.includes("numbers") && e.match(i.numbers) && (n += 1,
+        t.add("numbers")),
+        this.availableChecks.includes("special-characters") && e.match(i["special-characters"]) && (n += 1,
+        t.add("special-characters")),
+        this.availableChecks.includes("min-length") && e.length >= this.minLength && (n += 1,
+        t.add("min-length")),
+        e.length || (n = 0),
+        n === this.availableChecks.length ? this.el.classList.add("accepted") : this.el.classList.remove("accepted"),
+        this.strength = n,
+        this.passedRules = t,
+        {
             strength: this.strength,
             rules: this.passedRules
         }
     }
-    checkIfPassed(e, t = !1) {
-        const i = e.querySelector("[data-check]"),
-            n = e.querySelector("[data-uncheck]");
-        t ? (e.classList.add("active"), i.classList.remove("hidden"), n.classList.add("hidden")) : (e.classList.remove("active"), i.classList.add("hidden"), n.classList.remove("hidden"))
+    checkIfPassed(e, t=!1) {
+        const i = e.querySelector("[data-check]")
+          , n = e.querySelector("[data-uncheck]");
+        t ? (e.classList.add("active"),
+        i.classList.remove("hidden"),
+        n.classList.add("hidden")) : (e.classList.remove("active"),
+        i.classList.add("hidden"),
+        n.classList.remove("hidden"))
     }
     setStrength(e) {
-        const {
-            strength: t,
-            rules: i
-        } = this.checkStrength(e), n = {
+        const {strength: t, rules: i} = this.checkStrength(e)
+          , n = {
             strength: t,
             rules: i
         };
-        this.hideStrips(t), this.fireEvent("change", n), g("change.hs.strongPassword", this.el, n)
+        this.hideStrips(t),
+        this.fireEvent("change", n),
+        g("change.hs.strongPassword", this.el, n)
     }
     hideStrips(e) {
-        Array.from(this.el.children).forEach((t, i) => {
+        Array.from(this.el.children).forEach( (t, i) => {
             i < e ? t.classList.add("passed") : t.classList.remove("passed")
-        })
+        }
+        )
     }
     recalculateDirection() {
-        pt(this.hints, this.target, "bottom", this.popoverSpace) ? (this.hints.classList.remove("bottom-full"), this.hints.classList.add("top-full"), this.hints.style.marginBottom = "", this.hints.style.marginTop = `${this.popoverSpace}px`) : (this.hints.classList.remove("top-full"), this.hints.classList.add("bottom-full"), this.hints.style.marginTop = "", this.hints.style.marginBottom = `${this.popoverSpace}px`)
+        pt(this.hints, this.target, "bottom", this.popoverSpace) ? (this.hints.classList.remove("bottom-full"),
+        this.hints.classList.add("top-full"),
+        this.hints.style.marginBottom = "",
+        this.hints.style.marginTop = `${this.popoverSpace}px`) : (this.hints.classList.remove("top-full"),
+        this.hints.classList.add("bottom-full"),
+        this.hints.style.marginTop = "",
+        this.hints.style.marginBottom = `${this.popoverSpace}px`)
     }
     destroy() {
-        this.target.removeEventListener("input", this.onTargetInputListener), this.target.removeEventListener("focus", this.onTargetFocusListener), this.target.removeEventListener("blur", this.onTargetBlurListener), this.target.removeEventListener("input", this.onTargetInputSecondListener), this.target.removeEventListener("input", this.onTargetInputThirdListener), window.$hsStrongPasswordCollection = window.$hsStrongPasswordCollection.filter(({
-            element: e
-        }) => e.el !== this.el)
+        this.target.removeEventListener("input", this.onTargetInputListener),
+        this.target.removeEventListener("focus", this.onTargetFocusListener),
+        this.target.removeEventListener("blur", this.onTargetBlurListener),
+        this.target.removeEventListener("input", this.onTargetInputSecondListener),
+        this.target.removeEventListener("input", this.onTargetInputThirdListener),
+        window.$hsStrongPasswordCollection = window.$hsStrongPasswordCollection.filter( ({element: e}) => e.el !== this.el)
     }
     static getInstance(e, t) {
         const i = window.$hsStrongPasswordCollection.find(n => n.element.el === (typeof e == "string" ? document.querySelector(e) : e));
         return i ? t ? i : i.element.el : null
     }
     static autoInit() {
-        window.$hsStrongPasswordCollection || (window.$hsStrongPasswordCollection = []), window.$hsStrongPasswordCollection && (window.$hsStrongPasswordCollection = window.$hsStrongPasswordCollection.filter(({
-            element: e
-        }) => document.contains(e.el))), document.querySelectorAll("[data-hs-strong-password]:not(.--prevent-on-load-init)").forEach(e => {
+        window.$hsStrongPasswordCollection || (window.$hsStrongPasswordCollection = []),
+        window.$hsStrongPasswordCollection && (window.$hsStrongPasswordCollection = window.$hsStrongPasswordCollection.filter( ({element: e}) => document.contains(e.el))),
+        document.querySelectorAll("[data-hs-strong-password]:not(.--prevent-on-load-init)").forEach(e => {
             if (!window.$hsStrongPasswordCollection.find(t => {
-                    var i;
-                    return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
-                })) {
-                const t = e.getAttribute("data-hs-strong-password"),
-                    i = t ? JSON.parse(t) : {};
-                new He(e, i)
+                var i;
+                return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
             }
-        })
+            )) {
+                const t = e.getAttribute("data-hs-strong-password")
+                  , i = t ? JSON.parse(t) : {};
+                new He(e,i)
+            }
+        }
+        )
     }
 }
 window.addEventListener("load", () => {
     He.autoInit()
-});
+}
+);
 document.addEventListener("scroll", () => {
-    if (!window.$hsStrongPasswordCollection) return !1;
+    if (!window.$hsStrongPasswordCollection)
+        return !1;
     const l = window.$hsStrongPasswordCollection.find(e => e.element.isOpened);
     l && l.element.recalculateDirection()
-});
+}
+);
 typeof window < "u" && (window.HSStrongPassword = He);
 /*
  * HSTabs
@@ -4912,7 +6515,19 @@ typeof window < "u" && (window.HSStrongPassword = He);
  */
 class ye extends I {
     constructor(e, t, i) {
-        super(e, t, i), this.toggles = this.el.querySelectorAll("[data-hs-tab]"), this.extraToggleId = this.el.getAttribute("data-hs-tab-select"), this.extraToggle = document.querySelector(this.extraToggleId), this.current = Array.from(this.toggles).find(n => n.classList.contains("active")), this.currentContentId = this.current.getAttribute("data-hs-tab"), this.currentContent = document.querySelector(this.currentContentId), this.prev = null, this.prevContentId = null, this.prevContent = null, this.eventType = "click", this.onToggleClickListener = [], this.init()
+        super(e, t, i),
+        this.toggles = this.el.querySelectorAll("[data-hs-tab]"),
+        this.extraToggleId = this.el.getAttribute("data-hs-tab-select"),
+        this.extraToggle = document.querySelector(this.extraToggleId),
+        this.current = Array.from(this.toggles).find(n => n.classList.contains("active")),
+        this.currentContentId = this.current.getAttribute("data-hs-tab"),
+        this.currentContent = document.querySelector(this.currentContentId),
+        this.prev = null,
+        this.prevContentId = null,
+        this.prevContent = null,
+        this.eventType = "click",
+        this.onToggleClickListener = [],
+        this.init()
     }
     toggleClick(e) {
         this.open(e)
@@ -4921,20 +6536,38 @@ class ye extends I {
         this.change(e)
     }
     init() {
-        this.createCollection(window.$hsTabsCollection, this), this.toggles.forEach(e => {
+        this.createCollection(window.$hsTabsCollection, this),
+        this.toggles.forEach(e => {
             this.onToggleClickListener.push({
                 el: e,
                 fn: () => this.toggleClick(e)
-            }), e.addEventListener(this.eventType, this.onToggleClickListener.find(t => t.el === e).fn)
-        }), this.extraToggle && (this.onExtraToggleChangeListener = e => this.extraToggleChange(e), this.extraToggle.addEventListener("change", this.onExtraToggleChangeListener))
+            }),
+            e.addEventListener(this.eventType, this.onToggleClickListener.find(t => t.el === e).fn)
+        }
+        ),
+        this.extraToggle && (this.onExtraToggleChangeListener = e => this.extraToggleChange(e),
+        this.extraToggle.addEventListener("change", this.onExtraToggleChangeListener))
     }
     open(e) {
         var t, i;
-        this.prev = this.current, this.prevContentId = this.currentContentId, this.prevContent = this.currentContent, this.current = e, this.currentContentId = this.current.getAttribute("data-hs-tab"), this.currentContent = document.querySelector(this.currentContentId), (t = this == null ? void 0 : this.prev) != null && t.ariaSelected && (this.prev.ariaSelected = "false"), this.prev.classList.remove("active"), this.prevContent.classList.add("hidden"), (i = this == null ? void 0 : this.current) != null && i.ariaSelected && (this.current.ariaSelected = "true"), this.current.classList.add("active"), this.currentContent.classList.remove("hidden"), this.fireEvent("change", {
+        this.prev = this.current,
+        this.prevContentId = this.currentContentId,
+        this.prevContent = this.currentContent,
+        this.current = e,
+        this.currentContentId = this.current.getAttribute("data-hs-tab"),
+        this.currentContent = document.querySelector(this.currentContentId),
+        (t = this == null ? void 0 : this.prev) != null && t.ariaSelected && (this.prev.ariaSelected = "false"),
+        this.prev.classList.remove("active"),
+        this.prevContent.classList.add("hidden"),
+        (i = this == null ? void 0 : this.current) != null && i.ariaSelected && (this.current.ariaSelected = "true"),
+        this.current.classList.add("active"),
+        this.currentContent.classList.remove("hidden"),
+        this.fireEvent("change", {
             el: e,
             prev: this.prevContentId,
             current: this.currentContentId
-        }), g("change.hs.tab", e, {
+        }),
+        g("change.hs.tab", e, {
             el: e,
             prev: this.prevContentId,
             current: this.currentContentId
@@ -4947,65 +6580,74 @@ class ye extends I {
     destroy() {
         this.toggles.forEach(e => {
             e.removeEventListener(this.eventType, this.onToggleClickListener.find(t => t.el === e).fn)
-        }), this.onToggleClickListener = [], this.extraToggle && this.extraToggle.removeEventListener("change", this.onExtraToggleChangeListener), window.$hsTabsCollection = window.$hsTabsCollection.filter(({
-            element: e
-        }) => e.el !== this.el)
+        }
+        ),
+        this.onToggleClickListener = [],
+        this.extraToggle && this.extraToggle.removeEventListener("change", this.onExtraToggleChangeListener),
+        window.$hsTabsCollection = window.$hsTabsCollection.filter( ({element: e}) => e.el !== this.el)
     }
     static getInstance(e, t) {
         const i = window.$hsTabsCollection.find(n => n.element.el === (typeof e == "string" ? document.querySelector(e) : e));
         return i ? t ? i : i.element : null
     }
     static autoInit() {
-        window.$hsTabsCollection || (window.$hsTabsCollection = [], document.addEventListener("keydown", e => ye.accessibility(e))), window.$hsTabsCollection && (window.$hsTabsCollection = window.$hsTabsCollection.filter(({
-            element: e
-        }) => document.contains(e.el))), document.querySelectorAll('[role="tablist"]:not(select):not(.--prevent-on-load-init)').forEach(e => {
+        window.$hsTabsCollection || (window.$hsTabsCollection = [],
+        document.addEventListener("keydown", e => ye.accessibility(e))),
+        window.$hsTabsCollection && (window.$hsTabsCollection = window.$hsTabsCollection.filter( ({element: e}) => document.contains(e.el))),
+        document.querySelectorAll('[role="tablist"]:not(select):not(.--prevent-on-load-init)').forEach(e => {
             window.$hsTabsCollection.find(t => {
                 var i;
                 return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
-            }) || new ye(e)
-        })
+            }
+            ) || new ye(e)
+        }
+        )
     }
     static open(e) {
-        const t = window.$hsTabsCollection.find(n => Array.from(n.element.toggles).includes(typeof e == "string" ? document.querySelector(e) : e)),
-            i = Array.from(t.element.toggles).find(n => n === (typeof e == "string" ? document.querySelector(e) : e));
+        const t = window.$hsTabsCollection.find(n => Array.from(n.element.toggles).includes(typeof e == "string" ? document.querySelector(e) : e))
+          , i = Array.from(t.element.toggles).find(n => n === (typeof e == "string" ? document.querySelector(e) : e));
         i && !i.classList.contains("active") && t.element.open(i)
     }
     static accessibility(e) {
         const t = document.querySelector("[data-hs-tab]:focus");
         if (t && ui.includes(e.code) && !e.metaKey) {
             const i = t.closest('[role="tablist"]').getAttribute("data-hs-tabs-vertical");
-            switch (e.preventDefault(), e.code) {
-                case (i === "true" ? "ArrowUp" : "ArrowLeft"):
-                    this.onArrow();
-                    break;
-                case (i === "true" ? "ArrowDown" : "ArrowRight"):
-                    this.onArrow(!1);
-                    break;
-                case "Home":
-                    this.onStartEnd();
-                    break;
-                case "End":
-                    this.onStartEnd(!1);
-                    break
+            switch (e.preventDefault(),
+            e.code) {
+            case (i === "true" ? "ArrowUp" : "ArrowLeft"):
+                this.onArrow();
+                break;
+            case (i === "true" ? "ArrowDown" : "ArrowRight"):
+                this.onArrow(!1);
+                break;
+            case "Home":
+                this.onStartEnd();
+                break;
+            case "End":
+                this.onStartEnd(!1);
+                break
             }
         }
     }
-    static onArrow(e = !0) {
-        const t = document.querySelector("[data-hs-tab]:focus").closest('[role="tablist"]'),
-            i = window.$hsTabsCollection.find(n => n.element.el === t);
+    static onArrow(e=!0) {
+        const t = document.querySelector("[data-hs-tab]:focus").closest('[role="tablist"]')
+          , i = window.$hsTabsCollection.find(n => n.element.el === t);
         if (i) {
-            const n = e ? Array.from(i.element.toggles).reverse() : Array.from(i.element.toggles),
-                s = n.find(r => document.activeElement === r);
+            const n = e ? Array.from(i.element.toggles).reverse() : Array.from(i.element.toggles)
+              , s = n.find(r => document.activeElement === r);
             let o = n.findIndex(r => r === s);
-            o = o + 1 < n.length ? o + 1 : 0, n[o].focus(), n[o].click()
+            o = o + 1 < n.length ? o + 1 : 0,
+            n[o].focus(),
+            n[o].click()
         }
     }
-    static onStartEnd(e = !0) {
-        const t = document.querySelector("[data-hs-tab]:focus").closest('[role="tablist"]'),
-            i = window.$hsTabsCollection.find(n => n.element.el === t);
+    static onStartEnd(e=!0) {
+        const t = document.querySelector("[data-hs-tab]:focus").closest('[role="tablist"]')
+          , i = window.$hsTabsCollection.find(n => n.element.el === t);
         if (i) {
             const n = e ? Array.from(i.element.toggles) : Array.from(i.element.toggles).reverse();
-            n.length && (n[0].focus(), n[0].click())
+            n.length && (n[0].focus(),
+            n[0].click())
         }
     }
     static on(e, t, i) {
@@ -5015,7 +6657,8 @@ class ye extends I {
 }
 window.addEventListener("load", () => {
     ye.autoInit()
-});
+}
+);
 typeof window < "u" && (window.HSTabs = ye);
 /*
  * HSTextareaAutoHeight
@@ -5027,23 +6670,29 @@ typeof window < "u" && (window.HSTabs = ye);
 class We extends I {
     constructor(e, t) {
         super(e, t);
-        const i = e.getAttribute("data-hs-copy-markup"),
-            s = { ...i ? JSON.parse(i) : {},
-                ...t
-            };
-        this.defaultHeight = (s == null ? void 0 : s.defaultHeight) || 0, this.init()
+        const i = e.getAttribute("data-hs-copy-markup")
+          , s = {
+            ...i ? JSON.parse(i) : {},
+            ...t
+        };
+        this.defaultHeight = (s == null ? void 0 : s.defaultHeight) || 0,
+        this.init()
     }
     elementInput() {
         this.textareaSetHeight(3)
     }
     init() {
-        this.createCollection(window.$hsTextareaAutoHeightCollection, this), this.setAutoHeight()
+        this.createCollection(window.$hsTextareaAutoHeightCollection, this),
+        this.setAutoHeight()
     }
     setAutoHeight() {
-        this.isParentHidden() ? this.callbackAccordingToType() : this.textareaSetHeight(3), this.onElementInputListener = () => this.elementInput(), this.el.addEventListener("input", this.onElementInputListener)
+        this.isParentHidden() ? this.callbackAccordingToType() : this.textareaSetHeight(3),
+        this.onElementInputListener = () => this.elementInput(),
+        this.el.addEventListener("input", this.onElementInputListener)
     }
-    textareaSetHeight(e = 0) {
-        this.el.style.height = "auto", this.el.style.height = this.checkIfOneLine() && this.defaultHeight ? `${this.defaultHeight}px` : `${this.el.scrollHeight+e}px`
+    textareaSetHeight(e=0) {
+        this.el.style.height = "auto",
+        this.el.style.height = this.checkIfOneLine() && this.defaultHeight ? `${this.defaultHeight}px` : `${this.el.scrollHeight + e}px`
     }
     checkIfOneLine() {
         const e = this.el.clientHeight;
@@ -5058,65 +6707,69 @@ class We extends I {
     callbackAccordingToType() {
         var e;
         if (this.parentType() === "tabs") {
-            const t = (e = this.el.closest('[role="tabpanel"]')) == null ? void 0 : e.id,
-                n = document.querySelector(`[data-hs-tab="#${t}"]`).closest('[role="tablist"]'),
-                {
-                    element: s
-                } = window.HSTabs.getInstance(n, !0) || null;
+            const t = (e = this.el.closest('[role="tabpanel"]')) == null ? void 0 : e.id
+              , n = document.querySelector(`[data-hs-tab="#${t}"]`).closest('[role="tablist"]')
+              , {element: s} = window.HSTabs.getInstance(n, !0) || null;
             s.on("change", o => {
                 const r = document.querySelectorAll(`${o.current} [data-hs-textarea-auto-height]`);
-                if (!r.length) return !1;
+                if (!r.length)
+                    return !1;
                 r.forEach(a => {
                     const h = window.HSTextareaAutoHeight.getInstance(a, !0) || null;
                     h && h.element.textareaSetHeight(3)
-                })
-            })
+                }
+                )
+            }
+            )
         } else if (this.parentType() === "collapse") {
-            const t = this.el.closest(".hs-collapse").id,
-                {
-                    element: i
-                } = window.HSCollapse.getInstance(`[data-hs-collapse="#${t}"]`, !0);
+            const t = this.el.closest(".hs-collapse").id
+              , {element: i} = window.HSCollapse.getInstance(`[data-hs-collapse="#${t}"]`, !0);
             i.on("beforeOpen", () => {
-                if (!this.el) return !1;
+                if (!this.el)
+                    return !1;
                 this.textareaSetHeight(3)
-            })
+            }
+            )
         } else if (this.parentType() === "overlay") {
-            const {
-                element: t
-            } = window.HSOverlay.getInstance(this.el.closest(".hs-overlay"), !0);
+            const {element: t} = window.HSOverlay.getInstance(this.el.closest(".hs-overlay"), !0);
             t.on("open", () => {
-                if (!this.el) return !1;
+                if (!this.el)
+                    return !1;
                 this.textareaSetHeight(3)
-            })
-        } else return !1
+            }
+            )
+        } else
+            return !1
     }
     destroy() {
-        this.el.removeEventListener("input", this.onElementInputListener), window.$hsTextareaAutoHeightCollection = window.$hsTextareaAutoHeightCollection.filter(({
-            element: e
-        }) => e.el !== this.el)
+        this.el.removeEventListener("input", this.onElementInputListener),
+        window.$hsTextareaAutoHeightCollection = window.$hsTextareaAutoHeightCollection.filter( ({element: e}) => e.el !== this.el)
     }
     static getInstance(e, t) {
         const i = window.$hsTextareaAutoHeightCollection.find(n => n.element.el === (typeof e == "string" ? document.querySelector(e) : e));
         return i ? t ? i : i.element : null
     }
     static autoInit() {
-        window.$hsTextareaAutoHeightCollection || (window.$hsTextareaAutoHeightCollection = []), window.$hsTextareaAutoHeightCollection && (window.$hsTextareaAutoHeightCollection = window.$hsTextareaAutoHeightCollection.filter(({
-            element: e
-        }) => document.contains(e.el))), document.querySelectorAll("[data-hs-textarea-auto-height]:not(.--prevent-on-load-init)").forEach(e => {
+        window.$hsTextareaAutoHeightCollection || (window.$hsTextareaAutoHeightCollection = []),
+        window.$hsTextareaAutoHeightCollection && (window.$hsTextareaAutoHeightCollection = window.$hsTextareaAutoHeightCollection.filter( ({element: e}) => document.contains(e.el))),
+        document.querySelectorAll("[data-hs-textarea-auto-height]:not(.--prevent-on-load-init)").forEach(e => {
             if (!window.$hsTextareaAutoHeightCollection.find(t => {
-                    var i;
-                    return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
-                })) {
-                const t = e.getAttribute("data-hs-textarea-auto-height"),
-                    i = t ? JSON.parse(t) : {};
-                new We(e, i)
+                var i;
+                return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
             }
-        })
+            )) {
+                const t = e.getAttribute("data-hs-textarea-auto-height")
+                  , i = t ? JSON.parse(t) : {};
+                new We(e,i)
+            }
+        }
+        )
     }
 }
 window.addEventListener("load", () => {
     We.autoInit()
-});
+}
+);
 typeof window < "u" && (window.HSTextareaAutoHeight = We);
 /*
  * HSThemeSwitch
@@ -5128,39 +6781,54 @@ typeof window < "u" && (window.HSTextareaAutoHeight = We);
 class be extends I {
     constructor(e, t) {
         super(e, t);
-        const i = e.getAttribute("data-hs-theme-switch"),
-            s = { ...i ? JSON.parse(i) : {},
-                ...t
-            };
-        this.theme = (s == null ? void 0 : s.theme) || localStorage.getItem("hs_theme") || "default", this.type = (s == null ? void 0 : s.type) || "change", this.themeSet = ["light", "dark", "default"], this.init()
+        const i = e.getAttribute("data-hs-theme-switch")
+          , s = {
+            ...i ? JSON.parse(i) : {},
+            ...t
+        };
+        this.theme = (s == null ? void 0 : s.theme) || localStorage.getItem("hs_theme") || "default",
+        this.type = (s == null ? void 0 : s.type) || "change",
+        this.themeSet = ["light", "dark", "default"],
+        this.init()
     }
     elementChange(e) {
         const t = e.target.checked ? "dark" : "default";
-        this.setAppearance(t), this.toggleObserveSystemTheme()
+        this.setAppearance(t),
+        this.toggleObserveSystemTheme()
     }
     elementClick(e) {
-        this.setAppearance(e), this.toggleObserveSystemTheme()
+        this.setAppearance(e),
+        this.toggleObserveSystemTheme()
     }
     init() {
-        this.createCollection(window.$hsThemeSwitchCollection, this), this.theme !== "default" && this.setAppearance(), this.type === "click" ? this.buildSwitchTypeOfClick() : this.buildSwitchTypeOfChange()
+        this.createCollection(window.$hsThemeSwitchCollection, this),
+        this.theme !== "default" && this.setAppearance(),
+        this.type === "click" ? this.buildSwitchTypeOfClick() : this.buildSwitchTypeOfChange()
     }
     buildSwitchTypeOfChange() {
-        this.el.checked = this.theme === "dark", this.toggleObserveSystemTheme(), this.onElementChangeListener = e => this.elementChange(e), this.el.addEventListener("change", this.onElementChangeListener)
+        this.el.checked = this.theme === "dark",
+        this.toggleObserveSystemTheme(),
+        this.onElementChangeListener = e => this.elementChange(e),
+        this.el.addEventListener("change", this.onElementChangeListener)
     }
     buildSwitchTypeOfClick() {
         const e = this.el.getAttribute("data-hs-theme-click-value");
-        this.toggleObserveSystemTheme(), this.onElementClickListener = () => this.elementClick(e), this.el.addEventListener("click", this.onElementClickListener)
+        this.toggleObserveSystemTheme(),
+        this.onElementClickListener = () => this.elementClick(e),
+        this.el.addEventListener("click", this.onElementClickListener)
     }
     setResetStyles() {
         const e = document.createElement("style");
-        return e.innerText = "*{transition: unset !important;}", e.setAttribute("data-hs-appearance-onload-styles", ""), document.head.appendChild(e), e
+        return e.innerText = "*{transition: unset !important;}",
+        e.setAttribute("data-hs-appearance-onload-styles", ""),
+        document.head.appendChild(e),
+        e
     }
     addSystemThemeObserver() {
-        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({
-            matches: e
-        }) => {
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({matches: e}) => {
             e ? this.setAppearance("dark", !1) : this.setAppearance("default", !1)
-        })
+        }
+        )
     }
     removeSystemThemeObserver() {
         window.matchMedia("(prefers-color-scheme: dark)").removeEventListener
@@ -5168,50 +6836,63 @@ class be extends I {
     toggleObserveSystemTheme() {
         localStorage.getItem("hs_theme") === "auto" ? this.addSystemThemeObserver() : this.removeSystemThemeObserver()
     }
-    setAppearance(e = this.theme, t = !0, i = !0) {
-        const n = document.querySelector("html"),
-            s = this.setResetStyles();
-        t && localStorage.setItem("hs_theme", e), e === "auto" && (e = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "default"), n.classList.remove("light", "dark", "default", "auto"), n.classList.add(e), setTimeout(() => s.remove()), i && window.dispatchEvent(new CustomEvent("on-hs-appearance-change", {
+    setAppearance(e=this.theme, t=!0, i=!0) {
+        const n = document.querySelector("html")
+          , s = this.setResetStyles();
+        t && localStorage.setItem("hs_theme", e),
+        e === "auto" && (e = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "default"),
+        n.classList.remove("light", "dark", "default", "auto"),
+        n.classList.add(e),
+        setTimeout( () => s.remove()),
+        i && window.dispatchEvent(new CustomEvent("on-hs-appearance-change",{
             detail: e
         }))
     }
     destroy() {
-        this.type === "change" && this.el.removeEventListener("change", this.onElementChangeListener), this.type === "click" && this.el.removeEventListener("click", this.onElementClickListener), window.$hsThemeSwitchCollection = window.$hsThemeSwitchCollection.filter(({
-            element: e
-        }) => e.el !== this.el)
+        this.type === "change" && this.el.removeEventListener("change", this.onElementChangeListener),
+        this.type === "click" && this.el.removeEventListener("click", this.onElementClickListener),
+        window.$hsThemeSwitchCollection = window.$hsThemeSwitchCollection.filter( ({element: e}) => e.el !== this.el)
     }
     static getInstance(e, t) {
         const i = window.$hsThemeSwitchCollection.find(n => n.element.el === (typeof e == "string" ? document.querySelector(e) : e));
         return i ? t ? i : i.element.el : null
     }
     static autoInit() {
-        window.$hsThemeSwitchCollection || (window.$hsThemeSwitchCollection = []), window.$hsThemeSwitchCollection && (window.$hsThemeSwitchCollection = window.$hsThemeSwitchCollection.filter(({
-            element: e
-        }) => document.contains(e.el))), document.querySelectorAll("[data-hs-theme-switch]:not(.--prevent-on-load-init)").forEach(e => {
+        window.$hsThemeSwitchCollection || (window.$hsThemeSwitchCollection = []),
+        window.$hsThemeSwitchCollection && (window.$hsThemeSwitchCollection = window.$hsThemeSwitchCollection.filter( ({element: e}) => document.contains(e.el))),
+        document.querySelectorAll("[data-hs-theme-switch]:not(.--prevent-on-load-init)").forEach(e => {
             window.$hsThemeSwitchCollection.find(t => {
                 var i;
                 return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
-            }) || new be(e, {
+            }
+            ) || new be(e,{
                 type: "change"
             })
-        }), document.querySelectorAll("[data-hs-theme-click-value]:not(.--prevent-on-load-init)").forEach(e => {
+        }
+        ),
+        document.querySelectorAll("[data-hs-theme-click-value]:not(.--prevent-on-load-init)").forEach(e => {
             window.$hsThemeSwitchCollection.find(t => {
                 var i;
                 return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
-            }) || new be(e, {
+            }
+            ) || new be(e,{
                 type: "click"
             })
-        })
+        }
+        )
     }
 }
 window.addEventListener("load", () => {
     be.autoInit()
-});
+}
+);
 window.$hsThemeSwitchCollection && window.addEventListener("on-hs-appearance-change", l => {
     window.$hsThemeSwitchCollection.forEach(e => {
         e.element.el.checked = l.detail === "dark"
-    })
-});
+    }
+    )
+}
+);
 typeof window < "u" && (window.HSThemeSwitch = be);
 /*
  * HSToggleCount
@@ -5223,17 +6904,27 @@ typeof window < "u" && (window.HSThemeSwitch = be);
 class ze extends I {
     constructor(e, t) {
         super(e, t);
-        const i = e.getAttribute("data-hs-toggle-count"),
-            s = { ...i ? JSON.parse(i) : {},
-                ...t
-            };
-        this.target = s != null && s.target ? typeof(s == null ? void 0 : s.target) == "string" ? document.querySelector(s.target) : s.target : null, this.min = (s == null ? void 0 : s.min) || 0, this.max = (s == null ? void 0 : s.max) || 0, this.duration = (s == null ? void 0 : s.duration) || 700, this.isChecked = this.target.checked || !1, this.target && this.init()
+        const i = e.getAttribute("data-hs-toggle-count")
+          , s = {
+            ...i ? JSON.parse(i) : {},
+            ...t
+        };
+        this.target = s != null && s.target ? typeof (s == null ? void 0 : s.target) == "string" ? document.querySelector(s.target) : s.target : null,
+        this.min = (s == null ? void 0 : s.min) || 0,
+        this.max = (s == null ? void 0 : s.max) || 0,
+        this.duration = (s == null ? void 0 : s.duration) || 700,
+        this.isChecked = this.target.checked || !1,
+        this.target && this.init()
     }
     toggleChange() {
-        this.isChecked = !this.isChecked, this.toggle()
+        this.isChecked = !this.isChecked,
+        this.toggle()
     }
     init() {
-        this.createCollection(window.$hsToggleCountCollection, this), this.isChecked && (this.el.innerText = String(this.max)), this.onToggleChangeListener = () => this.toggleChange(), this.target.addEventListener("change", this.onToggleChangeListener)
+        this.createCollection(window.$hsToggleCountCollection, this),
+        this.isChecked && (this.el.innerText = String(this.max)),
+        this.onToggleChangeListener = () => this.toggleChange(),
+        this.target.addEventListener("change", this.onToggleChangeListener)
     }
     toggle() {
         this.isChecked ? this.countUp() : this.countDown()
@@ -5243,8 +6934,10 @@ class ze extends I {
         const n = s => {
             i || (i = s);
             const o = Math.min((s - i) / this.duration, 1);
-            this.el.innerText = String(Math.floor(o * (t - e) + e)), o < 1 && window.requestAnimationFrame(n)
-        };
+            this.el.innerText = String(Math.floor(o * (t - e) + e)),
+            o < 1 && window.requestAnimationFrame(n)
+        }
+        ;
         window.requestAnimationFrame(n)
     }
     countUp() {
@@ -5254,28 +6947,30 @@ class ze extends I {
         this.animate(this.max, this.min)
     }
     destroy() {
-        this.target.removeEventListener("change", this.onToggleChangeListener), window.$hsToggleCountCollection = window.$hsToggleCountCollection.filter(({
-            element: e
-        }) => e.el !== this.el)
+        this.target.removeEventListener("change", this.onToggleChangeListener),
+        window.$hsToggleCountCollection = window.$hsToggleCountCollection.filter( ({element: e}) => e.el !== this.el)
     }
     static getInstance(e, t) {
         const i = window.$hsToggleCountCollection.find(n => n.element.el === (typeof e == "string" ? document.querySelector(e) : e));
         return i ? t ? i : i.element : null
     }
     static autoInit() {
-        window.$hsToggleCountCollection || (window.$hsToggleCountCollection = []), window.$hsToggleCountCollection && (window.$hsToggleCountCollection = window.$hsToggleCountCollection.filter(({
-            element: e
-        }) => document.contains(e.el))), document.querySelectorAll("[data-hs-toggle-count]:not(.--prevent-on-load-init)").forEach(e => {
+        window.$hsToggleCountCollection || (window.$hsToggleCountCollection = []),
+        window.$hsToggleCountCollection && (window.$hsToggleCountCollection = window.$hsToggleCountCollection.filter( ({element: e}) => document.contains(e.el))),
+        document.querySelectorAll("[data-hs-toggle-count]:not(.--prevent-on-load-init)").forEach(e => {
             window.$hsToggleCountCollection.find(t => {
                 var i;
                 return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
-            }) || new ze(e)
-        })
+            }
+            ) || new ze(e)
+        }
+        )
     }
 }
 window.addEventListener("load", () => {
     ze.autoInit()
-});
+}
+);
 typeof window < "u" && (window.HSToggleCount = ze);
 /*
  * HSTogglePassword
@@ -5287,63 +6982,91 @@ typeof window < "u" && (window.HSToggleCount = ze);
 class Ce extends I {
     constructor(e, t) {
         super(e, t);
-        const i = e.getAttribute("data-hs-toggle-password"),
-            s = { ...i ? JSON.parse(i) : {},
-                ...t
-            },
-            o = [];
-        s != null && s.target && typeof(s == null ? void 0 : s.target) == "string" ? (s == null ? void 0 : s.target.split(",")).forEach(a => {
+        const i = e.getAttribute("data-hs-toggle-password")
+          , s = {
+            ...i ? JSON.parse(i) : {},
+            ...t
+        }
+          , o = [];
+        s != null && s.target && typeof (s == null ? void 0 : s.target) == "string" ? (s == null ? void 0 : s.target.split(",")).forEach(a => {
             o.push(document.querySelector(a))
-        }) : s != null && s.target && typeof(s == null ? void 0 : s.target) == "object" ? s.target.forEach(r => o.push(document.querySelector(r))) : s.target.forEach(r => o.push(r)), this.target = o, this.isShown = this.el.hasAttribute("type") ? this.el.checked : !1, this.eventType = hi(this.el) ? "change" : "click", this.isMultiple = this.target.length > 1 && !!this.el.closest("[data-hs-toggle-password-group]"), this.target && this.init()
+        }
+        ) : s != null && s.target && typeof (s == null ? void 0 : s.target) == "object" ? s.target.forEach(r => o.push(document.querySelector(r))) : s.target.forEach(r => o.push(r)),
+        this.target = o,
+        this.isShown = this.el.hasAttribute("type") ? this.el.checked : !1,
+        this.eventType = hi(this.el) ? "change" : "click",
+        this.isMultiple = this.target.length > 1 && !!this.el.closest("[data-hs-toggle-password-group]"),
+        this.target && this.init()
     }
     elementAction() {
-        this.isShown ? this.hide() : this.show(), this.fireEvent("toggle", this.target), g("toggle.hs.toggle-select", this.el, this.target)
+        this.isShown ? this.hide() : this.show(),
+        this.fireEvent("toggle", this.target),
+        g("toggle.hs.toggle-select", this.el, this.target)
     }
     init() {
-        this.createCollection(window.$hsTogglePasswordCollection, this), this.isShown ? this.show() : this.hide(), this.onElementActionListener = () => this.elementAction(), this.el.addEventListener(this.eventType, this.onElementActionListener)
+        this.createCollection(window.$hsTogglePasswordCollection, this),
+        this.isShown ? this.show() : this.hide(),
+        this.onElementActionListener = () => this.elementAction(),
+        this.el.addEventListener(this.eventType, this.onElementActionListener)
     }
     getMultipleToggles() {
-        const t = this.el.closest("[data-hs-toggle-password-group]").querySelectorAll("[data-hs-toggle-password]"),
-            i = [];
+        const t = this.el.closest("[data-hs-toggle-password-group]").querySelectorAll("[data-hs-toggle-password]")
+          , i = [];
         return t.forEach(n => {
             i.push(Ce.getInstance(n))
-        }), i
+        }
+        ),
+        i
     }
     show() {
-        this.isMultiple ? (this.getMultipleToggles().forEach(t => t ? t.isShown = !0 : !1), this.el.closest("[data-hs-toggle-password-group]").classList.add("active")) : (this.isShown = !0, this.el.classList.add("active")), this.target.forEach(e => {
+        this.isMultiple ? (this.getMultipleToggles().forEach(t => t ? t.isShown = !0 : !1),
+        this.el.closest("[data-hs-toggle-password-group]").classList.add("active")) : (this.isShown = !0,
+        this.el.classList.add("active")),
+        this.target.forEach(e => {
             e.type = "text"
-        })
+        }
+        )
     }
     hide() {
-        this.isMultiple ? (this.getMultipleToggles().forEach(t => t ? t.isShown = !1 : !1), this.el.closest("[data-hs-toggle-password-group]").classList.remove("active")) : (this.isShown = !1, this.el.classList.remove("active")), this.target.forEach(e => {
+        this.isMultiple ? (this.getMultipleToggles().forEach(t => t ? t.isShown = !1 : !1),
+        this.el.closest("[data-hs-toggle-password-group]").classList.remove("active")) : (this.isShown = !1,
+        this.el.classList.remove("active")),
+        this.target.forEach(e => {
             e.type = "password"
-        })
+        }
+        )
     }
     destroy() {
-        this.isMultiple ? this.el.closest("[data-hs-toggle-password-group]").classList.remove("active") : this.el.classList.remove("active"), this.target.forEach(e => {
+        this.isMultiple ? this.el.closest("[data-hs-toggle-password-group]").classList.remove("active") : this.el.classList.remove("active"),
+        this.target.forEach(e => {
             e.type = "password"
-        }), this.el.removeEventListener(this.eventType, this.onElementActionListener), this.isShown = !1, window.$hsTogglePasswordCollection = window.$hsTogglePasswordCollection.filter(({
-            element: e
-        }) => e.el !== this.el)
+        }
+        ),
+        this.el.removeEventListener(this.eventType, this.onElementActionListener),
+        this.isShown = !1,
+        window.$hsTogglePasswordCollection = window.$hsTogglePasswordCollection.filter( ({element: e}) => e.el !== this.el)
     }
     static getInstance(e, t) {
         const i = window.$hsTogglePasswordCollection.find(n => n.element.el === (typeof e == "string" ? document.querySelector(e) : e));
         return i ? t ? i : i.element : null
     }
     static autoInit() {
-        window.$hsTogglePasswordCollection || (window.$hsTogglePasswordCollection = []), window.$hsTogglePasswordCollection && (window.$hsTogglePasswordCollection = window.$hsTogglePasswordCollection.filter(({
-            element: e
-        }) => document.contains(e.el))), document.querySelectorAll("[data-hs-toggle-password]:not(.--prevent-on-load-init)").forEach(e => {
+        window.$hsTogglePasswordCollection || (window.$hsTogglePasswordCollection = []),
+        window.$hsTogglePasswordCollection && (window.$hsTogglePasswordCollection = window.$hsTogglePasswordCollection.filter( ({element: e}) => document.contains(e.el))),
+        document.querySelectorAll("[data-hs-toggle-password]:not(.--prevent-on-load-init)").forEach(e => {
             window.$hsTogglePasswordCollection.find(t => {
                 var i;
                 return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
-            }) || new Ce(e)
-        })
+            }
+            ) || new Ce(e)
+        }
+        )
     }
 }
 window.addEventListener("load", () => {
     Ce.autoInit()
-});
+}
+);
 typeof window < "u" && (window.HSTogglePassword = Ce);
 /*
  * HSTooltip
@@ -5354,7 +7077,15 @@ typeof window < "u" && (window.HSTogglePassword = Ce);
  */
 class te extends I {
     constructor(e, t, i) {
-        super(e, t, i), this.el && (this.toggle = this.el.querySelector(".hs-tooltip-toggle") || this.el, this.content = this.el.querySelector(".hs-tooltip-content"), this.eventMode = L(this.el, "--trigger") || "hover", this.preventPopper = L(this.el, "--prevent-popper", "false"), this.placement = L(this.el, "--placement"), this.strategy = L(this.el, "--strategy"), this.scope = L(this.el, "--scope") || "parent"), this.el && this.toggle && this.content && this.init()
+        super(e, t, i),
+        this.el && (this.toggle = this.el.querySelector(".hs-tooltip-toggle") || this.el,
+        this.content = this.el.querySelector(".hs-tooltip-content"),
+        this.eventMode = L(this.el, "--trigger") || "hover",
+        this.preventPopper = L(this.el, "--prevent-popper", "false"),
+        this.placement = L(this.el, "--placement"),
+        this.strategy = L(this.el, "--strategy"),
+        this.scope = L(this.el, "--scope") || "parent"),
+        this.el && this.toggle && this.content && this.init()
     }
     toggleClick() {
         this.click()
@@ -5369,10 +7100,19 @@ class te extends I {
         this.leave()
     }
     toggleHandle() {
-        this.hide(), this.toggle.removeEventListener("click", this.onToggleHandleListener, !0), this.toggle.removeEventListener("blur", this.onToggleHandleListener, !0)
+        this.hide(),
+        this.toggle.removeEventListener("click", this.onToggleHandleListener, !0),
+        this.toggle.removeEventListener("blur", this.onToggleHandleListener, !0)
     }
     init() {
-        this.createCollection(window.$hsTooltipCollection, this), this.eventMode === "click" ? (this.onToggleClickListener = () => this.toggleClick(), this.toggle.addEventListener("click", this.onToggleClickListener)) : this.eventMode === "focus" ? (this.onToggleFocusListener = () => this.toggleFocus(), this.toggle.addEventListener("click", this.onToggleFocusListener)) : this.eventMode === "hover" && (this.onToggleMouseEnterListener = () => this.toggleMouseEnter(), this.onToggleMouseLeaveListener = () => this.toggleMouseLeave(), this.toggle.addEventListener("mouseenter", this.onToggleMouseEnterListener), this.toggle.addEventListener("mouseleave", this.onToggleMouseLeaveListener)), this.preventPopper === "false" && this.buildPopper()
+        this.createCollection(window.$hsTooltipCollection, this),
+        this.eventMode === "click" ? (this.onToggleClickListener = () => this.toggleClick(),
+        this.toggle.addEventListener("click", this.onToggleClickListener)) : this.eventMode === "focus" ? (this.onToggleFocusListener = () => this.toggleFocus(),
+        this.toggle.addEventListener("click", this.onToggleFocusListener)) : this.eventMode === "hover" && (this.onToggleMouseEnterListener = () => this.toggleMouseEnter(),
+        this.onToggleMouseLeaveListener = () => this.toggleMouseLeave(),
+        this.toggle.addEventListener("mouseenter", this.onToggleMouseEnterListener),
+        this.toggle.addEventListener("mouseleave", this.onToggleMouseLeaveListener)),
+        this.preventPopper === "false" && this.buildPopper()
     }
     enter() {
         this._show()
@@ -5381,20 +7121,28 @@ class te extends I {
         this.hide()
     }
     click() {
-        if (this.el.classList.contains("show")) return !1;
-        this._show(), this.onToggleHandleListener = () => {
-            setTimeout(() => this.toggleHandle())
-        }, this.toggle.addEventListener("click", this.onToggleHandleListener, !0), this.toggle.addEventListener("blur", this.onToggleHandleListener, !0)
+        if (this.el.classList.contains("show"))
+            return !1;
+        this._show(),
+        this.onToggleHandleListener = () => {
+            setTimeout( () => this.toggleHandle())
+        }
+        ,
+        this.toggle.addEventListener("click", this.onToggleHandleListener, !0),
+        this.toggle.addEventListener("blur", this.onToggleHandleListener, !0)
     }
     focus() {
         this._show();
         const e = () => {
-            this.hide(), this.toggle.removeEventListener("blur", e, !0)
-        };
+            this.hide(),
+            this.toggle.removeEventListener("blur", e, !0)
+        }
+        ;
         this.toggle.addEventListener("blur", e, !0)
     }
     buildPopper() {
-        this.scope === "window" && document.body.appendChild(this.content), this.popperInstance = ut(this.toggle, this.content, {
+        this.scope === "window" && document.body.appendChild(this.content),
+        this.popperInstance = ut(this.toggle, this.content, {
             placement: tt[this.placement] || "top",
             strategy: this.strategy || "fixed",
             modifiers: [{
@@ -5406,61 +7154,87 @@ class te extends I {
         })
     }
     _show() {
-        this.content.classList.remove("hidden"), this.scope === "window" && this.content.classList.add("show"), this.preventPopper === "false" && (this.popperInstance.setOptions(e => ({ ...e,
+        this.content.classList.remove("hidden"),
+        this.scope === "window" && this.content.classList.add("show"),
+        this.preventPopper === "false" && (this.popperInstance.setOptions(e => ({
+            ...e,
             modifiers: [...e.modifiers, {
                 name: "eventListeners",
                 enabled: !0
             }]
-        })), this.popperInstance.update()), setTimeout(() => {
-            this.el.classList.add("show"), this.fireEvent("show", this.el), g("show.hs.tooltip", this.el, this.el)
-        })
+        })),
+        this.popperInstance.update()),
+        setTimeout( () => {
+            this.el.classList.add("show"),
+            this.fireEvent("show", this.el),
+            g("show.hs.tooltip", this.el, this.el)
+        }
+        )
     }
     show() {
         switch (this.eventMode) {
-            case "click":
-                this.click();
-                break;
-            case "focus":
-                this.focus();
-                break;
-            default:
-                this.enter();
-                break
+        case "click":
+            this.click();
+            break;
+        case "focus":
+            this.focus();
+            break;
+        default:
+            this.enter();
+            break
         }
-        this.toggle.focus(), this.toggle.style.outline = "none"
+        this.toggle.focus(),
+        this.toggle.style.outline = "none"
     }
     hide() {
-        this.el.classList.remove("show"), this.scope === "window" && this.content.classList.remove("show"), this.preventPopper === "false" && this.popperInstance.setOptions(e => ({ ...e,
+        this.el.classList.remove("show"),
+        this.scope === "window" && this.content.classList.remove("show"),
+        this.preventPopper === "false" && this.popperInstance.setOptions(e => ({
+            ...e,
             modifiers: [...e.modifiers, {
                 name: "eventListeners",
                 enabled: !1
             }]
-        })), this.fireEvent("hide", this.el), g("hide.hs.tooltip", this.el, this.el), z(this.content, () => {
-            if (this.el.classList.contains("show")) return !1;
-            this.content.classList.add("hidden"), this.toggle.style.outline = ""
-        })
+        })),
+        this.fireEvent("hide", this.el),
+        g("hide.hs.tooltip", this.el, this.el),
+        z(this.content, () => {
+            if (this.el.classList.contains("show"))
+                return !1;
+            this.content.classList.add("hidden"),
+            this.toggle.style.outline = ""
+        }
+        )
     }
     destroy() {
-        this.el.classList.remove("show"), this.content.classList.add("hidden"), this.eventMode === "click" ? this.toggle.removeEventListener("click", this.onToggleClickListener) : this.eventMode === "focus" ? this.toggle.removeEventListener("click", this.onToggleFocusListener) : this.eventMode === "hover" && (this.toggle.removeEventListener("mouseenter", this.onToggleMouseEnterListener), this.toggle.removeEventListener("mouseleave", this.onToggleMouseLeaveListener)), this.toggle.removeEventListener("click", this.onToggleHandleListener, !0), this.toggle.removeEventListener("blur", this.onToggleHandleListener, !0), this.popperInstance.destroy(), this.popperInstance = null, window.$hsTooltipCollection = window.$hsTooltipCollection.filter(({
-            element: e
-        }) => e.el !== this.el)
+        this.el.classList.remove("show"),
+        this.content.classList.add("hidden"),
+        this.eventMode === "click" ? this.toggle.removeEventListener("click", this.onToggleClickListener) : this.eventMode === "focus" ? this.toggle.removeEventListener("click", this.onToggleFocusListener) : this.eventMode === "hover" && (this.toggle.removeEventListener("mouseenter", this.onToggleMouseEnterListener),
+        this.toggle.removeEventListener("mouseleave", this.onToggleMouseLeaveListener)),
+        this.toggle.removeEventListener("click", this.onToggleHandleListener, !0),
+        this.toggle.removeEventListener("blur", this.onToggleHandleListener, !0),
+        this.popperInstance.destroy(),
+        this.popperInstance = null,
+        window.$hsTooltipCollection = window.$hsTooltipCollection.filter( ({element: e}) => e.el !== this.el)
     }
     static findInCollection(e) {
         return window.$hsTooltipCollection.find(t => e instanceof te ? t.element.el === e.el : typeof e == "string" ? t.element.el === document.querySelector(e) : t.element.el === e) || null
     }
-    static getInstance(e, t = !1) {
+    static getInstance(e, t=!1) {
         const i = window.$hsTooltipCollection.find(n => n.element.el === (typeof e == "string" ? document.querySelector(e) : e));
         return i ? t ? i : i.element.el : null
     }
     static autoInit() {
-        window.$hsTooltipCollection || (window.$hsTooltipCollection = []), window.$hsTooltipCollection && (window.$hsTooltipCollection = window.$hsTooltipCollection.filter(({
-            element: e
-        }) => document.contains(e.el))), document.querySelectorAll(".hs-tooltip:not(.--prevent-on-load-init)").forEach(e => {
+        window.$hsTooltipCollection || (window.$hsTooltipCollection = []),
+        window.$hsTooltipCollection && (window.$hsTooltipCollection = window.$hsTooltipCollection.filter( ({element: e}) => document.contains(e.el))),
+        document.querySelectorAll(".hs-tooltip:not(.--prevent-on-load-init)").forEach(e => {
             window.$hsTooltipCollection.find(t => {
                 var i;
                 return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
-            }) || new te(e)
-        })
+            }
+            ) || new te(e)
+        }
+        )
     }
     static show(e) {
         const t = te.findInCollection(e);
@@ -5477,7 +7251,8 @@ class te extends I {
 }
 window.addEventListener("load", () => {
     te.autoInit()
-});
+}
+);
 typeof window < "u" && (window.HSTooltip = te);
 /*
  * HSTreeView
@@ -5488,53 +7263,74 @@ typeof window < "u" && (window.HSTooltip = te);
  */
 const Y = class Y extends I {
     constructor(e, t, i) {
-        super(e, t, i), this.items = [];
-        const n = e.getAttribute("data-hs-tree-view"),
-            o = { ...n ? JSON.parse(n) : {},
-                ...t
-            };
-        this.controlBy = (o == null ? void 0 : o.controlBy) || "button", this.autoSelectChildren = (o == null ? void 0 : o.autoSelectChildren) || !1, this.isIndeterminate = (o == null ? void 0 : o.isIndeterminate) || !0, this.onElementClickListener = [], this.onControlChangeListener = [], this.init()
+        super(e, t, i),
+        this.items = [];
+        const n = e.getAttribute("data-hs-tree-view")
+          , o = {
+            ...n ? JSON.parse(n) : {},
+            ...t
+        };
+        this.controlBy = (o == null ? void 0 : o.controlBy) || "button",
+        this.autoSelectChildren = (o == null ? void 0 : o.autoSelectChildren) || !1,
+        this.isIndeterminate = (o == null ? void 0 : o.isIndeterminate) || !0,
+        this.onElementClickListener = [],
+        this.onControlChangeListener = [],
+        this.init()
     }
     elementClick(e, t, i) {
-        if (e.stopPropagation(), t.classList.contains("disabled")) return !1;
-        !e.metaKey && !e.shiftKey && this.unselectItem(i), this.selectItem(t, i), this.fireEvent("click", {
+        if (e.stopPropagation(),
+        t.classList.contains("disabled"))
+            return !1;
+        !e.metaKey && !e.shiftKey && this.unselectItem(i),
+        this.selectItem(t, i),
+        this.fireEvent("click", {
             el: t,
             data: i
-        }), g("click.hs.treeView", this.el, {
+        }),
+        g("click.hs.treeView", this.el, {
             el: t,
             data: i
         })
     }
     controlChange(e, t) {
-        this.autoSelectChildren ? (this.selectItem(e, t), t.isDir && this.selectChildren(e, t), this.toggleParent(e)) : this.selectItem(e, t)
+        this.autoSelectChildren ? (this.selectItem(e, t),
+        t.isDir && this.selectChildren(e, t),
+        this.toggleParent(e)) : this.selectItem(e, t)
     }
     init() {
-        this.createCollection(window.$hsTreeViewCollection, this), Y.group += 1, this.initItems()
+        this.createCollection(window.$hsTreeViewCollection, this),
+        Y.group += 1,
+        this.initItems()
     }
     initItems() {
-        this.el.querySelectorAll("[data-hs-tree-view-item]").forEach((e, t) => {
+        this.el.querySelectorAll("[data-hs-tree-view-item]").forEach( (e, t) => {
             const i = JSON.parse(e.getAttribute("data-hs-tree-view-item"));
             e.id || (e.id = `tree-view-item-${Y.group}-${t}`);
-            const n = { ...i,
-                id: i.id ? ? e.id,
+            const n = {
+                ...i,
+                id: i.id ?? e.id,
                 path: this.getPath(e),
-                isSelected: i.isSelected ? ? !1
+                isSelected: i.isSelected ?? !1
             };
-            this.items.push(n), this.controlBy === "checkbox" ? this.controlByCheckbox(e, n) : this.controlByButton(e, n)
-        })
+            this.items.push(n),
+            this.controlBy === "checkbox" ? this.controlByCheckbox(e, n) : this.controlByButton(e, n)
+        }
+        )
     }
     controlByButton(e, t) {
         this.onElementClickListener.push({
             el: e,
             fn: i => this.elementClick(i, e, t)
-        }), e.addEventListener("click", this.onElementClickListener.find(i => i.el === e).fn)
+        }),
+        e.addEventListener("click", this.onElementClickListener.find(i => i.el === e).fn)
     }
     controlByCheckbox(e, t) {
         const i = e.querySelector(`input[value="${t.value}"]`);
         i && (this.onControlChangeListener.push({
             el: i,
             fn: () => this.controlChange(e, t)
-        }), i.addEventListener("change", this.onControlChangeListener.find(n => n.el === i).fn))
+        }),
+        i.addEventListener("change", this.onControlChangeListener.find(n => n.el === i).fn))
     }
     getItem(e) {
         return this.items.find(t => t.id === e)
@@ -5543,73 +7339,95 @@ const Y = class Y extends I {
         var n;
         const t = [];
         let i = e.closest("[data-hs-tree-view-item]");
-        for (; i;) {
+        for (; i; ) {
             const s = JSON.parse(i.getAttribute("data-hs-tree-view-item"));
-            t.push(s.value), i = (n = i.parentElement) == null ? void 0 : n.closest("[data-hs-tree-view-item]")
+            t.push(s.value),
+            i = (n = i.parentElement) == null ? void 0 : n.closest("[data-hs-tree-view-item]")
         }
         return t.reverse().join("/")
     }
-    unselectItem(e = null) {
+    unselectItem(e=null) {
         let t = this.getSelectedItems();
-        e && (t = t.filter(i => i.id !== e.id)), t.length && t.forEach(i => {
-            document.querySelector(`#${i.id}`).classList.remove("selected"), this.changeItemProp(i.id, "isSelected", !1)
-        })
+        e && (t = t.filter(i => i.id !== e.id)),
+        t.length && t.forEach(i => {
+            document.querySelector(`#${i.id}`).classList.remove("selected"),
+            this.changeItemProp(i.id, "isSelected", !1)
+        }
+        )
     }
     selectItem(e, t) {
-        t.isSelected ? (e.classList.remove("selected"), this.changeItemProp(t.id, "isSelected", !1)) : (e.classList.add("selected"), this.changeItemProp(t.id, "isSelected", !0))
+        t.isSelected ? (e.classList.remove("selected"),
+        this.changeItemProp(t.id, "isSelected", !1)) : (e.classList.add("selected"),
+        this.changeItemProp(t.id, "isSelected", !0))
     }
     selectChildren(e, t) {
         const i = e.querySelectorAll("[data-hs-tree-view-item]");
         Array.from(i).filter(n => !n.classList.contains("disabled")).forEach(n => {
             const s = n.id ? this.getItem(n.id) : null;
-            if (!s) return !1;
-            t.isSelected ? (n.classList.add("selected"), this.changeItemProp(s.id, "isSelected", !0)) : (n.classList.remove("selected"), this.changeItemProp(s.id, "isSelected", !1));
-            const o = this.getItem(n.id),
-                r = n.querySelector(`input[value="${o.value}"]`);
-            this.isIndeterminate && (r.indeterminate = !1), o.isSelected ? r.checked = !0 : r.checked = !1
-        })
+            if (!s)
+                return !1;
+            t.isSelected ? (n.classList.add("selected"),
+            this.changeItemProp(s.id, "isSelected", !0)) : (n.classList.remove("selected"),
+            this.changeItemProp(s.id, "isSelected", !1));
+            const o = this.getItem(n.id)
+              , r = n.querySelector(`input[value="${o.value}"]`);
+            this.isIndeterminate && (r.indeterminate = !1),
+            o.isSelected ? r.checked = !0 : r.checked = !1
+        }
+        )
     }
     toggleParent(e) {
         var i, n;
         let t = (i = e.parentElement) == null ? void 0 : i.closest("[data-hs-tree-view-item]");
-        for (; t;) {
-            const s = t.querySelectorAll("[data-hs-tree-view-item]:not(.disabled)"),
-                o = JSON.parse(t.getAttribute("data-hs-tree-view-item")),
-                r = t.querySelector(`input[value="${o.value}"]`);
-            let a = !1,
-                h = 0;
+        for (; t; ) {
+            const s = t.querySelectorAll("[data-hs-tree-view-item]:not(.disabled)")
+              , o = JSON.parse(t.getAttribute("data-hs-tree-view-item"))
+              , r = t.querySelector(`input[value="${o.value}"]`);
+            let a = !1
+              , h = 0;
             s.forEach(c => {
                 const d = this.getItem(c.id);
-                d.isSelected && (h += 1), d.isSelected || (a = !0)
-            }), a ? (t.classList.remove("selected"), this.changeItemProp(t.id, "isSelected", !1), r.checked = !1) : (t.classList.add("selected"), this.changeItemProp(t.id, "isSelected", !0), r.checked = !0), this.isIndeterminate && (h > 0 && h < s.length ? r.indeterminate = !0 : r.indeterminate = !1), t = (n = t.parentElement) == null ? void 0 : n.closest("[data-hs-tree-view-item]")
+                d.isSelected && (h += 1),
+                d.isSelected || (a = !0)
+            }
+            ),
+            a ? (t.classList.remove("selected"),
+            this.changeItemProp(t.id, "isSelected", !1),
+            r.checked = !1) : (t.classList.add("selected"),
+            this.changeItemProp(t.id, "isSelected", !0),
+            r.checked = !0),
+            this.isIndeterminate && (h > 0 && h < s.length ? r.indeterminate = !0 : r.indeterminate = !1),
+            t = (n = t.parentElement) == null ? void 0 : n.closest("[data-hs-tree-view-item]")
         }
     }
     update() {
         this.items.map(e => {
             const t = document.querySelector(`#${e.id}`);
-            return e.path !== this.getPath(t) && (e.path = this.getPath(t)), e
-        })
+            return e.path !== this.getPath(t) && (e.path = this.getPath(t)),
+            e
+        }
+        )
     }
     getSelectedItems() {
         return this.items.filter(e => e.isSelected)
     }
     changeItemProp(e, t, i) {
-        this.items.map(n => (n.id === e && (n[t] = i), n))
+        this.items.map(n => (n.id === e && (n[t] = i),
+        n))
     }
     destroy() {
-        this.onElementClickListener.forEach(({
-            el: e,
-            fn: t
-        }) => {
+        this.onElementClickListener.forEach( ({el: e, fn: t}) => {
             e.removeEventListener("click", t)
-        }), this.onControlChangeListener.length && this.onElementClickListener.forEach(({
-            el: e,
-            fn: t
-        }) => {
+        }
+        ),
+        this.onControlChangeListener.length && this.onElementClickListener.forEach( ({el: e, fn: t}) => {
             e.removeEventListener("change", t)
-        }), this.unselectItem(), this.items = [], window.$hsTreeViewCollection = window.$hsTreeViewCollection.filter(({
-            element: e
-        }) => e.el !== this.el), Y.group -= 1
+        }
+        ),
+        this.unselectItem(),
+        this.items = [],
+        window.$hsTreeViewCollection = window.$hsTreeViewCollection.filter( ({element: e}) => e.el !== this.el),
+        Y.group -= 1
     }
     static findInCollection(e) {
         return window.$hsTreeViewCollection.find(t => e instanceof Y ? t.element.el === e.el : typeof e == "string" ? t.element.el === document.querySelector(e) : t.element.el === e) || null
@@ -5619,25 +7437,30 @@ const Y = class Y extends I {
         return i ? t ? i : i.element.el : null
     }
     static autoInit() {
-        window.$hsTreeViewCollection || (window.$hsTreeViewCollection = []), window.$hsTreeViewCollection && (window.$hsTreeViewCollection = window.$hsTreeViewCollection.filter(({
-            element: e
-        }) => document.contains(e.el))), document.querySelectorAll("[data-hs-tree-view]:not(.--prevent-on-load-init)").forEach(e => {
+        window.$hsTreeViewCollection || (window.$hsTreeViewCollection = []),
+        window.$hsTreeViewCollection && (window.$hsTreeViewCollection = window.$hsTreeViewCollection.filter( ({element: e}) => document.contains(e.el))),
+        document.querySelectorAll("[data-hs-tree-view]:not(.--prevent-on-load-init)").forEach(e => {
             window.$hsTreeViewCollection.find(t => {
                 var i;
                 return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
-            }) || new Y(e)
-        })
+            }
+            ) || new Y(e)
+        }
+        )
     }
     static on(e, t, i) {
         const n = Y.findInCollection(t);
-        console.log(1), n && (n.element.events[e] = i)
+        console.log(1),
+        n && (n.element.events[e] = i)
     }
-};
+}
+;
 Y.group = 0;
 let Pe = Y;
 window.addEventListener("load", () => {
     Pe.autoInit()
-});
+}
+);
 typeof window < "u" && (window.HSTreeView = Pe);
 /*
  * HSDataTable
@@ -5649,16 +7472,18 @@ typeof window < "u" && (window.HSTreeView = Pe);
 class Ue extends I {
     constructor(e, t, i) {
         var r, a, h, c, d, u, p, w, v, m, b;
-        super(e, t, i), this.el = typeof e == "string" ? document.querySelector(e) : e;
+        super(e, t, i),
+        this.el = typeof e == "string" ? document.querySelector(e) : e;
         const n = [];
-        Array.from(this.el.querySelectorAll("thead th, thead td")).forEach((x, E) => {
+        Array.from(this.el.querySelectorAll("thead th, thead td")).forEach( (x, E) => {
             x.classList.contains("--exclude-from-ordering") && n.push({
                 targets: E,
                 orderable: !1
             })
-        });
-        const s = this.el.getAttribute("data-hs-datatable"),
-            o = s ? JSON.parse(s) : {};
+        }
+        );
+        const s = this.el.getAttribute("data-hs-datatable")
+          , o = s ? JSON.parse(s) : {};
         this.concatOptions = {
             searching: !0,
             lengthChange: !1,
@@ -5666,15 +7491,50 @@ class Ue extends I {
             columnDefs: [...n],
             ...o,
             ...t
-        }, this.table = this.el.querySelector("table"), this.searches = Array.from(this.el.querySelectorAll("[data-hs-datatable-search]")) ? ? null, this.pageEntitiesList = Array.from(this.el.querySelectorAll("[data-hs-datatable-page-entities]")) ? ? null, this.pagingList = Array.from(this.el.querySelectorAll("[data-hs-datatable-paging]")) ? ? null, this.pagingPagesList = Array.from(this.el.querySelectorAll("[data-hs-datatable-paging-pages]")) ? ? null, this.pagingPrevList = Array.from(this.el.querySelectorAll("[data-hs-datatable-paging-prev]")) ? ? null, this.pagingNextList = Array.from(this.el.querySelectorAll("[data-hs-datatable-paging-next]")) ? ? null, this.infoList = Array.from(this.el.querySelectorAll("[data-hs-datatable-info]")) ? ? null, (r = this.concatOptions) != null && r.rowSelectingOptions && (this.rowSelectingAll = ((h = (a = this.concatOptions) == null ? void 0 : a.rowSelectingOptions) != null && h.selectAllSelector ? document.querySelector((d = (c = this.concatOptions) == null ? void 0 : c.rowSelectingOptions) == null ? void 0 : d.selectAllSelector) : document.querySelector("[data-hs-datatable-row-selecting-all]")) ? ? null), (u = this.concatOptions) != null && u.rowSelectingOptions && (this.rowSelectingIndividual = ((w = (p = this.concatOptions) == null ? void 0 : p.rowSelectingOptions) == null ? void 0 : w.individualSelector) ? ? "[data-hs-datatable-row-selecting-individual]" ? ? null), this.pageEntitiesList.length && (this.concatOptions.pageLength = parseInt(this.pageEntitiesList[0].value)), this.maxPagesToShow = 3, this.isRowSelecting = !!((v = this.concatOptions) != null && v.rowSelectingOptions), this.pageBtnClasses = ((b = (m = this.concatOptions) == null ? void 0 : m.pagingOptions) == null ? void 0 : b.pageBtnClasses) ? ? null, this.onSearchInputListener = [], this.onPageEntitiesChangeListener = [], this.onSinglePagingClickListener = [], this.onPagingPrevClickListener = [], this.onPagingNextClickListener = [], this.init()
+        },
+        this.table = this.el.querySelector("table"),
+        this.searches = Array.from(this.el.querySelectorAll("[data-hs-datatable-search]")) ?? null,
+        this.pageEntitiesList = Array.from(this.el.querySelectorAll("[data-hs-datatable-page-entities]")) ?? null,
+        this.pagingList = Array.from(this.el.querySelectorAll("[data-hs-datatable-paging]")) ?? null,
+        this.pagingPagesList = Array.from(this.el.querySelectorAll("[data-hs-datatable-paging-pages]")) ?? null,
+        this.pagingPrevList = Array.from(this.el.querySelectorAll("[data-hs-datatable-paging-prev]")) ?? null,
+        this.pagingNextList = Array.from(this.el.querySelectorAll("[data-hs-datatable-paging-next]")) ?? null,
+        this.infoList = Array.from(this.el.querySelectorAll("[data-hs-datatable-info]")) ?? null,
+        (r = this.concatOptions) != null && r.rowSelectingOptions && (this.rowSelectingAll = ((h = (a = this.concatOptions) == null ? void 0 : a.rowSelectingOptions) != null && h.selectAllSelector ? document.querySelector((d = (c = this.concatOptions) == null ? void 0 : c.rowSelectingOptions) == null ? void 0 : d.selectAllSelector) : document.querySelector("[data-hs-datatable-row-selecting-all]")) ?? null),
+        (u = this.concatOptions) != null && u.rowSelectingOptions && (this.rowSelectingIndividual = ((w = (p = this.concatOptions) == null ? void 0 : p.rowSelectingOptions) == null ? void 0 : w.individualSelector) ?? "[data-hs-datatable-row-selecting-individual]" ?? null),
+        this.pageEntitiesList.length && (this.concatOptions.pageLength = parseInt(this.pageEntitiesList[0].value)),
+        this.maxPagesToShow = 3,
+        this.isRowSelecting = !!((v = this.concatOptions) != null && v.rowSelectingOptions),
+        this.pageBtnClasses = ((b = (m = this.concatOptions) == null ? void 0 : m.pagingOptions) == null ? void 0 : b.pageBtnClasses) ?? null,
+        this.onSearchInputListener = [],
+        this.onPageEntitiesChangeListener = [],
+        this.onSinglePagingClickListener = [],
+        this.onPagingPrevClickListener = [],
+        this.onPagingNextClickListener = [],
+        this.init()
     }
     init() {
-        this.createCollection(window.$hsDataTableCollection, this), this.initTable(), this.searches.length && this.initSearch(), this.pageEntitiesList.length && this.initPageEntities(), this.pagingList.length && this.initPaging(), this.pagingPagesList.length && this.buildPagingPages(), this.pagingPrevList.length && this.initPagingPrev(), this.pagingNextList.length && this.initPagingNext(), this.infoList.length && this.initInfo(), this.isRowSelecting && this.initRowSelecting()
+        this.createCollection(window.$hsDataTableCollection, this),
+        this.initTable(),
+        this.searches.length && this.initSearch(),
+        this.pageEntitiesList.length && this.initPageEntities(),
+        this.pagingList.length && this.initPaging(),
+        this.pagingPagesList.length && this.buildPagingPages(),
+        this.pagingPrevList.length && this.initPagingPrev(),
+        this.pagingNextList.length && this.initPagingNext(),
+        this.infoList.length && this.initInfo(),
+        this.isRowSelecting && this.initRowSelecting()
     }
     initTable() {
-        this.dataTable = new DataTable(this.table, this.concatOptions), this.isRowSelecting && this.triggerChangeEventToRow(), this.dataTable.on("draw", () => {
-            this.isRowSelecting && this.updateSelectAllCheckbox(), this.isRowSelecting && this.triggerChangeEventToRow(), this.updateInfo(), this.pagingPagesList.forEach(e => this.updatePaging(e))
-        })
+        this.dataTable = new DataTable(this.table,this.concatOptions),
+        this.isRowSelecting && this.triggerChangeEventToRow(),
+        this.dataTable.on("draw", () => {
+            this.isRowSelecting && this.updateSelectAllCheckbox(),
+            this.isRowSelecting && this.triggerChangeEventToRow(),
+            this.updateInfo(),
+            this.pagingPagesList.forEach(e => this.updatePaging(e))
+        }
+        )
     }
     searchInput(e) {
         this.onSearchInput(e.target.value)
@@ -5699,8 +7559,10 @@ class Ue extends I {
             this.onSearchInputListener.push({
                 el: e,
                 fn: ke(t => this.searchInput(t))
-            }), e.addEventListener("input", this.onSearchInputListener.find(t => t.el === e).fn)
-        })
+            }),
+            e.addEventListener("input", this.onSearchInputListener.find(t => t.el === e).fn)
+        }
+        )
     }
     onSearchInput(e) {
         this.dataTable.search(e).draw()
@@ -5710,8 +7572,10 @@ class Ue extends I {
             this.onPageEntitiesChangeListener.push({
                 el: e,
                 fn: t => this.pageEntitiesChange(t)
-            }), e.addEventListener("change", this.onPageEntitiesChangeListener.find(t => t.el === e).fn)
-        })
+            }),
+            e.addEventListener("change", this.onPageEntitiesChangeListener.find(t => t.el === e).fn)
+        }
+        )
     }
     onEntitiesChange(e, t) {
         const i = this.pageEntitiesList.filter(n => n !== t);
@@ -5719,33 +7583,33 @@ class Ue extends I {
             if (window.HSSelect) {
                 const s = window.HSSelect.getInstance(n, !0);
                 s && s.element.setValue(`${e}`)
-            } else n.value = `${e}`
-        }), this.dataTable.page.len(e).draw()
+            } else
+                n.value = `${e}`
+        }
+        ),
+        this.dataTable.page.len(e).draw()
     }
     initInfo() {
         this.infoList.forEach(e => {
-            this.initInfoFrom(e), this.initInfoTo(e), this.initInfoLength(e)
-        })
+            this.initInfoFrom(e),
+            this.initInfoTo(e),
+            this.initInfoLength(e)
+        }
+        )
     }
     initInfoFrom(e) {
-        const t = e.querySelector("[data-hs-datatable-info-from]") ? ? null,
-            {
-                start: i
-            } = this.dataTable.page.info();
-        t && (t.innerText = `${i+1}`)
+        const t = e.querySelector("[data-hs-datatable-info-from]") ?? null
+          , {start: i} = this.dataTable.page.info();
+        t && (t.innerText = `${i + 1}`)
     }
     initInfoTo(e) {
-        const t = e.querySelector("[data-hs-datatable-info-to]") ? ? null,
-            {
-                end: i
-            } = this.dataTable.page.info();
+        const t = e.querySelector("[data-hs-datatable-info-to]") ?? null
+          , {end: i} = this.dataTable.page.info();
         t && (t.innerText = `${i}`)
     }
     initInfoLength(e) {
-        const t = e.querySelector("[data-hs-datatable-info-length]") ? ? null,
-            {
-                recordsTotal: i
-            } = this.dataTable.page.info();
+        const t = e.querySelector("[data-hs-datatable-info-length]") ?? null
+          , {recordsTotal: i} = this.dataTable.page.info();
         t && (t.innerText = `${i}`)
     }
     updateInfo() {
@@ -5755,32 +7619,38 @@ class Ue extends I {
         this.pagingList.forEach(e => this.hidePagingIfSinglePage(e))
     }
     hidePagingIfSinglePage(e) {
-        const {
-            pages: t
-        } = this.dataTable.page.info();
-        t < 2 ? (e.classList.add("hidden"), e.style.display = "none") : (e.classList.remove("hidden"), e.style.display = "")
+        const {pages: t} = this.dataTable.page.info();
+        t < 2 ? (e.classList.add("hidden"),
+        e.style.display = "none") : (e.classList.remove("hidden"),
+        e.style.display = "")
     }
     initPagingPrev() {
         this.pagingPrevList.forEach(e => {
             this.onPagingPrevClickListener.push({
                 el: e,
                 fn: () => this.pagingPrevClick()
-            }), e.addEventListener("click", this.onPagingPrevClickListener.find(t => t.el === e).fn)
-        })
+            }),
+            e.addEventListener("click", this.onPagingPrevClickListener.find(t => t.el === e).fn)
+        }
+        )
     }
     onPrevClick() {
         this.dataTable.page("previous").draw("page")
     }
     disablePagingArrow(e, t) {
-        t ? (e.classList.add("disabled"), e.setAttribute("disabled", "disabled")) : (e.classList.remove("disabled"), e.removeAttribute("disabled"))
+        t ? (e.classList.add("disabled"),
+        e.setAttribute("disabled", "disabled")) : (e.classList.remove("disabled"),
+        e.removeAttribute("disabled"))
     }
     initPagingNext() {
         this.pagingNextList.forEach(e => {
             this.onPagingNextClickListener.push({
                 el: e,
                 fn: () => this.pagingNextClick()
-            }), e.addEventListener("click", this.onPagingNextClickListener.find(t => t.el === e).fn)
-        })
+            }),
+            e.addEventListener("click", this.onPagingNextClickListener.find(t => t.el === e).fn)
+        }
+        )
     }
     onNextClick() {
         this.dataTable.page("next").draw("page")
@@ -5789,40 +7659,55 @@ class Ue extends I {
         this.pagingPagesList.forEach(e => this.updatePaging(e))
     }
     updatePaging(e) {
-        const {
-            page: t,
-            pages: i,
-            length: n
-        } = this.dataTable.page.info(), s = this.dataTable.rows({
+        const {page: t, pages: i, length: n} = this.dataTable.page.info()
+          , s = this.dataTable.rows({
             search: "applied"
-        }).count(), o = Math.ceil(s / n), r = t + 1;
-        let a = Math.max(1, r - Math.floor(this.maxPagesToShow / 2)),
-            h = Math.min(o, a + (this.maxPagesToShow - 1));
-        h - a + 1 < this.maxPagesToShow && (a = Math.max(1, h - this.maxPagesToShow + 1)), e.innerHTML = "", a > 1 && (this.buildPagingPage(1, e), a > 2 && e.appendChild(y('<span class="ellipsis">...</span>')));
-        for (let c = a; c <= h; c++) this.buildPagingPage(c, e);
-        h < o && (h < o - 1 && e.appendChild(y('<span class="ellipsis">...</span>')), this.buildPagingPage(o, e)), this.pagingPrevList.forEach(c => this.disablePagingArrow(c, t === 0)), this.pagingNextList.forEach(c => this.disablePagingArrow(c, t === i - 1)), this.pagingList.forEach(c => this.hidePagingIfSinglePage(c))
+        }).count()
+          , o = Math.ceil(s / n)
+          , r = t + 1;
+        let a = Math.max(1, r - Math.floor(this.maxPagesToShow / 2))
+          , h = Math.min(o, a + (this.maxPagesToShow - 1));
+        h - a + 1 < this.maxPagesToShow && (a = Math.max(1, h - this.maxPagesToShow + 1)),
+        e.innerHTML = "",
+        a > 1 && (this.buildPagingPage(1, e),
+        a > 2 && e.appendChild(y('<span class="ellipsis">...</span>')));
+        for (let c = a; c <= h; c++)
+            this.buildPagingPage(c, e);
+        h < o && (h < o - 1 && e.appendChild(y('<span class="ellipsis">...</span>')),
+        this.buildPagingPage(o, e)),
+        this.pagingPrevList.forEach(c => this.disablePagingArrow(c, t === 0)),
+        this.pagingNextList.forEach(c => this.disablePagingArrow(c, t === i - 1)),
+        this.pagingList.forEach(c => this.hidePagingIfSinglePage(c))
     }
     buildPagingPage(e, t) {
-        const {
-            page: i
-        } = this.dataTable.page.info(), n = y('<button type="button"></button>');
-        n.innerText = `${e}`, n.setAttribute("data-page", `${e}`), this.pageBtnClasses && D(this.pageBtnClasses, n), i === e - 1 && n.classList.add("active"), this.onSinglePagingClickListener.push({
+        const {page: i} = this.dataTable.page.info()
+          , n = y('<button type="button"></button>');
+        n.innerText = `${e}`,
+        n.setAttribute("data-page", `${e}`),
+        this.pageBtnClasses && D(this.pageBtnClasses, n),
+        i === e - 1 && n.classList.add("active"),
+        this.onSinglePagingClickListener.push({
             el: n,
             fn: () => this.singlePagingClick(e)
-        }), n.addEventListener("click", this.onSinglePagingClickListener.find(s => s.el === n).fn), t.append(n)
+        }),
+        n.addEventListener("click", this.onSinglePagingClickListener.find(s => s.el === n).fn),
+        t.append(n)
     }
     onPageClick(e) {
         this.dataTable.page(e - 1).draw("page")
     }
     initRowSelecting() {
-        this.onRowSelectingAllChangeListener = () => this.rowSelectingAllChange(), this.rowSelectingAll.addEventListener("change", this.onRowSelectingAllChangeListener)
+        this.onRowSelectingAllChangeListener = () => this.rowSelectingAllChange(),
+        this.rowSelectingAll.addEventListener("change", this.onRowSelectingAllChangeListener)
     }
     triggerChangeEventToRow() {
         this.table.querySelectorAll(`tbody ${this.rowSelectingIndividual}`).forEach(e => {
             e.addEventListener("change", () => {
                 this.updateSelectAllCheckbox()
-            })
-        })
+            }
+            )
+        }
+        )
     }
     onSelectAllChange() {
         let e = this.rowSelectingAll.checked;
@@ -5832,59 +7717,65 @@ class Ue extends I {
         }).nodes()).forEach(i => {
             const n = i.querySelector(this.rowSelectingIndividual);
             n && (n.checked = e)
-        }), this.updateSelectAllCheckbox()
+        }
+        ),
+        this.updateSelectAllCheckbox()
     }
     updateSelectAllCheckbox() {
         if (!this.dataTable.rows({
-                search: "applied"
-            }).count()) return this.rowSelectingAll.checked = !1, !1;
+            search: "applied"
+        }).count())
+            return this.rowSelectingAll.checked = !1,
+            !1;
         let t = !0;
         Array.from(this.dataTable.rows({
             page: "current",
             search: "applied"
         }).nodes()).forEach(n => {
             const s = n.querySelector(this.rowSelectingIndividual);
-            if (s && !s.checked) return t = !1, !1
-        }), this.rowSelectingAll.checked = t
+            if (s && !s.checked)
+                return t = !1,
+                !1
+        }
+        ),
+        this.rowSelectingAll.checked = t
     }
     destroy() {
-        this.searches && this.onSearchInputListener.forEach(({
-            el: e,
-            fn: t
-        }) => e.removeEventListener("click", t)), this.pageEntitiesList && this.onPageEntitiesChangeListener.forEach(({
-            el: e,
-            fn: t
-        }) => e.removeEventListener("change", t)), this.pagingPagesList.length && (this.onSinglePagingClickListener.forEach(({
-            el: e,
-            fn: t
-        }) => e.removeEventListener("click", t)), this.pagingPagesList.forEach(e => e.innerHTML = "")), this.pagingPrevList.length && this.onPagingPrevClickListener.forEach(({
-            el: e,
-            fn: t
-        }) => e.removeEventListener("click", t)), this.pagingNextList.length && this.onPagingNextClickListener.forEach(({
-            el: e,
-            fn: t
-        }) => e.removeEventListener("click", t)), this.rowSelectingAll && this.rowSelectingAll.removeEventListener("change", this.onRowSelectingAllChangeListener), this.dataTable.destroy(), this.rowSelectingAll = null, this.rowSelectingIndividual = null, window.$hsDataTableCollection = window.$hsDataTableCollection.filter(({
-            element: e
-        }) => e.el !== this.el)
+        this.searches && this.onSearchInputListener.forEach( ({el: e, fn: t}) => e.removeEventListener("click", t)),
+        this.pageEntitiesList && this.onPageEntitiesChangeListener.forEach( ({el: e, fn: t}) => e.removeEventListener("change", t)),
+        this.pagingPagesList.length && (this.onSinglePagingClickListener.forEach( ({el: e, fn: t}) => e.removeEventListener("click", t)),
+        this.pagingPagesList.forEach(e => e.innerHTML = "")),
+        this.pagingPrevList.length && this.onPagingPrevClickListener.forEach( ({el: e, fn: t}) => e.removeEventListener("click", t)),
+        this.pagingNextList.length && this.onPagingNextClickListener.forEach( ({el: e, fn: t}) => e.removeEventListener("click", t)),
+        this.rowSelectingAll && this.rowSelectingAll.removeEventListener("change", this.onRowSelectingAllChangeListener),
+        this.dataTable.destroy(),
+        this.rowSelectingAll = null,
+        this.rowSelectingIndividual = null,
+        window.$hsDataTableCollection = window.$hsDataTableCollection.filter( ({element: e}) => e.el !== this.el)
     }
     static getInstance(e, t) {
         const i = window.$hsDataTableCollection.find(n => n.element.el === (typeof e == "string" ? document.querySelector(e) : e));
         return i ? t ? i : i.element.el : null
     }
     static autoInit() {
-        window.$hsDataTableCollection || (window.$hsDataTableCollection = []), window.$hsDataTableCollection && (window.$hsDataTableCollection = window.$hsDataTableCollection.filter(({
-            element: e
-        }) => document.contains(e.el))), document.querySelectorAll("[data-hs-datatable]:not(.--prevent-on-load-init)").forEach(e => {
+        window.$hsDataTableCollection || (window.$hsDataTableCollection = []),
+        window.$hsDataTableCollection && (window.$hsDataTableCollection = window.$hsDataTableCollection.filter( ({element: e}) => document.contains(e.el))),
+        document.querySelectorAll("[data-hs-datatable]:not(.--prevent-on-load-init)").forEach(e => {
             window.$hsDataTableCollection.find(t => {
                 var i;
                 return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
-            }) || new Ue(e)
-        })
+            }
+            ) || new Ue(e)
+        }
+        )
     }
 }
 window.addEventListener("load", () => {
-    document.querySelectorAll("[data-hs-datatable]:not(.--prevent-on-load-init)").length && (typeof jQuery > "u" && console.error("HSDataTable: jQuery is not available, please add it to the page."), typeof DataTable > "u" && console.error("HSDataTable: DataTable is not available, please add it to the page.")), typeof DataTable < "u" && typeof jQuery < "u" && Ue.autoInit()
-});
+    document.querySelectorAll("[data-hs-datatable]:not(.--prevent-on-load-init)").length && (typeof jQuery > "u" && console.error("HSDataTable: jQuery is not available, please add it to the page."),
+    typeof DataTable > "u" && console.error("HSDataTable: DataTable is not available, please add it to the page.")),
+    typeof DataTable < "u" && typeof jQuery < "u" && Ue.autoInit()
+}
+);
 typeof window < "u" && (window.HSDataTable = Ue);
 /*
  * HSFileUpload
@@ -5897,9 +7788,11 @@ typeof Dropzone < "u" && (Dropzone.autoDiscover = !1);
 class je extends I {
     constructor(e, t, i) {
         var o;
-        super(e, t, i), this.extensions = {}, this.el = typeof e == "string" ? document.querySelector(e) : e;
-        const n = this.el.getAttribute("data-hs-file-upload"),
-            s = n ? JSON.parse(n) : {};
+        super(e, t, i),
+        this.extensions = {},
+        this.el = typeof e == "string" ? document.querySelector(e) : e;
+        const n = this.el.getAttribute("data-hs-file-upload")
+          , s = n ? JSON.parse(n) : {};
         this.previewTemplate = ((o = this.el.querySelector("[data-hs-file-upload-preview]")) == null ? void 0 : o.innerHTML) || `<div class="p-3 bg-white border border-solid border-gray-300 rounded-xl dark:bg-neutral-800 dark:border-neutral-600">
 			<div class="mb-2 flex justify-between items-center">
 				<div class="flex items-center gap-x-3">
@@ -5927,7 +7820,8 @@ class je extends I {
 					</span>
 				</div>
 			</div>
-		</div>`, this.extensions = _.merge({
+		</div>`,
+        this.extensions = _.merge({
             default: {
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>',
                 class: "size-5"
@@ -5944,7 +7838,9 @@ class je extends I {
                 icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 22h2a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v18"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><circle cx="10" cy="20" r="2"/><path d="M10 7V6"/><path d="M10 12v-1"/><path d="M10 18v-2"/></svg>',
                 class: "size-5"
             }
-        }, s.extensions), this.singleton = s.singleton, this.concatOptions = {
+        }, s.extensions),
+        this.singleton = s.singleton,
+        this.concatOptions = {
             clickable: this.el.querySelector("[data-hs-file-upload-trigger]"),
             previewsContainer: this.el.querySelector("[data-hs-file-upload-previews]"),
             addRemoveLinks: !1,
@@ -5952,84 +7848,125 @@ class je extends I {
             autoHideTrigger: !1,
             ...s,
             ...t
-        }, this.onReloadButtonClickListener = [], this.onTempFileInputChangeListener = [], this.init()
+        },
+        this.onReloadButtonClickListener = [],
+        this.onTempFileInputChangeListener = [],
+        this.init()
     }
     tempFileInputChange(e, t) {
         var s;
         const n = (s = e.target.files) == null ? void 0 : s[0];
         if (n) {
             const o = n;
-            o.status = Dropzone.ADDED, o.accepted = !0, o.previewElement = t.previewElement, o.previewTemplate = t.previewTemplate, o.previewsContainer = t.previewsContainer, this.dropzone.removeFile(t), this.dropzone.addFile(o)
+            o.status = Dropzone.ADDED,
+            o.accepted = !0,
+            o.previewElement = t.previewElement,
+            o.previewTemplate = t.previewTemplate,
+            o.previewsContainer = t.previewsContainer,
+            this.dropzone.removeFile(t),
+            this.dropzone.addFile(o)
         }
     }
     reloadButtonClick(e, t) {
-        e.preventDefault(), e.stopPropagation();
+        e.preventDefault(),
+        e.stopPropagation();
         const i = document.createElement("input");
-        i.type = "file", this.onTempFileInputChangeListener.push({
+        i.type = "file",
+        this.onTempFileInputChangeListener.push({
             el: i,
             fn: n => this.tempFileInputChange(n, t)
-        }), i.click(), i.addEventListener("change", this.onTempFileInputChangeListener.find(n => n.el === i).fn)
+        }),
+        i.click(),
+        i.addEventListener("change", this.onTempFileInputChangeListener.find(n => n.el === i).fn)
     }
     init() {
-        this.createCollection(window.$hsFileUploadCollection, this), this.initDropzone()
+        this.createCollection(window.$hsFileUploadCollection, this),
+        this.initDropzone()
     }
     initDropzone() {
-        const e = this.el.querySelector("[data-hs-file-upload-clear]"),
-            t = Array.from(this.el.querySelectorAll("[data-hs-file-upload-pseudo-trigger]"));
-        this.dropzone = new Dropzone(this.el, this.concatOptions), this.dropzone.on("addedfile", i => this.onAddFile(i)), this.dropzone.on("removedfile", () => this.onRemoveFile()), this.dropzone.on("uploadprogress", (i, n) => this.onUploadProgress(i, n)), this.dropzone.on("complete", i => this.onComplete(i)), e && (e.onclick = () => {
+        const e = this.el.querySelector("[data-hs-file-upload-clear]")
+          , t = Array.from(this.el.querySelectorAll("[data-hs-file-upload-pseudo-trigger]"));
+        this.dropzone = new Dropzone(this.el,this.concatOptions),
+        this.dropzone.on("addedfile", i => this.onAddFile(i)),
+        this.dropzone.on("removedfile", () => this.onRemoveFile()),
+        this.dropzone.on("uploadprogress", (i, n) => this.onUploadProgress(i, n)),
+        this.dropzone.on("complete", i => this.onComplete(i)),
+        e && (e.onclick = () => {
             this.dropzone.files.length && this.dropzone.removeAllFiles(!0)
-        }), t.length && t.forEach(i => {
+        }
+        ),
+        t.length && t.forEach(i => {
             i.onclick = () => {
                 var n, s;
                 (n = this.concatOptions) != null && n.clickable && ((s = this.concatOptions) == null ? void 0 : s.clickable).click()
             }
-        })
+        }
+        )
     }
     destroy() {
         this.onTempFileInputChangeListener.forEach(e => {
             e.el.removeEventListener("change", e.fn)
-        }), this.onTempFileInputChangeListener = null, this.onReloadButtonClickListener.forEach(e => {
+        }
+        ),
+        this.onTempFileInputChangeListener = null,
+        this.onReloadButtonClickListener.forEach(e => {
             e.el.removeEventListener("click", e.fn)
-        }), this.onReloadButtonClickListener = null, this.dropzone.destroy(), window.$hsFileUploadCollection = window.$hsFileUploadCollection.filter(({
-            element: e
-        }) => e.el !== this.el)
+        }
+        ),
+        this.onReloadButtonClickListener = null,
+        this.dropzone.destroy(),
+        window.$hsFileUploadCollection = window.$hsFileUploadCollection.filter( ({element: e}) => e.el !== this.el)
     }
     onAddFile(e) {
-        const {
-            previewElement: t
-        } = e, i = e.previewElement.querySelector("[data-hs-file-upload-reload]");
-        if (!t) return !1;
-        this.singleton && this.dropzone.files.length > 1 && this.dropzone.removeFile(this.dropzone.files[0]), i && (this.onReloadButtonClickListener.push({
+        const {previewElement: t} = e
+          , i = e.previewElement.querySelector("[data-hs-file-upload-reload]");
+        if (!t)
+            return !1;
+        this.singleton && this.dropzone.files.length > 1 && this.dropzone.removeFile(this.dropzone.files[0]),
+        i && (this.onReloadButtonClickListener.push({
             el: i,
             fn: n => this.reloadButtonClick(n, e)
-        }), i.addEventListener("click", this.onReloadButtonClickListener.find(n => n.el === i).fn)), this.previewAccepted(e)
+        }),
+        i.addEventListener("click", this.onReloadButtonClickListener.find(n => n.el === i).fn)),
+        this.previewAccepted(e)
     }
     previewAccepted(e) {
-        const {
-            previewElement: t
-        } = e, i = this.splitFileName(e.name), n = t.querySelector("[data-hs-file-upload-file-name]"), s = t.querySelector("[data-hs-file-upload-file-ext]"), o = t.querySelector("[data-hs-file-upload-file-size]"), r = t.querySelector("[data-hs-file-upload-file-icon]"), a = this.el.querySelector("[data-hs-file-upload-trigger]"), h = t.querySelector("[data-dz-thumbnail]"), c = t.querySelector("[data-hs-file-upload-remove]");
-        n && (n.textContent = i.name), s && (s.textContent = i.extension), o && (o.textContent = this.formatFileSize(e.size)), h && (e.type.includes("image/") ? h.classList.remove("hidden") : this.setIcon(i.extension, r)), this.dropzone.files.length > 0 && this.concatOptions.autoHideTrigger && (a.style.display = "none"), c && (c.onclick = () => this.dropzone.removeFile(e))
+        const {previewElement: t} = e
+          , i = this.splitFileName(e.name)
+          , n = t.querySelector("[data-hs-file-upload-file-name]")
+          , s = t.querySelector("[data-hs-file-upload-file-ext]")
+          , o = t.querySelector("[data-hs-file-upload-file-size]")
+          , r = t.querySelector("[data-hs-file-upload-file-icon]")
+          , a = this.el.querySelector("[data-hs-file-upload-trigger]")
+          , h = t.querySelector("[data-dz-thumbnail]")
+          , c = t.querySelector("[data-hs-file-upload-remove]");
+        n && (n.textContent = i.name),
+        s && (s.textContent = i.extension),
+        o && (o.textContent = this.formatFileSize(e.size)),
+        h && (e.type.includes("image/") ? h.classList.remove("hidden") : this.setIcon(i.extension, r)),
+        this.dropzone.files.length > 0 && this.concatOptions.autoHideTrigger && (a.style.display = "none"),
+        c && (c.onclick = () => this.dropzone.removeFile(e))
     }
     onRemoveFile() {
         const e = this.el.querySelector("[data-hs-file-upload-trigger]");
         this.dropzone.files.length === 0 && this.concatOptions.autoHideTrigger && (e.style.display = "")
     }
     onUploadProgress(e, t) {
-        const {
-            previewElement: i
-        } = e;
-        if (!i) return !1;
-        const n = i.querySelector("[data-hs-file-upload-progress-bar]"),
-            s = i.querySelector("[data-hs-file-upload-progress-bar-pane]"),
-            o = i.querySelector("[data-hs-file-upload-progress-bar-value]"),
-            r = Math.floor(t);
-        n && n.setAttribute("aria-valuenow", `${r}`), s && (s.style.width = `${r}%`), o && (o.innerText = `${r}`)
+        const {previewElement: i} = e;
+        if (!i)
+            return !1;
+        const n = i.querySelector("[data-hs-file-upload-progress-bar]")
+          , s = i.querySelector("[data-hs-file-upload-progress-bar-pane]")
+          , o = i.querySelector("[data-hs-file-upload-progress-bar-value]")
+          , r = Math.floor(t);
+        n && n.setAttribute("aria-valuenow", `${r}`),
+        s && (s.style.width = `${r}%`),
+        o && (o.innerText = `${r}`)
     }
     onComplete(e) {
-        const {
-            previewElement: t
-        } = e;
-        if (!t) return !1;
+        const {previewElement: t} = e;
+        if (!t)
+            return !1;
         t.classList.add("complete")
     }
     setIcon(e, t) {
@@ -6039,7 +7976,8 @@ class je extends I {
     createIcon(e) {
         var i, n;
         const t = (i = this.extensions[e]) != null && i.icon ? y(this.extensions[e].icon) : y(this.extensions.default.icon);
-        return D((n = this.extensions[e]) != null && n.class ? this.extensions[e].class : this.extensions.default.class, t), t
+        return D((n = this.extensions[e]) != null && n.class ? this.extensions[e].class : this.extensions.default.class, t),
+        t
     }
     formatFileSize(e) {
         return e < 1024 ? e.toFixed(2) + " B" : e < 1024 * 1024 ? (e / 1024).toFixed(2) + " KB" : e < 1024 * 1024 * 1024 ? (e / (1024 * 1024)).toFixed(2) + " MB" : e < 1024 * 1024 * 1024 * 1024 ? (e / (1024 * 1024 * 1024)).toFixed(2) + " GB" : (e / (1024 * 1024 * 1024 * 1024)).toFixed(2) + " TB"
@@ -6059,19 +7997,24 @@ class je extends I {
         return i ? t ? i : i.element.el : null
     }
     static autoInit() {
-        window.$hsFileUploadCollection || (window.$hsFileUploadCollection = []), window.$hsFileUploadCollection && (window.$hsFileUploadCollection = window.$hsFileUploadCollection.filter(({
-            element: e
-        }) => document.contains(e.el))), document.querySelectorAll("[data-hs-file-upload]:not(.--prevent-on-load-init)").forEach(e => {
+        window.$hsFileUploadCollection || (window.$hsFileUploadCollection = []),
+        window.$hsFileUploadCollection && (window.$hsFileUploadCollection = window.$hsFileUploadCollection.filter( ({element: e}) => document.contains(e.el))),
+        document.querySelectorAll("[data-hs-file-upload]:not(.--prevent-on-load-init)").forEach(e => {
             window.$hsFileUploadCollection.find(t => {
                 var i;
                 return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
-            }) || new je(e)
-        })
+            }
+            ) || new je(e)
+        }
+        )
     }
 }
 window.addEventListener("load", () => {
-    document.querySelectorAll("[data-hs-file-upload]:not(.--prevent-on-load-init)").length && (typeof _ > "u" && console.error("HSFileUpload: Lodash is not available, please add it to the page."), typeof Dropzone > "u" && console.error("HSFileUpload: Dropzone is not available, please add it to the page.")), typeof _ < "u" && typeof Dropzone < "u" && je.autoInit()
-});
+    document.querySelectorAll("[data-hs-file-upload]:not(.--prevent-on-load-init)").length && (typeof _ > "u" && console.error("HSFileUpload: Lodash is not available, please add it to the page."),
+    typeof Dropzone > "u" && console.error("HSFileUpload: Dropzone is not available, please add it to the page.")),
+    typeof _ < "u" && typeof Dropzone < "u" && je.autoInit()
+}
+);
 typeof window < "u" && (window.HSFileUpload = je);
 /*
  * HSRangeSlider
@@ -6083,14 +8026,17 @@ typeof window < "u" && (window.HSFileUpload = je);
 class Qe extends I {
     constructor(e, t, i) {
         super(e, t, i);
-        const n = e.getAttribute("data-hs-range-slider"),
-            s = n ? JSON.parse(n) : {};
-        this.concatOptions = { ...s,
+        const n = e.getAttribute("data-hs-range-slider")
+          , s = n ? JSON.parse(n) : {};
+        this.concatOptions = {
+            ...s,
             ...t,
-            cssClasses: { ...noUiSlider.cssClasses,
+            cssClasses: {
+                ...noUiSlider.cssClasses,
                 ...this.processClasses(s.cssClasses)
             }
-        }, this.init()
+        },
+        this.init()
     }
     get formattedValue() {
         const e = this.el.noUiSlider.get();
@@ -6098,74 +8044,92 @@ class Qe extends I {
             const t = [];
             return e.forEach(i => {
                 t.push(this.format.to(i))
-            }), t
-        } else return this.format ? this.format.to(e) : e
+            }
+            ),
+            t
+        } else
+            return this.format ? this.format.to(e) : e
     }
     processClasses(e) {
         const t = {};
         return Object.keys(e).forEach(i => {
             i && (t[i] = `${noUiSlider.cssClasses[i]} ${e[i]}`)
-        }), t
+        }
+        ),
+        t
     }
     init() {
         var e, t, i, n, s, o, r, a, h, c, d, u, p;
-        this.createCollection(window.$hsRangeSliderCollection, this), (typeof((e = this.concatOptions) == null ? void 0 : e.formatter) == "object" ? ((i = (t = this.concatOptions) == null ? void 0 : t.formatter) == null ? void 0 : i.type) === "thousandsSeparatorAndDecimalPoints" : ((n = this.concatOptions) == null ? void 0 : n.formatter) === "thousandsSeparatorAndDecimalPoints") ? this.thousandsSeparatorAndDecimalPointsFormatter() : (typeof((s = this.concatOptions) == null ? void 0 : s.formatter) == "object" ? ((r = (o = this.concatOptions) == null ? void 0 : o.formatter) == null ? void 0 : r.type) === "integer" : ((a = this.concatOptions) == null ? void 0 : a.formatter) === "integer") ? this.integerFormatter() : typeof((h = this.concatOptions) == null ? void 0 : h.formatter) == "object" && ((d = (c = this.concatOptions) == null ? void 0 : c.formatter) != null && d.prefix || (p = (u = this.concatOptions) == null ? void 0 : u.formatter) != null && p.postfix) && this.prefixOrPostfixFormatter(), noUiSlider.create(this.el, this.concatOptions), this.concatOptions.disabled && this.setDisabled()
+        this.createCollection(window.$hsRangeSliderCollection, this),
+        (typeof ((e = this.concatOptions) == null ? void 0 : e.formatter) == "object" ? ((i = (t = this.concatOptions) == null ? void 0 : t.formatter) == null ? void 0 : i.type) === "thousandsSeparatorAndDecimalPoints" : ((n = this.concatOptions) == null ? void 0 : n.formatter) === "thousandsSeparatorAndDecimalPoints") ? this.thousandsSeparatorAndDecimalPointsFormatter() : (typeof ((s = this.concatOptions) == null ? void 0 : s.formatter) == "object" ? ((r = (o = this.concatOptions) == null ? void 0 : o.formatter) == null ? void 0 : r.type) === "integer" : ((a = this.concatOptions) == null ? void 0 : a.formatter) === "integer") ? this.integerFormatter() : typeof ((h = this.concatOptions) == null ? void 0 : h.formatter) == "object" && ((d = (c = this.concatOptions) == null ? void 0 : c.formatter) != null && d.prefix || (p = (u = this.concatOptions) == null ? void 0 : u.formatter) != null && p.postfix) && this.prefixOrPostfixFormatter(),
+        noUiSlider.create(this.el, this.concatOptions),
+        this.concatOptions.disabled && this.setDisabled()
     }
     formatValue(e) {
         var i, n, s, o, r, a, h, c, d;
         let t = "";
-        return typeof((i = this.concatOptions) == null ? void 0 : i.formatter) == "object" ? ((s = (n = this.concatOptions) == null ? void 0 : n.formatter) != null && s.prefix && (t += (r = (o = this.concatOptions) == null ? void 0 : o.formatter) == null ? void 0 : r.prefix), t += e, (h = (a = this.concatOptions) == null ? void 0 : a.formatter) != null && h.postfix && (t += (d = (c = this.concatOptions) == null ? void 0 : c.formatter) == null ? void 0 : d.postfix)) : t += e, t
+        return typeof ((i = this.concatOptions) == null ? void 0 : i.formatter) == "object" ? ((s = (n = this.concatOptions) == null ? void 0 : n.formatter) != null && s.prefix && (t += (r = (o = this.concatOptions) == null ? void 0 : o.formatter) == null ? void 0 : r.prefix),
+        t += e,
+        (h = (a = this.concatOptions) == null ? void 0 : a.formatter) != null && h.postfix && (t += (d = (c = this.concatOptions) == null ? void 0 : c.formatter) == null ? void 0 : d.postfix)) : t += e,
+        t
     }
     integerFormatter() {
         var e;
         this.format = {
             to: t => this.formatValue(Math.round(t)),
             from: t => Math.round(+t)
-        }, (e = this.concatOptions) != null && e.tooltips && (this.concatOptions.tooltips = this.format)
+        },
+        (e = this.concatOptions) != null && e.tooltips && (this.concatOptions.tooltips = this.format)
     }
     prefixOrPostfixFormatter() {
         var e;
         this.format = {
             to: t => this.formatValue(t),
             from: t => +t
-        }, (e = this.concatOptions) != null && e.tooltips && (this.concatOptions.tooltips = this.format)
+        },
+        (e = this.concatOptions) != null && e.tooltips && (this.concatOptions.tooltips = this.format)
     }
     thousandsSeparatorAndDecimalPointsFormatter() {
         var e;
         this.format = {
-            to: t => this.formatValue(new Intl.NumberFormat("en-US", {
+            to: t => this.formatValue(new Intl.NumberFormat("en-US",{
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
             }).format(t)),
             from: t => parseFloat(t.replace(/,/g, ""))
-        }, (e = this.concatOptions) != null && e.tooltips && (this.concatOptions.tooltips = this.format)
+        },
+        (e = this.concatOptions) != null && e.tooltips && (this.concatOptions.tooltips = this.format)
     }
     setDisabled() {
-        this.el.setAttribute("disabled", "disabled"), this.el.classList.add("disabled")
+        this.el.setAttribute("disabled", "disabled"),
+        this.el.classList.add("disabled")
     }
     destroy() {
-        this.el.noUiSlider.destroy(), this.format = null, window.$hsRangeSliderCollection = window.$hsRangeSliderCollection.filter(({
-            element: e
-        }) => e.el !== this.el)
+        this.el.noUiSlider.destroy(),
+        this.format = null,
+        window.$hsRangeSliderCollection = window.$hsRangeSliderCollection.filter( ({element: e}) => e.el !== this.el)
     }
-    static getInstance(e, t = !1) {
+    static getInstance(e, t=!1) {
         const i = window.$hsRangeSliderCollection.find(n => n.element.el === (typeof e == "string" ? document.querySelector(e) : e));
         return i ? t ? i : i.element.el : null
     }
     static autoInit() {
-        window.$hsRangeSliderCollection || (window.$hsRangeSliderCollection = []), window.$hsRangeSliderCollection && (window.$hsRangeSliderCollection = window.$hsRangeSliderCollection.filter(({
-            element: e
-        }) => document.contains(e.el))), document.querySelectorAll("[data-hs-range-slider]:not(.--prevent-on-load-init)").forEach(e => {
+        window.$hsRangeSliderCollection || (window.$hsRangeSliderCollection = []),
+        window.$hsRangeSliderCollection && (window.$hsRangeSliderCollection = window.$hsRangeSliderCollection.filter( ({element: e}) => document.contains(e.el))),
+        document.querySelectorAll("[data-hs-range-slider]:not(.--prevent-on-load-init)").forEach(e => {
             window.$hsRangeSliderCollection.find(t => {
                 var i;
                 return ((i = t == null ? void 0 : t.element) == null ? void 0 : i.el) === e
-            }) || new Qe(e)
-        })
+            }
+            ) || new Qe(e)
+        }
+        )
     }
 }
 window.addEventListener("load", () => {
     Qe.autoInit()
-});
+}
+);
 typeof window < "u" && (window.HSRangeSlider = Qe);
 /*
  * @version: 2.7.0
@@ -6284,29 +8248,23 @@ const _e = [{
 const Ls = {
     getClassProperty: L,
     afterTransition: z,
-    autoInit(l = "all") {
-        l === "all" ? _e.forEach(({
-            fn: e
-        }) => {
+    autoInit(l="all") {
+        l === "all" ? _e.forEach( ({fn: e}) => {
             e == null || e.autoInit()
-        }) : _e.forEach(({
-            key: e,
-            fn: t
-        }) => {
+        }
+        ) : _e.forEach( ({key: e, fn: t}) => {
             l.includes(e) && (t == null || t.autoInit())
-        })
+        }
+        )
     },
-    cleanCollection(l = "all") {
-        l === "all" ? _e.forEach(({
-            collection: e
-        }) => {
-            window[e] instanceof Array && (window[e] = [])
-        }) : _e.forEach(({
-            key: e,
-            collection: t
-        }) => {
-            l.includes(e) && window[t] instanceof Array && (window[t] = [])
-        })
+    cleanCollection(l="all") {
+        l === "all" ? _e.forEach( ({collection: e}) => {
+            window[e]instanceof Array && (window[e] = [])
+        }
+        ) : _e.forEach( ({key: e, collection: t}) => {
+            l.includes(e) && window[t]instanceof Array && (window[t] = [])
+        }
+        )
     }
 };
 typeof window < "u" && (window.HSStaticMethods = Ls);
@@ -6320,6 +8278,4 @@ let zt, Ut, jt;
 typeof DataTable < "u" && typeof jQuery < "u" ? zt = require("./plugins/datatable").default : zt = null;
 typeof _ < "u" && typeof Dropzone < "u" ? Ut = require("./plugins/file-upload").default : Ut = null;
 typeof noUiSlider < "u" ? jt = require("./plugins/range-slider").default : jt = null;
-export {
-    fe as HSAccordion, De as HSCarousel, ee as HSCollapse, X as HSComboBox, Be as HSCopyMarkup, zt as HSDataTable, M as HSDropdown, Ut as HSFileUpload, Oe as HSInputNumber, $e as HSLayoutSplitter, H as HSOverlay, Ne as HSPinInput, jt as HSRangeSlider, Fe as HSRemoveElement, Re as HSScrollspy, K as HSSelect, Ls as HSStaticMethods, Ve as HSStepper, He as HSStrongPassword, ye as HSTabs, We as HSTextareaAutoHeight, be as HSThemeSwitch, ze as HSToggleCount, Ce as HSTogglePassword, te as HSTooltip, Pe as HSTreeView
-};
+export {fe as HSAccordion, De as HSCarousel, ee as HSCollapse, X as HSComboBox, Be as HSCopyMarkup, zt as HSDataTable, M as HSDropdown, Ut as HSFileUpload, Oe as HSInputNumber, $e as HSLayoutSplitter, H as HSOverlay, Ne as HSPinInput, jt as HSRangeSlider, Fe as HSRemoveElement, Re as HSScrollspy, K as HSSelect, Ls as HSStaticMethods, Ve as HSStepper, He as HSStrongPassword, ye as HSTabs, We as HSTextareaAutoHeight, be as HSThemeSwitch, ze as HSToggleCount, Ce as HSTogglePassword, te as HSTooltip, Pe as HSTreeView};
