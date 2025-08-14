@@ -24296,7 +24296,7 @@ const _T = S1(xO)
     role: "Ketua",
     backgroundImage: "/FotoPribadi/DUDE.jpg",
     profileImage: "/FotoPribadi/DUDE.jpg",
-    instagramLink: "https://www.instagram.com/dde_02/?hl=id"
+    instagramLink: "http://abdullah.battlecore.xyz/"
 }, {
     name: "Ratih",
     shortName: "RATIH",
