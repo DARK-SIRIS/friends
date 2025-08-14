@@ -12969,7 +12969,7 @@ function Sk() {
             })]
         }), z.jsxs("h1", {
             className: "text-6xl sm:text-7xl lg:text-8xl xl:text-[8rem] font-bold text-white leading-none whitespace-nowrap",
-            children: ["OPREC ", z.jsx("span", {
+            children: ["AX ", z.jsx("span", {
                 className: "text-[#ff3131]",
                 children: "24"
             })]
@@ -13789,7 +13789,7 @@ z.jsxs("div", {
                             className: "sm:hidden block h-[0.2rem] w-36 sm:w-64 bg-gradient-to-r from-transparent via-[#ff31314d] to-[#ff3131]"
                         }), z.jsx("span", {
                             className: "text-[1rem] sm:text-2xl lg:text-3xl text-white font-semibold whitespace-nowrap",
-                            children: "SELAMAT DATANG DI"
+                            children: "WELCOME TO"
                         }), z.jsx("div", {
                             className: "h-[0.2rem] w-36 sm:w-64 bg-gradient-to-r from-[#ff3131] via-[#ff31314d] to-transparent"
                         })]
@@ -13804,7 +13804,7 @@ z.jsxs("div", {
                     }), z.jsx("div", {
                         className: "mt-6 hidden sm:block",
                         children: z.jsxs("a", {
-                            href: "#Tentang",
+                            href: "#About",
                             children: [" ", z.jsxs("button", {
                                 className: "relative px-6 py-3 rounded-full text-sm sm:text-base bg-red-900 text-white transition-all duration-300 inline-flex items-center gap-2 group hover:shadow-lg hover:scale-105",
                                 children: [z.jsx("span", {
@@ -13834,7 +13834,7 @@ z.jsxs("div", {
                         className: "relative pl-0 md:pl-[10%] ",
                         children: z.jsx("img", {
                             src: "Home.png",
-                            alt: "OPREC 24",
+                            alt: "AX 24",
                             className: "h-[20rem] hidden sm:block  sm:h-[25rem] lg:h-[35rem] xl:h-[40rem] w-auto object-contain mx-auto lg:mx-0"
                         })
                     })]
@@ -13861,16 +13861,16 @@ z.jsxs("div", {
     }
       , a = [{
         href: "#",
-        text: "Beranda"
+        text: "Home page"
     }, {
-        href: "#Tentang",
-        text: "Tentang"
+        href: "#About",
+        text: "About"
     }, {
-        href: "#Galeri",
-        text: "Galeri"
+        href: "#Gallery",
+        text: "Gallery"
     }, {
-        href: "#Komentar",
-        text: "Komentar"
+        href: "#Comment",
+        text: "Comment"
     }];
     return z.jsx("header", {
         className: `fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out
@@ -20383,7 +20383,7 @@ const FD = ({content: n, subtitle: e}) => {
         style: {
             opacity: y
         },
-        id: "Galeri",
+        id: "Gallery",
         children: z.jsxs("div", {
             className: "text-center px-4 md:px-6 max-w-4xl mx-auto",
             children: [n && z.jsx(Gn.div, {
@@ -20616,8 +20616,8 @@ const FD = ({content: n, subtitle: e}) => {
     , []);
     const p = n ? [{
         type: "text",
-        content: "Perjalanan Waktu",
-        subtitle: "Merangkai cerita dalam setiap bingkai kehidupan"
+        content: "Journey Time",
+        subtitle: "Stringing story deep every frame life"
     }, {
         type: "gallery",
         images: [{
@@ -20715,8 +20715,8 @@ const FD = ({content: n, subtitle: e}) => {
         direction: "left"
     }, {
         type: "text",
-        content: "Kisah yang Abadi",
-        subtitle: "Setiap momen adalah bagian dari perjalanan kita"
+        content: "Story Which Eternal",
+        subtitle: "Every moment is part from journey We"
     }, {
         type: "gallery",
         images: [{
@@ -20820,7 +20820,7 @@ const WD = ({isOpen: n, onClose: e, children: t}) => n ? UD.createPortal(z.jsx("
                                         children: e
                                     }), z.jsx("span", {
                                         className: "font-semibold text-white tracking-wide",
-                                        children: "OPREC"
+                                        children: "AX"
                                     }), z.jsx("span", {
                                         className: "font-bold text-red-500",
                                         children: "24"
@@ -24293,14 +24293,14 @@ const _T = S1(xO)
   , bO = [{
     name: "Dude",
     shortName: "DUDE",
-    role: "Ketua",
+    role: "Head",
     backgroundImage: "/FotoPribadi/DUDE.jpg",
     profileImage: "/FotoPribadi/DUDE.jpg",
     instagramLink: "http://abdullah.battlecore.xyz/"
 }, {
     name: "Ratih",
     shortName: "RATIH",
-    role: "Ketua",
+    role: "Head",
     backgroundImage: "/FotoPribadi/RATIH.jpg",
     profileImage: "/FotoPribadi/RATIH.jpg",
     instagramLink: "https://www.instagram.com/mangratiih/?hl=id"
@@ -24550,7 +24550,7 @@ const _T = S1(xO)
                     "data-aos": "fade-right",
                     children: z.jsxs("h2", {
                         className: "text-3xl md:text-4xl font-bold text-white tracking-wider drop-shadow-[0_0_10px_rgba(220,38,38,0.3)]",
-                        children: ["Ketua Angkatan", z.jsx("div", {
+                        children: ["Class Leader", z.jsx("div", {
                             className: "h-1 mt-2 w-full bg-gradient-to-r from-red-600 to-transparent rounded-full shadow-lg shadow-red-500/50"
                         })]
                     })
@@ -24654,7 +24654,7 @@ const _T = S1(xO)
 }
 , []),
 z.jsxs("div", {
-    id: "Tentang",
+    id: "About",
     children: [z.jsxs("div", {
         className: " px-[5%] sm:px-[10%] w-full h-auto  overflow-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]",
         children: [z.jsx("div", {
@@ -24682,7 +24682,7 @@ z.jsxs("div", {
                 className: "relative inline-block mb-12",
                 children: z.jsxs("h2", {
                     className: "text-3xl md:text-4xl font-bold text-white tracking-wider drop-shadow-sm lg:drop-shadow-[0_0_10px_rgba(220,38,38,0.3)]",
-                    children: ["Tentang", z.jsx("div", {
+                    children: ["About", z.jsx("div", {
                         className: "h-1 mt-2 w-full bg-gradient-to-r from-red-600 to-transparent rounded-full shadow-lg shadow-red-500/50"
                     })]
                 })
@@ -24728,7 +24728,7 @@ z.jsxs("div", {
                                 children: "Welcome To"
                             }), z.jsx("span", {
                                 className: "font-bold text-white",
-                                children: "OPREC"
+                                children: "AX"
                             }), z.jsx("span", {
                                 className: "font-bold text-red-500",
                                 children: "24"
@@ -24743,7 +24743,7 @@ z.jsxs("div", {
                                 className: `text-gray-300 text-base md:text-lg leading-relaxed p-4 md:p-6 \r
                              rounded-xl text-justify z-50`,
                                 id: "Glassmorph",
-                                children: "Seperti puzzle, setiap anggota adalah bagian penting yang membuat gambar kebersamaan kita sempurna. Ketika kita bersatu, bukan hanya kekuatan yang tercipta, tetapi juga kisah luar biasa yang akan kita tulis bersama. Kerja dengan dedikasi, tumbuh bersama dalam suatu organisasi dan tercipta kekeluargaan. Inilah cerita kami Oprec 24."
+                                children: "Like a puzzle, each member is a vital piece that makes our collective picture complete. When we unite, we create not only strength but also an extraordinary story that we will write together. Working with dedication, growing together as an organization, and creating a sense of family. This is our story, AX 24."
                             }), z.jsx("div", {
                                 className: `hidden md:block absolute -inset-0.5 bg-gradient-to-r from-red-500/10 to-transparent \r
                                 rounded-full blur opacity-30 group-hover:opacity-100 transition duration-1000`
@@ -24751,7 +24751,7 @@ z.jsxs("div", {
                         }), z.jsx("div", {
                             className: "pb-4 lg:px-0 px-[5%]",
                             children: z.jsx("a", {
-                                href: "#Galeri",
+                                href: "#Gallery",
                                 children: z.jsxs("button", {
                                     className: `group relative bg-gradient-to-r from-[#421414] to-red-900 text-sm text-white py-3 px-8 \r
                            rounded-lg font-semibold mt-6 overflow-hidden transition-all duration-300\r
@@ -24764,7 +24764,7 @@ z.jsxs("div", {
                                     }), z.jsxs("div", {
                                         className: "relative flex items-center gap-2",
                                         children: [z.jsx("span", {
-                                            children: "Lihat Galeri"
+                                            children: "View Gallery"
                                         }), z.jsx(xS, {
                                             className: "w-4 h-4 transform transition-transform duration-300 group-hover:translate-x-1"
                                         })]
@@ -24800,7 +24800,7 @@ z.jsxs("div", {
                     class: "flex items-center",
                     children: z.jsx("span", {
                         class: "self-center text-2xl font-semibold whitespace-nowrap text-white opacity-80 md:bottom-0 md:right-0 relative bottom-5 right-1",
-                        children: "Oprec 24"
+                        children: "AX 24"
                     })
                 })
             }), z.jsxs("div", {
@@ -24841,7 +24841,7 @@ z.jsxs("div", {
                             })
                         }), z.jsx("li", {
                             children: z.jsx("a", {
-                                href: "https://linktr.ee/OprecGenre24?fbclid=PAZXh0bgNhZW0CMTEAAaZ70ObY9Gp4-8jHqsjya5ijGt83YSMWOyYxpDpAQVXPRVNJpNpVUAHMuWc_aem_TAlleWZlBtBSZH2N5FVeSQ",
+                                href: "https://linktr.ee/AXGenre24?fbclid=PAZXh0bgNhZW0CMTEAAaZ70ObY9Gp4-8jHqsjya5ijGt83YSMWOyYxpDpAQVXPRVNJpNpVUAHMuWc_aem_TAlleWZlBtBSZH2N5FVeSQ",
                                 class: "hover:underline",
                                 children: "Linktree"
                             })
@@ -24856,15 +24856,15 @@ z.jsxs("div", {
                         children: [z.jsx("li", {
                             class: "mb-4",
                             children: z.jsx("a", {
-                                href: "#Tentang",
+                                href: "#About",
                                 class: "hover:underline",
-                                children: "Tentang"
+                                children: "About"
                             })
                         }), z.jsx("li", {
                             children: z.jsx("a", {
-                                href: "#Galeri",
+                                href: "#Gallery",
                                 class: "hover:underline",
-                                children: "Galeri"
+                                children: "Gallery"
                             })
                         })]
                     })]
@@ -40342,9 +40342,9 @@ var Ej = "firebase"
 Da(Ej, xj, "app");
 const bj = {
     apiKey: "AIzaSyCmtnfCQ7-X6L-xgPxGTxOftZelhlOT9kU",
-    authDomain: "oprec-24.firebaseapp.com",
-    projectId: "oprec-24",
-    storageBucket: "oprec-24.firebasestorage.app",
+    authDomain: "AX-24.firebaseapp.com",
+    projectId: "AX-24",
+    storageBucket: "AX-24.firebasestorage.app",
     messagingSenderId: "303312051022",
     appId: "1:303312051022:web:17fc0dddcc8579f8459c1f"
 }
@@ -40389,15 +40389,15 @@ const bj = {
         if (w.preventDefault(),
         c(""),
         !t.name.trim() || !t.message.trim()) {
-            c("Nama dan pesan tidak boleh kosong");
+            c("Nama dan Message tidak boleh kosong");
             return
         }
         if (t.message.length > 500) {
-            c("Pesan terlalu panjang (maksimal 500 karakter)");
+            c("Message terlalu panjang (maksimal 500 karakter)");
             return
         }
         if (d && Date.now() - d < 3e4) {
-            c("Mohon tunggu 30 detik sebelum mengirim komentar lagi");
+            c("Mohon tunggu 30 detik sebelum mengirim Comment lagi");
             return
         }
         a(!0);
@@ -40412,7 +40412,7 @@ const bj = {
             }),
             p(Date.now())
         } catch (k) {
-            c("Gagal mengirim komentar. Silakan coba lagi."),
+            c("Gagal mengirim Comment. Silakan coba lagi."),
             console.error("Error adding comment: ", k)
         } finally {
             a(!1)
@@ -40421,14 +40421,14 @@ const bj = {
     ;
     return z.jsxs("div", {
         className: "h-auto w-full  px-[5%] lg:px-[10%] mt-0 lg:mt-12 ",
-        id: "Komentar",
+        id: "Comment",
         children: [z.jsx("div", {
             className: "container ",
             children: z.jsx("div", {
                 className: "relative inline-block mb-8 md:mb-12",
                 children: z.jsxs("h2", {
                     className: "text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-wider drop-shadow-[0_0_30px_rgba(255,69,0,0.4)]",
-                    children: ["Komentar", z.jsx("div", {
+                    children: ["Comment", z.jsx("div", {
                         className: "h-1 mt-2 w-full bg-gradient-to-r from-red-600 to-transparent rounded-full shadow-lg shadow-orange-500/50"
                     })]
                 })
@@ -40465,7 +40465,7 @@ const bj = {
                                 children: [z.jsx("label", {
                                     htmlFor: "message",
                                     className: "block text-orange-300 text-base sm:text-lg mb-2",
-                                    children: "Pesan"
+                                    children: "Message"
                                 }), z.jsx("textarea", {
                                     id: "message",
                                     value: t.message,
@@ -40474,7 +40474,7 @@ const bj = {
                                         message: w.target.value
                                     }),
                                     className: "w-full px-3 py-2 sm:px-4 sm:py-3 rounded-lg bg-white/5 backdrop-blur-md border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/50 h-40 sm:h-60",
-                                    placeholder: "Tuliskan pesan kamu disini...",
+                                    placeholder: "Tuliskan Message kamu disini...",
                                     maxLength: 500
                                 })]
                             }), l && z.jsx("div", {
