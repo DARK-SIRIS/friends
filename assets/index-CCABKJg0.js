@@ -13809,7 +13809,7 @@ z.jsxs("div", {
                                 className: "relative px-6 py-3 rounded-full text-sm sm:text-base bg-red-900 text-white transition-all duration-300 inline-flex items-center gap-2 group hover:shadow-lg hover:scale-105",
                                 children: [z.jsx("span", {
                                     className: "relative z-10",
-                                    children: "Selengkapnya"
+                                    children: "Read more"
                                 }), z.jsx(xS, {
                                     className: "w-4 h-4 transform transition-all duration-300 group-hover:translate-x-2 group-hover:scale-110 relative z-10",
                                     strokeWidth: 2.5
@@ -40458,7 +40458,7 @@ const bj = {
                                         name: w.target.value
                                     }),
                                     className: "w-full px-3 py-2 sm:px-4 sm:py-3 rounded-lg bg-white/5 backdrop-blur-md border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/50",
-                                    placeholder: "Masukkan nama Anda",
+                                    placeholder: "Enter Your Name",
                                     maxLength: 50
                                 })]
                             }), z.jsxs("div", {
@@ -40474,7 +40474,7 @@ const bj = {
                                         message: w.target.value
                                     }),
                                     className: "w-full px-3 py-2 sm:px-4 sm:py-3 rounded-lg bg-white/5 backdrop-blur-md border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500/50 h-40 sm:h-60",
-                                    placeholder: "Tuliskan Message kamu disini...",
+                                    placeholder: "Write Your Massage here...",
                                     maxLength: 500
                                 })]
                             }), l && z.jsx("div", {
